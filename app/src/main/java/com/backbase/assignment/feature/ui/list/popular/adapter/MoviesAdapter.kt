@@ -8,7 +8,7 @@
 //import android.widget.TextView
 //import androidx.recyclerview.widget.RecyclerView
 //import com.backbase.assignment.R
-//import com.backbase.assignment.feature.ui.list.widget.RatingView
+//import com.backbase.assignment.feature.ui.list.popular.widget.RatingView
 //import com.google.gson.JsonArray
 //import com.google.gson.JsonObject
 //

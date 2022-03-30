@@ -53,8 +53,8 @@ object DataModule {
                             level = HttpLoggingInterceptor.Level.BODY
                         }
                     )
-                    .addInterceptor(ConnectionInterceptor(context))
                     .addInterceptor(SecurityInterceptor())
+                    .addInterceptor(ConnectionInterceptor(context))
                     .build()
             )
     }

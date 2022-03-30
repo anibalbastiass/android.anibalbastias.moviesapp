@@ -1,7 +1,9 @@
 package com.backbase.assignment.feature.data.model.list
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class MovieData(
     @Json(name = "dates") val dates: MovieDates = MovieDates(),
     @Json(name = "page") val page: Int = 0,

@@ -1,4 +1,4 @@
-package com.backbase.assignment.feature.ui.list.widget
+package com.backbase.assignment.feature.ui.list.popular.widget
 
 import android.content.Context
 import android.util.AttributeSet

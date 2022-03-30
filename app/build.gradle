@@ -21,7 +21,7 @@ android {
 
         buildConfigField "String", "API_BASE_URL", "\"https://api.themoviedb.org/3/\""
         buildConfigField "String", "API_KEY", "\"55957fcf3ba81b137f8fc01ac5a31fb5\""
-        buildConfigField "String", "IMAGE_URL", "\"https://developers.themoviedb.org/3/getting-started/images/\""
+        buildConfigField "String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/w500/\""
     }
 
     buildTypes {
@@ -72,7 +72,8 @@ dependencies {
     implementation deps.square.moshi.converter
     kapt deps.square.moshi.codeGen
 
-    implementation deps.thirdParty.fastScroll
+    // 3rd party libs
+    implementation deps.thirdParty.coil
 
     // Dagger Hilt
     implementation deps.google.daggerHiltAndroid
