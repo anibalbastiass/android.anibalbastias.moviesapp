@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CS Android Assignment</string>
+    <string name="menu_movie_list">Move List</string>
 </resources>

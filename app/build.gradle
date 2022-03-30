@@ -1,36 +1,116 @@
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
+    id 'kotlin-parcelize'
+    id 'dagger.hilt.android.plugin'
+}
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion versions.android.compile
+
     defaultConfig {
         applicationId "com.backbase.assignment"
-        minSdkVersion 23
-        targetSdkVersion 31
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion versions.android.minSdk
+        targetSdkVersion versions.android.targetSdk
+        versionCode versions.project.code
+        versionName versions.project.name
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "API_BASE_URL", "\"https://api.themoviedb.org/3/\""
+        buildConfigField "String", "API_KEY", "\"55957fcf3ba81b137f8fc01ac5a31fb5\""
+        buildConfigField "String", "IMAGE_URL", "\"https://developers.themoviedb.org/3/getting-started/images/\""
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'com.google.code.gson:gson:2.8.8'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // Kotlin and Coroutines
+    implementation deps.jetbrains.kotlinStdlib
+    implementation deps.jetbrains.kotlinCoroutinesCore
+    implementation deps.jetbrains.kotlinCoroutinesAndroid
+
+    // Android X
+    implementation deps.androidx.appCompat
+    implementation deps.androidx.cardView
+    implementation deps.androidx.constraintLayout
+    implementation deps.androidx.constraintLayoutSolver
+    implementation deps.androidx.fragmentKtx
+    implementation deps.androidx.lifecycleLiveData
+    implementation deps.androidx.lifecycleViewModel
+    implementation deps.androidx.navigationFragment
+    implementation deps.androidx.recyclerView
+    implementation deps.androidx.swipeRefreshLayout
+
+    // Google
+    implementation deps.google.material
+
+    // Square
+    implementation deps.square.retrofit
+    implementation deps.square.okhttpLogging
+    implementation deps.square.moshi.core
+    implementation deps.square.moshi.converter
+    kapt deps.square.moshi.codeGen
+
+    implementation deps.thirdParty.fastScroll
+
+    // Dagger Hilt
+    implementation deps.google.daggerHiltAndroid
+    implementation deps.androidx.daggerHiltViewModel
+
+    // Dagger Hilt Compiler
+    kapt deps.google.daggerHiltCompiler
+    kapt deps.androidx.daggerHiltCompiler
+
+    // Coroutines tests
+    testImplementation deps.test.androidx.coreTesting
+    testImplementation deps.test.jetbrains.kotlinCoroutines
+
+    // Testing-only dependencies
+    debugImplementation deps.test.androidx.fragmentTesting
+    debugImplementation deps.test.androidx.fragmentKtx
+    debugImplementation deps.test.androidx.testRules
+
+    // Unit and UI Test
+    testImplementation deps.test.junit
+    testImplementation deps.test.mockito
+    testImplementation deps.test.robolectric
+    testImplementation deps.test.androidx.testCore
+    testImplementation deps.test.androidx.testExtJUnit
+    testImplementation deps.test.androidx.espressoCore
+    testImplementation deps.test.androidx.espressoIntents
+    testImplementation deps.test.androidx.exthTruth
+    testImplementation deps.test.mockWebServer
+    testImplementation deps.square.moshi.core
+
+    // UI and Instrumented tests
+    androidTestImplementation deps.test.androidx.espressoCore
+    androidTestImplementation deps.test.androidx.coreTesting
+    androidTestImplementation deps.test.androidx.testExtJUnit
+    androidTestImplementation deps.instrumented.android.roomTesting
+    androidTestImplementation deps.instrumented.androidx.navigationTesting
+    androidTestImplementation deps.instrumented.androidx.testCore
+    androidTestImplementation deps.instrumented.androidx.testCoreKtx
+    androidTestImplementation deps.instrumented.androidx.testExtJUnitKtx
+    androidTestImplementation deps.instrumented.androidx.testRunner
 }
