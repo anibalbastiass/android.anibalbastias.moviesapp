@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clPopularMovies"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundSecondaryColor"
-    android:orientation="vertical"
-    tools:context=".MoviesActivity">
+    android:animateLayoutChanges="true"
+    android:background="@color/backgroundSecondaryColor">
 
     <TextView
         android:id="@+id/tvTitle"
@@ -15,12 +16,19 @@
         android:background="@color/backgroundSecondaryColor"
         android:padding="10dp"
         android:text="@string/most_popular"
-        android:textColor="@color/titleColor" />
+        android:textColor="@color/titleColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
         tools:listitem="@layout/fragment_movie_popular_item" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

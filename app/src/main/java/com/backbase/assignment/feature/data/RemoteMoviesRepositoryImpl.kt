@@ -3,8 +3,7 @@ package com.backbase.assignment.feature.data
 import com.backbase.assignment.feature.data.model.list.MovieData
 import com.backbase.assignment.feature.data.state.APIState
 import com.backbase.assignment.feature.domain.repository.RemoteMoviesRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 typealias MovieDataState = APIState<MovieData>

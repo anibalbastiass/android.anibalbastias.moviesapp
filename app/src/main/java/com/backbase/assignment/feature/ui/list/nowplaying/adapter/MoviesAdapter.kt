@@ -1,13 +1,12 @@
-package com.backbase.assignment.feature.ui.list.nowplaying
+package com.backbase.assignment.feature.ui.list.nowplaying.adapter
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.backbase.assignment.databinding.FragmentMovieNowPlayingItemBinding
 import com.backbase.assignment.feature.data.model.list.MovieResult
-import com.backbase.assignment.feature.ui.list.popular.PopularMoviesView
+import com.backbase.assignment.feature.ui.list.nowplaying.MoviesDiffCallback
+import com.backbase.assignment.feature.ui.list.nowplaying.adapter.viewholder.NowPlayingViewHolder
+import com.backbase.assignment.feature.ui.list.nowplaying.adapter.viewholder.PopularViewHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,12 +14,12 @@ import kotlinx.coroutines.withContext
 import javax.inject.Singleton
 
 @Singleton
-class NowPlayingMoviesAdapter :
+class MoviesAdapter(private val movieType: Int = NOW_PLAYING_VIEW_TYPE) :
     ListAdapter<MovieResult, RecyclerView.ViewHolder>(MoviesDiffCallback()) {
 
     companion object {
-        private const val NOW_PLAYING_VIEW_TYPE_ITEM = 1
-        private const val POPULAR_VIEW_TYPE_ITEM = 2
+        const val NOW_PLAYING_VIEW_TYPE = 1
+        const val POPULAR_VIEW_TYPE = 2
     }
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
@@ -43,34 +42,22 @@ class NowPlayingMoviesAdapter :
             is NowPlayingViewHolder -> {
                 holder.from(getItem(position) as MovieResult)
             }
+
+            is PopularViewHolder -> {
+                holder.from(getItem(position) as MovieResult)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            NOW_PLAYING_VIEW_TYPE_ITEM -> NowPlayingViewHolder.from(parent)
+            NOW_PLAYING_VIEW_TYPE -> NowPlayingViewHolder.from(parent)
+            POPULAR_VIEW_TYPE -> PopularViewHolder.from(parent)
             else -> throw ClassCastException("Unknown viewType $viewType")
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return NOW_PLAYING_VIEW_TYPE_ITEM
-    }
-
-    class NowPlayingViewHolder(private val binding: FragmentMovieNowPlayingItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        companion object {
-            fun from(parent: ViewGroup): NowPlayingViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val binding =
-                    FragmentMovieNowPlayingItemBinding.inflate(layoutInflater, parent, false)
-                return NowPlayingViewHolder(binding)
-            }
-        }
-
-        fun from(dataItem: MovieResult) {
-            binding.poster.load(dataItem.posterPath)
-        }
+        return movieType
     }
 }

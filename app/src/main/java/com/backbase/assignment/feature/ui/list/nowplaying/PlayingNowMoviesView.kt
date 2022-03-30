@@ -3,12 +3,15 @@ package com.backbase.assignment.feature.ui.list.nowplaying
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.backbase.assignment.databinding.FragmentMovieNowPlayingBinding
-import com.backbase.assignment.feature.data.MovieDataState
 import com.backbase.assignment.feature.data.model.list.MovieResult
-import com.backbase.assignment.feature.data.state.APIState
+import com.backbase.assignment.feature.ui.list.nowplaying.adapter.MoviesAdapter
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class PlayingNowMoviesView @JvmOverloads constructor(
     context: Context,
@@ -19,7 +22,7 @@ class PlayingNowMoviesView @JvmOverloads constructor(
     private var binding: FragmentMovieNowPlayingBinding =
         FragmentMovieNowPlayingBinding.inflate(LayoutInflater.from(context))
 
-    private val nowPlayingAdapter = NowPlayingMoviesAdapter()
+    private val nowPlayingAdapter = MoviesAdapter()
 
     init {
         addView(binding.root)
@@ -33,16 +36,12 @@ class PlayingNowMoviesView @JvmOverloads constructor(
         }
     }
 
-    fun renderMovies(state: MovieDataState) {
-        when (state) {
-//            is APIState.Empty -> TODO()
-//            is APIState.Error -> TODO()
-//            APIState.Loading -> TODO()
-            is APIState.Success -> renderSuccess(state.data.results)
-        }
+    fun renderMovies(list: List<MovieResult>) {
+        nowPlayingAdapter.updateData(list)
+        binding.llNowPlaying.visibility = View.VISIBLE
     }
 
-    private fun renderSuccess(results: List<MovieResult>) {
-        nowPlayingAdapter.updateData(results)
+    fun hideView() {
+        binding.llNowPlaying.visibility = View.GONE
     }
 }

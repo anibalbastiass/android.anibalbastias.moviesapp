@@ -9,8 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.backbase.assignment.R
 import com.backbase.assignment.databinding.FragmentMovieListBinding
+import com.backbase.assignment.feature.data.model.list.MovieData
+import com.backbase.assignment.feature.data.state.APIState
 import com.backbase.assignment.feature.presentation.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.IllegalStateException
 
 @AndroidEntryPoint
 class MovieListFragment : Fragment() {
@@ -36,14 +39,41 @@ class MovieListFragment : Fragment() {
 
     private fun observeMovies() {
         viewModel.nowPlayingMovies.value?.let { dataState ->
-            binding.nowPlayingMoviesView.renderMovies(dataState)
+            renderState(dataState)
         } ?: run {
             viewModel.getNowPlayingMovies()
         }
 
         viewModel.nowPlayingMovies.observe(viewLifecycleOwner) { dataState ->
-            binding.nowPlayingMoviesView.renderMovies(dataState)
+            renderState(dataState)
         }
+    }
+
+    private fun renderState(state: APIState<MovieData>?) {
+        when (state) {
+            is APIState.Empty -> {
+                hideProgress()
+            }
+            is APIState.Error -> {
+                hideProgress()
+            }
+            APIState.Loading -> {
+                binding.nowPlayingMoviesView.hideView()
+                binding.popularMoviesView.hideView()
+            }
+            is APIState.Success -> {
+                hideProgress()
+
+                binding.nowPlayingMoviesView.renderMovies(state.data.results)
+                binding.popularMoviesView.renderMovies(state.data.results)
+            }
+            else -> throw IllegalStateException("State not known")
+        }
+    }
+
+    private fun hideProgress() {
+        binding.srlList.isRefreshing = false
+        binding.pbLoading.visibility = View.GONE
     }
 
     private fun initSwipeRefresh() {
