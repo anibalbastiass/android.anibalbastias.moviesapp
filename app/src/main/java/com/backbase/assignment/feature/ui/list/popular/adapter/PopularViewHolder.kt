@@ -29,9 +29,7 @@ class PopularViewHolder(private val binding: FragmentMoviePopularItemBinding) :
     ) {
         binding.title.text = dataItem.originalTitle
         binding.releaseDate.text = dataItem.releaseDate
-        binding.poster.load(dataItem.posterPath) {
-            crossfade(true)
-            placeholder(R.drawable.movies_logo)
-        }
+        binding.poster.load(dataItem.posterPath)
+        binding.rating
     }
 }
