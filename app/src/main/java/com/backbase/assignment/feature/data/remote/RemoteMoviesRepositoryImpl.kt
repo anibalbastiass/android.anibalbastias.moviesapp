@@ -11,13 +11,14 @@ import com.backbase.assignment.feature.domain.DomainMovieDataState
 import com.backbase.assignment.feature.domain.RemoteMovieDataState
 import com.backbase.assignment.feature.domain.repository.RemoteMoviesRepository
 import com.backbase.assignment.feature.presentation.model.UiMovieItem
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class RemoteMoviesRepositoryImpl @Inject constructor(
     private val service: RemoteMoviesService,
     private val dao: MoviesDao,
-    private val mapper: RemoteMovieItemMapper
+    private val mapper: RemoteMovieItemMapper,
 ) : RemoteMoviesRepository {
 
     override suspend fun getNowPlaying(): Flow<DomainMovieDataState> =
@@ -44,6 +45,12 @@ class RemoteMoviesRepositoryImpl @Inject constructor(
         }
 
     override suspend fun loadPageOfMovies(pageToLoad: Int, pageSize: Int): List<EntityMovieItem> {
+        if (pageToLoad == 1) {
+            dao.clearMovies()
+        }
+
+        delay(500)
+
         val movies = service.getMoviesByType(page = pageToLoad.toString())
         val newPage = mapper.fromRemoteToEntity(movies.body()!!)
         dao.insert(newPage)

@@ -7,6 +7,7 @@
     tools:background="@color/backgroundColor">
 
     <View
+        android:id="@+id/view"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@drawable/rating_background"
@@ -46,12 +47,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- The text that goes in a center of the chart -->
     <TextView
         android:id="@+id/tvPercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="80%"
         android:textColor="@color/textColor"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -59,6 +58,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="80" />
+
+    <TextView
+        android:id="@+id/tvPercentageLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="%"
+        android:textColor="@color/textColor"
+        android:textSize="10dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/tvPercentage"
+        app:layout_constraintTop_toTopOf="@+id/tvPercentage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

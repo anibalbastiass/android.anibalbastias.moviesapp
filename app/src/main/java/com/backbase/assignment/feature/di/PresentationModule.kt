@@ -2,6 +2,8 @@ package com.backbase.assignment.feature.di
 
 import androidx.paging.PagedList
 import com.backbase.assignment.feature.data.remote.RemoteMoviesRepositoryImpl
+import com.backbase.assignment.feature.data.remote.model.RemoteConstants.FIRST_PAGE
+import com.backbase.assignment.feature.data.remote.model.RemoteConstants.PAGE_SIZE
 import com.backbase.assignment.feature.data.remote.paging.PageLoadingMoviesCallback
 import com.backbase.assignment.feature.domain.GetNowPlayingMoviesUseCase
 import com.backbase.assignment.feature.domain.GetPagedPopularMoviesUseCase
@@ -18,9 +20,6 @@ import kotlin.coroutines.CoroutineContext
 @Module
 @InstallIn(ViewModelComponent::class)
 object PresentationModule {
-
-    private const val firstPage = 1
-    private const val pageSize = 20
 
     @Provides
     fun provideUiMovieMapper(): UiMovieItemMapper = UiMovieItemMapper()
@@ -56,15 +55,15 @@ object PresentationModule {
         coroutineContext: CoroutineContext,
         useCase: GetPopularMoviesUseCase
     ): PageLoadingMoviesCallback {
-        return PageLoadingMoviesCallback(coroutineContext, useCase, firstPage, pageSize)
+        return PageLoadingMoviesCallback(coroutineContext, useCase, FIRST_PAGE, PAGE_SIZE)
     }
 
     @Provides
     fun providePagedListConfig(): PagedList.Config {
         return PagedList.Config.Builder()
-            .setPageSize(pageSize)
+            .setPageSize(PAGE_SIZE)
             .setMaxSize(224)
-            .setPrefetchDistance(pageSize * 2)
+            .setPrefetchDistance(PAGE_SIZE * 2)
             .build()
     }
 }

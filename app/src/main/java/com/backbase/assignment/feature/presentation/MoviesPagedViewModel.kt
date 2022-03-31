@@ -6,30 +6,39 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem
+import com.backbase.assignment.feature.data.remote.model.RemoteConstants.FIRST_PAGE
+import com.backbase.assignment.feature.data.remote.model.RemoteConstants.PAGE_SIZE
 import com.backbase.assignment.feature.data.remote.paging.PageLoadingMoviesCallback
 import com.backbase.assignment.feature.domain.GetPagedPopularMoviesUseCase
+import com.backbase.assignment.feature.domain.GetPopularMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MoviesPagedViewModel @Inject constructor(
-    private val pagedCallback: PageLoadingMoviesCallback,
-    private val pagedConfig: PagedList.Config,
-    private val pagedUseCase: GetPagedPopularMoviesUseCase,
+    pagedCallback: PageLoadingMoviesCallback,
+    pagedConfig: PagedList.Config,
+    pagedUseCase: GetPagedPopularMoviesUseCase,
+    private val popularUseCase: GetPopularMoviesUseCase,
 ) : ViewModel() {
 
-    private lateinit var moviesData: LiveData<PagedList<EntityMovieItem>>
+    private var moviesData: LiveData<PagedList<EntityMovieItem>> =
+        LivePagedListBuilder(pagedUseCase.execute(), pagedConfig)
+            .setBoundaryCallback(pagedCallback)
+            .build()
     var movies: MediatorLiveData<PagedList<EntityMovieItem>> = MediatorLiveData()
+
+    private val ioScope = CoroutineScope(Dispatchers.IO + Job())
 
     init {
         createDataSource()
     }
 
     private fun createDataSource() {
-        moviesData = LivePagedListBuilder(pagedUseCase.execute(), pagedConfig)
-            .setBoundaryCallback(pagedCallback)
-            .build()
-
         movies.addSource(moviesData) { newData ->
             movies.value = newData
         }
@@ -37,6 +46,9 @@ class MoviesPagedViewModel @Inject constructor(
 
     fun refreshMovies() {
         movies.removeSource(moviesData)
-        createDataSource()
+
+        ioScope.launch {
+            popularUseCase.execute(FIRST_PAGE, PAGE_SIZE)
+        }
     }
 }
