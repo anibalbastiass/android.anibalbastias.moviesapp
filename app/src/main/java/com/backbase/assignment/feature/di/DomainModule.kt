@@ -1,5 +1,6 @@
 package com.backbase.assignment.feature.di
 
+import com.backbase.assignment.feature.data.local.dao.MoviesDao
 import com.backbase.assignment.feature.data.remote.RemoteMoviesRepositoryImpl
 import com.backbase.assignment.feature.data.remote.RemoteMoviesService
 import com.backbase.assignment.feature.data.remote.mapper.RemoteMovieItemMapper
@@ -17,8 +18,9 @@ object DomainModule {
     @Provides
     fun provideRemoteMoviesRepository(
         service: RemoteMoviesService,
+        dao: MoviesDao,
         mapper: RemoteMovieItemMapper
     ): RemoteMoviesRepositoryImpl {
-        return RemoteMoviesRepositoryImpl(service, mapper)
+        return RemoteMoviesRepositoryImpl(service, dao, mapper)
     }
 }

@@ -13,8 +13,8 @@ class RemoteMovieItemMapper {
     }
 
     fun fromRemoteToEntity(response: RemoteMovieData): List<EntityMovieItem> {
-        val firstIndex = (response.page - 1) * PAGE_SIZE
-        return response.results.mapIndexed { index, productResponse ->
+        val firstIndex = (response.page!! - 1) * PAGE_SIZE
+        return response.results!!.mapIndexed { index, productResponse ->
             fromRemoteToEntity(productResponse, (firstIndex + index).toLong())
         }.toList()
     }
@@ -22,18 +22,19 @@ class RemoteMovieItemMapper {
     private fun fromRemoteToEntity(movie: RemoteMovieResult, index: Long): EntityMovieItem {
         return EntityMovieItem(
             index = index,
+            movieId = movie.id ?: 0,
             posterPath = movie.posterPath,
-            originalTitle = movie.originalTitle,
-            voteAverage = movie.voteAverage,
-            releaseDate = movie.releaseDate
+            originalTitle = movie.originalTitle ?: "",
+            voteAverage = movie.voteAverage ?: 0.0,
+            releaseDate = movie.releaseDate ?: ""
         )
     }
 
     fun RemoteMovieResult.fromRemoteToDomain() = DomainMovieItem(
-        id = id,
+        id = id ?: 0,
         posterPath = posterPath,
-        originalTitle = originalTitle,
-        voteAverage = voteAverage,
-        releaseDate = releaseDate
+        originalTitle = originalTitle ?: "",
+        voteAverage = voteAverage ?: 0.0,
+        releaseDate = releaseDate ?: ""
     )
 }

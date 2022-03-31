@@ -1,4 +1,4 @@
-package com.backbase.assignment.feature.ui.list.nowplaying
+package com.backbase.assignment.feature.ui.list.nowplaying.adapter
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil

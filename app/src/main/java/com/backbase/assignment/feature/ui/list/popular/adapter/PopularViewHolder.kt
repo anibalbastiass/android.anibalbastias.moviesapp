@@ -1,12 +1,13 @@
-package com.backbase.assignment.feature.ui.list.nowplaying.adapter.viewholder
+package com.backbase.assignment.feature.ui.list.popular.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.backbase.assignment.R
 import com.backbase.assignment.databinding.FragmentMoviePopularItemBinding
-import com.backbase.assignment.feature.data.remote.model.RemoteMovieResult
+import com.backbase.assignment.feature.data.local.model.EntityMovieItem
 import com.backbase.assignment.feature.presentation.model.UiMovieItem
 
 class PopularViewHolder(private val binding: FragmentMoviePopularItemBinding) :
@@ -21,7 +22,13 @@ class PopularViewHolder(private val binding: FragmentMoviePopularItemBinding) :
         }
     }
 
-    fun from(dataItem: UiMovieItem) {
+    fun from(
+        dataItem: EntityMovieItem,
+        position: Int,
+        itemClickListener: (View, Int, String) -> Unit
+    ) {
+        binding.title.text = dataItem.originalTitle
+        binding.releaseDate.text = dataItem.releaseDate
         binding.poster.load(dataItem.posterPath) {
             crossfade(true)
             placeholder(R.drawable.movies_logo)

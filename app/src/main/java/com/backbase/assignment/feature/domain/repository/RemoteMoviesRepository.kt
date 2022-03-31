@@ -1,8 +1,9 @@
 package com.backbase.assignment.feature.domain.repository
 
 import androidx.paging.DataSource
-import com.backbase.assignment.feature.data.remote.model.RemoteMovieResult
+import com.backbase.assignment.feature.data.local.model.EntityMovieItem
 import com.backbase.assignment.feature.domain.DomainMovieDataState
+import com.backbase.assignment.feature.presentation.model.UiMovieItem
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteMoviesRepository {
@@ -18,10 +19,10 @@ interface RemoteMoviesRepository {
      * @param pageToLoad page index
      * @param pageSize size of page
      */
-    suspend fun loadPageOfMovies(pageToLoad: Int, pageSize: Int): List<RemoteMovieResult>
+    suspend fun loadPageOfMovies(pageToLoad: Int, pageSize: Int): List<EntityMovieItem>
 
     /**
      * Create a data source that returns pages of results keyed by page.
      */
-    fun createMoviesDataSource(): DataSource.Factory<Int, RemoteMovieResult>
+    fun getPopularMovies(): DataSource.Factory<Int, EntityMovieItem>
 }

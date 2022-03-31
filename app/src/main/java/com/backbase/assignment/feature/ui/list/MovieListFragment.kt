@@ -11,15 +11,16 @@ import com.backbase.assignment.R
 import com.backbase.assignment.databinding.FragmentMovieListBinding
 import com.backbase.assignment.feature.data.remote.state.APIState
 import com.backbase.assignment.feature.domain.UiMovieDataState
+import com.backbase.assignment.feature.presentation.MoviesPagedViewModel
 import com.backbase.assignment.feature.presentation.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.IllegalStateException
 
 @AndroidEntryPoint
 class MovieListFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieListBinding
     private val viewModel: MoviesViewModel by viewModels()
+    private val pagedViewModel: MoviesPagedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,10 +35,19 @@ class MovieListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initSwipeRefresh()
-        observeMovies()
+        observeNowPlayingMovies()
+        observePopularMovies()
     }
 
-    private fun observeMovies() {
+    private fun observePopularMovies() {
+        pagedViewModel.movies.observe(viewLifecycleOwner) { pagedList ->
+            binding.popularMoviesView.renderMovies(pagedList) { view, position, someThing ->
+
+            }
+        }
+    }
+
+    private fun observeNowPlayingMovies() {
         viewModel.nowPlayingMovies.value?.let { dataState ->
             renderState(dataState)
         } ?: run {
@@ -59,15 +69,11 @@ class MovieListFragment : Fragment() {
             }
             APIState.Loading -> {
                 binding.nowPlayingMoviesView.hideView()
-                binding.popularMoviesView.hideView()
             }
             is APIState.Success -> {
                 hideProgress()
-
                 binding.nowPlayingMoviesView.renderMovies(state.data)
-                binding.popularMoviesView.renderMovies(state.data)
             }
-            else -> throw IllegalStateException("State not known")
         }
     }
 
@@ -81,6 +87,7 @@ class MovieListFragment : Fragment() {
             setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
             setOnRefreshListener {
                 viewModel.getNowPlayingMovies()
+                pagedViewModel.refreshMovies()
             }
         }
     }

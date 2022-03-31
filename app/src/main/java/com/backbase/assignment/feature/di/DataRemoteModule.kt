@@ -21,7 +21,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object DataModule {
+object DataRemoteModule {
 
     @Singleton
     @Provides

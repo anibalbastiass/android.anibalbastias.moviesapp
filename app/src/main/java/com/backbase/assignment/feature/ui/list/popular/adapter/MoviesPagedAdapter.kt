@@ -1,0 +1,23 @@
+package com.backbase.assignment.feature.ui.list.popular.adapter
+
+import android.view.View
+import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import com.backbase.assignment.feature.data.local.model.EntityMovieItem
+import javax.inject.Singleton
+
+@Singleton
+class MoviesPagedAdapter(
+    private val itemClickListener: (View, Int, String) -> Unit
+) : PagedListAdapter<EntityMovieItem, PopularViewHolder>(MoviesPagedDiffCallback()) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularViewHolder {
+        return PopularViewHolder.from(parent)
+    }
+
+    override fun onBindViewHolder(holder: PopularViewHolder, position: Int) {
+        getItem(position)?.let { item ->
+            holder.from(item, position, itemClickListener)
+        }
+    }
+}

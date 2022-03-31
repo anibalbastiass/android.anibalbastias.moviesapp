@@ -1,11 +1,10 @@
-package com.backbase.assignment.feature.ui.list.nowplaying.adapter.viewholder
+package com.backbase.assignment.feature.ui.list.nowplaying.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.backbase.assignment.databinding.FragmentMovieNowPlayingItemBinding
-import com.backbase.assignment.feature.data.remote.model.RemoteMovieResult
 import com.backbase.assignment.feature.presentation.model.UiMovieItem
 
 class NowPlayingViewHolder(private val binding: FragmentMovieNowPlayingItemBinding) :
