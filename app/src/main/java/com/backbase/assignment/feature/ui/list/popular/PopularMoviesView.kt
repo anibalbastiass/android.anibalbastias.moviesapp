@@ -9,7 +9,6 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.backbase.assignment.databinding.FragmentMoviePopularBinding
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem
-import com.backbase.assignment.feature.presentation.model.UiMovieItem
 import com.backbase.assignment.feature.ui.list.popular.adapter.MoviesPagedAdapter
 
 class PopularMoviesView @JvmOverloads constructor(
@@ -34,7 +33,7 @@ class PopularMoviesView @JvmOverloads constructor(
 
     fun renderMovies(
         movies: PagedList<EntityMovieItem>,
-        itemClickListener: (View, Int, String) -> Unit
+        itemClickListener: (Int) -> Unit
     ) {
 
         val nowPlayingAdapter = MoviesPagedAdapter(itemClickListener)

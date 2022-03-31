@@ -41,8 +41,8 @@ class MovieListFragment : Fragment() {
 
     private fun observePopularMovies() {
         pagedViewModel.movies.observe(viewLifecycleOwner) { pagedList ->
-            binding.popularMoviesView.renderMovies(pagedList) { view, position, someThing ->
-
+            binding.popularMoviesView.renderMovies(pagedList) { movieId ->
+                // TODO: Navigate to Details by moveId
             }
         }
     }

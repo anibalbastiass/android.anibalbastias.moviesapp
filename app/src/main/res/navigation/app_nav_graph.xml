@@ -9,6 +9,18 @@
         android:id="@+id/nav_movie_list"
         android:name="com.backbase.assignment.feature.ui.list.MovieListFragment"
         android:label="@string/menu_movie_list"
-        tools:layout="@layout/fragment_movie_list" />
+        tools:layout="@layout/fragment_movie_list">
+
+        <action
+            android:id="@+id/action_nav_movie_list_to_nav_movie_details"
+            app:destination="@id/nav_movie_details" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_movie_details"
+        android:name="com.backbase.assignment.feature.ui.detail.MovieDetailFragment"
+        android:label="@string/menu_movie_detail"
+        tools:layout="@layout/fragment_movie_detail" />
 
 </navigation>

@@ -22,12 +22,15 @@ class PopularViewHolder(private val binding: FragmentMoviePopularItemBinding) :
 
     fun from(
         dataItem: EntityMovieItem,
-        position: Int,
-        itemClickListener: (View, Int, String) -> Unit
+        itemClickListener: (Int) -> Unit
     ) {
         binding.title.text = dataItem.originalTitle
         binding.releaseDate.text = dataItem.releaseDate
         binding.poster.load(dataItem.posterPath)
         binding.rating.calculate(dataItem.voteAverage)
+
+        binding.root.setOnClickListener {
+            itemClickListener.invoke(dataItem.movieId.toInt())
+        }
     }
 }
