@@ -7,11 +7,9 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.backbase.assignment.databinding.FragmentMovieNowPlayingBinding
-import com.backbase.assignment.feature.data.model.list.MovieResult
+import com.backbase.assignment.feature.data.remote.model.RemoteMovieResult
+import com.backbase.assignment.feature.presentation.model.UiMovieItem
 import com.backbase.assignment.feature.ui.list.nowplaying.adapter.MoviesAdapter
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class PlayingNowMoviesView @JvmOverloads constructor(
     context: Context,
@@ -36,7 +34,7 @@ class PlayingNowMoviesView @JvmOverloads constructor(
         }
     }
 
-    fun renderMovies(list: List<MovieResult>) {
+    fun renderMovies(list: List<UiMovieItem>) {
         nowPlayingAdapter.updateData(list)
         binding.llNowPlaying.visibility = View.VISIBLE
     }

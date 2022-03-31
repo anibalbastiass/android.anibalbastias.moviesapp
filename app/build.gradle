@@ -62,6 +62,11 @@ dependencies {
     implementation deps.androidx.recyclerView
     implementation deps.androidx.swipeRefreshLayout
 
+    // Room + Paging
+    implementation deps.androidx.paging
+    implementation deps.androidx.room
+    kapt deps.androidx.roomCompiler
+
     // Google
     implementation deps.google.material
 

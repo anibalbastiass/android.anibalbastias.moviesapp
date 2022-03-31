@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.backbase.assignment.R
 import com.backbase.assignment.databinding.FragmentMovieListBinding
-import com.backbase.assignment.feature.data.model.list.MovieData
-import com.backbase.assignment.feature.data.state.APIState
+import com.backbase.assignment.feature.data.remote.state.APIState
+import com.backbase.assignment.feature.domain.UiMovieDataState
 import com.backbase.assignment.feature.presentation.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.IllegalStateException
@@ -49,7 +49,7 @@ class MovieListFragment : Fragment() {
         }
     }
 
-    private fun renderState(state: APIState<MovieData>?) {
+    private fun renderState(state: UiMovieDataState) {
         when (state) {
             is APIState.Empty -> {
                 hideProgress()
@@ -64,8 +64,8 @@ class MovieListFragment : Fragment() {
             is APIState.Success -> {
                 hideProgress()
 
-                binding.nowPlayingMoviesView.renderMovies(state.data.results)
-                binding.popularMoviesView.renderMovies(state.data.results)
+                binding.nowPlayingMoviesView.renderMovies(state.data)
+                binding.popularMoviesView.renderMovies(state.data)
             }
             else -> throw IllegalStateException("State not known")
         }

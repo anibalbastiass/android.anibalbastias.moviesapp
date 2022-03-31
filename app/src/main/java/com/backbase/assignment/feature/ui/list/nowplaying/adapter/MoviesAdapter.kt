@@ -3,7 +3,7 @@ package com.backbase.assignment.feature.ui.list.nowplaying.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.backbase.assignment.feature.data.model.list.MovieResult
+import com.backbase.assignment.feature.presentation.model.UiMovieItem
 import com.backbase.assignment.feature.ui.list.nowplaying.MoviesDiffCallback
 import com.backbase.assignment.feature.ui.list.nowplaying.adapter.viewholder.NowPlayingViewHolder
 import com.backbase.assignment.feature.ui.list.nowplaying.adapter.viewholder.PopularViewHolder
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 @Singleton
 class MoviesAdapter(private val movieType: Int = NOW_PLAYING_VIEW_TYPE) :
-    ListAdapter<MovieResult, RecyclerView.ViewHolder>(MoviesDiffCallback()) {
+    ListAdapter<UiMovieItem, RecyclerView.ViewHolder>(MoviesDiffCallback()) {
 
     companion object {
         const val NOW_PLAYING_VIEW_TYPE = 1
@@ -24,7 +24,7 @@ class MoviesAdapter(private val movieType: Int = NOW_PLAYING_VIEW_TYPE) :
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
-    fun updateData(list: List<MovieResult>?) {
+    fun updateData(list: List<UiMovieItem>?) {
         adapterScope.launch {
             val items = when (list) {
                 null -> listOf()
@@ -40,11 +40,11 @@ class MoviesAdapter(private val movieType: Int = NOW_PLAYING_VIEW_TYPE) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is NowPlayingViewHolder -> {
-                holder.from(getItem(position) as MovieResult)
+                holder.from(getItem(position) as UiMovieItem)
             }
 
             is PopularViewHolder -> {
-                holder.from(getItem(position) as MovieResult)
+                holder.from(getItem(position) as UiMovieItem)
             }
         }
     }

@@ -26,6 +26,8 @@ ext {
                             "fragment"              : "1.4.1",
                             "swipeRefreshLayout"    : "1.0.0",
                             "lifecycle"             : "2.4.1",
+                            'paging'                : '2.1.2',
+                            'room'                  : '2.2.4'
                     ],
                     "google"           : [
                             "material": "1.5.0"
@@ -84,7 +86,10 @@ ext {
                     "lifecycleViewModel"    : "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.deps.androidx.lifecycle",
                     "lifecycleLiveData"     : "androidx.lifecycle:lifecycle-livedata-ktx:$versions.deps.androidx.lifecycle",
                     "daggerHiltViewModel"   : "androidx.hilt:hilt-lifecycle-viewmodel:$versions.deps.daggerHiltJetpack",
-                    "daggerHiltCompiler"    : "androidx.hilt:hilt-compiler:$versions.deps.daggerHiltJetpack"
+                    "daggerHiltCompiler"    : "androidx.hilt:hilt-compiler:$versions.deps.daggerHiltJetpack",
+                    "paging"                : "androidx.paging:paging-runtime:$versions.deps.androidx.paging",
+                    "room"                  : "androidx.room:room-runtime:$versions.deps.androidx.room",
+                    "roomCompiler"          : "androidx.room:room-compiler:$versions.deps.androidx.room"
             ],
             "google"      : [
                     "material"          : "com.google.android.material:material:$versions.deps.google.material",

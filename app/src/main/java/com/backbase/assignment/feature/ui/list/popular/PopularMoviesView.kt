@@ -7,7 +7,8 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.backbase.assignment.databinding.FragmentMoviePopularBinding
-import com.backbase.assignment.feature.data.model.list.MovieResult
+import com.backbase.assignment.feature.data.remote.model.RemoteMovieResult
+import com.backbase.assignment.feature.presentation.model.UiMovieItem
 import com.backbase.assignment.feature.ui.list.nowplaying.adapter.MoviesAdapter
 import com.backbase.assignment.feature.ui.list.nowplaying.adapter.MoviesAdapter.Companion.POPULAR_VIEW_TYPE
 
@@ -34,7 +35,7 @@ class PopularMoviesView @JvmOverloads constructor(
         }
     }
 
-    fun renderMovies(movies: List<MovieResult>) {
+    fun renderMovies(movies: List<UiMovieItem>) {
         binding.clPopularMovies.visibility = View.VISIBLE
     }
 

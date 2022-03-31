@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.backbase.assignment.databinding.FragmentMovieNowPlayingItemBinding
-import com.backbase.assignment.feature.data.model.list.MovieResult
+import com.backbase.assignment.feature.data.remote.model.RemoteMovieResult
+import com.backbase.assignment.feature.presentation.model.UiMovieItem
 
 class NowPlayingViewHolder(private val binding: FragmentMovieNowPlayingItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -19,7 +20,7 @@ class NowPlayingViewHolder(private val binding: FragmentMovieNowPlayingItemBindi
         }
     }
 
-    fun from(dataItem: MovieResult) {
+    fun from(dataItem: UiMovieItem) {
         binding.poster.load(dataItem.posterPath) {
             crossfade(true)
         }

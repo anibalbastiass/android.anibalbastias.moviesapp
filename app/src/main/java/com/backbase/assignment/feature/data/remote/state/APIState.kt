@@ -1,4 +1,4 @@
-package com.backbase.assignment.feature.data.state
+package com.backbase.assignment.feature.data.remote.state
 
 sealed class APIState<out T : Any> {
     object Loading : APIState<Nothing>()

@@ -1,4 +1,4 @@
-package com.backbase.assignment.feature.data.interceptor
+package com.backbase.assignment.feature.data.remote.interceptor
 
 import com.backbase.assignment.BuildConfig
 import okhttp3.HttpUrl

@@ -1,7 +1,8 @@
 package com.backbase.assignment.feature.di
 
-import com.backbase.assignment.feature.data.RemoteMoviesRepositoryImpl
-import com.backbase.assignment.feature.data.RemoteMoviesService
+import com.backbase.assignment.feature.data.remote.RemoteMoviesRepositoryImpl
+import com.backbase.assignment.feature.data.remote.RemoteMoviesService
+import com.backbase.assignment.feature.data.remote.mapper.RemoteMovieItemMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,8 +16,9 @@ object DomainModule {
     @Singleton
     @Provides
     fun provideRemoteMoviesRepository(
-        service: RemoteMoviesService
+        service: RemoteMoviesService,
+        mapper: RemoteMovieItemMapper
     ): RemoteMoviesRepositoryImpl {
-        return RemoteMoviesRepositoryImpl(service)
+        return RemoteMoviesRepositoryImpl(service, mapper)
     }
 }

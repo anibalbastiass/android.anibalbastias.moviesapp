@@ -1,4 +1,4 @@
-package com.backbase.assignment.feature.data.interceptor
+package com.backbase.assignment.feature.data.remote.interceptor
 
 import android.content.Context
 import android.net.ConnectivityManager

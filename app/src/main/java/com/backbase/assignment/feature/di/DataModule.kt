@@ -3,9 +3,10 @@ package com.backbase.assignment.feature.di
 import android.content.Context
 import com.backbase.assignment.BuildConfig
 import com.backbase.assignment.MoviesApplication
-import com.backbase.assignment.feature.data.RemoteMoviesService
-import com.backbase.assignment.feature.data.interceptor.ConnectionInterceptor
-import com.backbase.assignment.feature.data.interceptor.SecurityInterceptor
+import com.backbase.assignment.feature.data.remote.RemoteMoviesService
+import com.backbase.assignment.feature.data.remote.interceptor.ConnectionInterceptor
+import com.backbase.assignment.feature.data.remote.interceptor.SecurityInterceptor
+import com.backbase.assignment.feature.data.remote.mapper.RemoteMovieItemMapper
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -65,5 +66,11 @@ object DataModule {
         return retrofit
             .build()
             .create(RemoteMoviesService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRemoteMovieItemMapper(): RemoteMovieItemMapper {
+        return RemoteMovieItemMapper()
     }
 }
