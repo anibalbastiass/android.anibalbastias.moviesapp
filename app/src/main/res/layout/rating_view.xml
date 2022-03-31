@@ -17,14 +17,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
-        android:id="@+id/background_progressbar"
+        android:id="@+id/pbTotal"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:indeterminate="false"
         android:max="100"
         android:progress="100"
-        android:progressDrawable="@drawable/rating_full"
+        android:progressDrawable="@drawable/rating_positive_full"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -32,14 +32,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
-        android:id="@+id/stats_progressbar"
+        android:id="@+id/pbCurrentProgress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:indeterminate="false"
         android:max="100"
         android:progress="75"
-        android:progressDrawable="@drawable/rating_progress"
+        android:progressDrawable="@drawable/rating_positive_progress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -48,10 +48,10 @@
 
     <!-- The text that goes in a center of the chart -->
     <TextView
-        android:id="@+id/number_of_calories"
+        android:id="@+id/tvPercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="80%"
+        tools:text="80%"
         android:textColor="@color/textColor"
         android:textSize="20sp"
         android:textStyle="bold"

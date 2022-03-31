@@ -5,10 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.backbase.assignment.R
 import com.backbase.assignment.databinding.FragmentMoviePopularItemBinding
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem
-import com.backbase.assignment.feature.presentation.model.UiMovieItem
 
 class PopularViewHolder(private val binding: FragmentMoviePopularItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -30,6 +28,6 @@ class PopularViewHolder(private val binding: FragmentMoviePopularItemBinding) :
         binding.title.text = dataItem.originalTitle
         binding.releaseDate.text = dataItem.releaseDate
         binding.poster.load(dataItem.posterPath)
-        binding.rating
+        binding.rating.calculate(dataItem.voteAverage)
     }
 }
