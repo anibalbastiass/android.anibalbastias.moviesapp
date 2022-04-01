@@ -33,7 +33,7 @@ This project is being maintained to match current industry standards.
     * presentation: This contains the Ui Models (Only needed for the UI) using mappers, and the
       ViewModels
 
-    * ui:
+    * ui: Using Coil library for load images smoothly.
         * list: Contains 2 view components: Now Playing and Popular. Each one have own list for
           that.
         * detail: Simple fragment showing the detail data.
@@ -77,3 +77,7 @@ repositories, models.
 * Implement Nested Scroll view for have entire scrolling. Some performance issues with Paging
   library meanwhile is scrolling, freezing the Main thread. Maybe upgrading to Paging 3 should fix
   this.
+  
+# Future improvements
+
+* Add translucent style for Movie Detail Fragment.
