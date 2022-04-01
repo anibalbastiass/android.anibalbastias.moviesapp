@@ -22,7 +22,7 @@ class RemoteMoviesRepositoryImpl @Inject constructor(
 
     override suspend fun getNowPlaying(): Flow<DomainMovieDataState> =
         flow {
-            val response = service.getMoviesByType()
+            val response = service.getMoviesByType(movieType = "now_playing")
 
             if (response.isSuccessful) {
                 response.body()?.let { movies ->
