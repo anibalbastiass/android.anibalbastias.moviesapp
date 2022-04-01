@@ -1,4 +1,4 @@
-package com.backbase.assignment.feature.presentation
+package com.backbase.assignment.feature.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -9,8 +9,8 @@ import com.backbase.assignment.feature.data.local.model.EntityMovieItem
 import com.backbase.assignment.feature.data.remote.model.RemoteConstants.FIRST_PAGE
 import com.backbase.assignment.feature.data.remote.model.RemoteConstants.PAGE_SIZE
 import com.backbase.assignment.feature.data.remote.paging.PageLoadingMoviesCallback
-import com.backbase.assignment.feature.domain.GetPagedPopularMoviesUseCase
-import com.backbase.assignment.feature.domain.GetPopularMoviesUseCase
+import com.backbase.assignment.feature.domain.usecase.GetPagedPopularMoviesUseCase
+import com.backbase.assignment.feature.domain.usecase.GetPopularMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

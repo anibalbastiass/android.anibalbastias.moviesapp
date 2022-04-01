@@ -1,4 +1,4 @@
-package com.backbase.assignment.feature.domain
+package com.backbase.assignment.feature.domain.usecase
 
 import androidx.paging.DataSource
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem

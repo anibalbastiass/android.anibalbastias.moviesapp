@@ -13,7 +13,7 @@ import coil.load
 import com.backbase.assignment.R
 import com.backbase.assignment.databinding.FragmentMovieDetailBinding
 import com.backbase.assignment.feature.data.remote.state.APIState
-import com.backbase.assignment.feature.presentation.MoviesViewModel
+import com.backbase.assignment.feature.presentation.viewmodel.MoviesViewModel
 import com.backbase.assignment.feature.presentation.model.UiMovieDetail
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,8 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MovieDetailFragment : Fragment() {
 
     private val args: MovieDetailFragmentArgs by navArgs()
-    private lateinit var binding: FragmentMovieDetailBinding
     private val viewModel: MoviesViewModel by viewModels()
+    private lateinit var binding: FragmentMovieDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +36,7 @@ class MovieDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeMovieDetail()
+
         binding.ivBack.setOnClickListener {
             requireActivity().onBackPressed()
         }

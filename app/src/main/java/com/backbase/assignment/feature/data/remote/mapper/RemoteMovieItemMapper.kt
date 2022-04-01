@@ -1,5 +1,6 @@
 package com.backbase.assignment.feature.data.remote.mapper
 
+import android.annotation.SuppressLint
 import com.backbase.assignment.BuildConfig
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem
 import com.backbase.assignment.feature.data.remote.model.RemoteConstants.PAGE_SIZE
@@ -50,6 +51,7 @@ class RemoteMovieItemMapper {
 
     private fun getUrlImage(suffix: String?) = BuildConfig.IMAGE_URL + suffix
 
+    @SuppressLint("SimpleDateFormat")
     private fun getFormattedDate(rawDate: String?): String {
         return if (rawDate?.isNotEmpty()!!) {
             val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(rawDate)

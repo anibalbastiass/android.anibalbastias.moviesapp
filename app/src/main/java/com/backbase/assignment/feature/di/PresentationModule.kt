@@ -5,10 +5,10 @@ import com.backbase.assignment.feature.data.remote.RemoteMoviesRepositoryImpl
 import com.backbase.assignment.feature.data.remote.model.RemoteConstants.FIRST_PAGE
 import com.backbase.assignment.feature.data.remote.model.RemoteConstants.PAGE_SIZE
 import com.backbase.assignment.feature.data.remote.paging.PageLoadingMoviesCallback
-import com.backbase.assignment.feature.domain.GetMovieDetailUseCase
-import com.backbase.assignment.feature.domain.GetNowPlayingMoviesUseCase
-import com.backbase.assignment.feature.domain.GetPagedPopularMoviesUseCase
-import com.backbase.assignment.feature.domain.GetPopularMoviesUseCase
+import com.backbase.assignment.feature.domain.usecase.GetMovieDetailUseCase
+import com.backbase.assignment.feature.domain.usecase.GetNowPlayingMoviesUseCase
+import com.backbase.assignment.feature.domain.usecase.GetPagedPopularMoviesUseCase
+import com.backbase.assignment.feature.domain.usecase.GetPopularMoviesUseCase
 import com.backbase.assignment.feature.presentation.mapper.UiMovieMapper
 import dagger.Module
 import dagger.Provides

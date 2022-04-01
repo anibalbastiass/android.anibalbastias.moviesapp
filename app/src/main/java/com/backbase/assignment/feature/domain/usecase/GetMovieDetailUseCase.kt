@@ -1,6 +1,7 @@
-package com.backbase.assignment.feature.domain
+package com.backbase.assignment.feature.domain.usecase
 
 import com.backbase.assignment.feature.data.remote.RemoteMoviesRepositoryImpl
+import com.backbase.assignment.feature.domain.DomainMovieDetailDataState
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

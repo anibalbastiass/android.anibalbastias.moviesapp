@@ -12,16 +12,16 @@ import com.backbase.assignment.R
 import com.backbase.assignment.databinding.FragmentMovieListBinding
 import com.backbase.assignment.feature.data.remote.state.APIState
 import com.backbase.assignment.feature.domain.UiMovieDataState
-import com.backbase.assignment.feature.presentation.MoviesPagedViewModel
-import com.backbase.assignment.feature.presentation.MoviesViewModel
+import com.backbase.assignment.feature.presentation.viewmodel.MoviesPagedViewModel
+import com.backbase.assignment.feature.presentation.viewmodel.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MovieListFragment : Fragment() {
 
-    private lateinit var binding: FragmentMovieListBinding
     private val viewModel: MoviesViewModel by viewModels()
     private val pagedViewModel: MoviesPagedViewModel by viewModels()
+    private lateinit var binding: FragmentMovieListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,

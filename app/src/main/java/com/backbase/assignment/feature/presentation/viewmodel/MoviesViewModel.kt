@@ -1,12 +1,12 @@
-package com.backbase.assignment.feature.presentation
+package com.backbase.assignment.feature.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.backbase.assignment.feature.data.remote.state.APIState
-import com.backbase.assignment.feature.domain.GetMovieDetailUseCase
-import com.backbase.assignment.feature.domain.GetNowPlayingMoviesUseCase
+import com.backbase.assignment.feature.domain.usecase.GetMovieDetailUseCase
+import com.backbase.assignment.feature.domain.usecase.GetNowPlayingMoviesUseCase
 import com.backbase.assignment.feature.domain.UiMovieDataState
 import com.backbase.assignment.feature.domain.UiMovieDetailDataState
 import com.backbase.assignment.feature.domain.model.DomainMovieDetail
@@ -47,9 +47,9 @@ class MoviesViewModel @Inject constructor(
     fun getMovieDetail(movieId: String) {
         viewModelScope.launch {
             detailUseCase.execute(movieId)
-//                .catch {
-//                    _detailMovies.value = APIState.Error("No Internet Connection")
-//                }
+                .catch {
+                    _detailMovies.value = APIState.Error("No Internet Connection")
+                }
                 .collect { dataState ->
                     _detailMovies.value = transformDetailState(dataState)
                 }

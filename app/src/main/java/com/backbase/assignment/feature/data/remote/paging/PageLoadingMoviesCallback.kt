@@ -3,7 +3,7 @@ package com.backbase.assignment.feature.data.remote.paging
 import android.util.Log
 import androidx.paging.PagedList
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem
-import com.backbase.assignment.feature.domain.GetPopularMoviesUseCase
+import com.backbase.assignment.feature.domain.usecase.GetPopularMoviesUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
