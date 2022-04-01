@@ -1,10 +1,15 @@
 package com.backbase.assignment.feature.data.remote.mapper
 
+import com.backbase.assignment.BuildConfig
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem
 import com.backbase.assignment.feature.data.remote.model.RemoteConstants.PAGE_SIZE
 import com.backbase.assignment.feature.data.remote.model.RemoteMovieData
+import com.backbase.assignment.feature.data.remote.model.RemoteMovieDetail
 import com.backbase.assignment.feature.data.remote.model.RemoteMovieResult
+import com.backbase.assignment.feature.domain.model.DomainMovieDetail
 import com.backbase.assignment.feature.domain.model.DomainMovieItem
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RemoteMovieItemMapper {
 
@@ -33,4 +38,24 @@ class RemoteMovieItemMapper {
         voteAverage = voteAverage ?: 0.0,
         releaseDate = releaseDate
     )
+
+    fun RemoteMovieDetail.fromRemoteToDomain() = DomainMovieDetail(
+        id = id?.toInt() ?: 0,
+        posterPath = getUrlImage(posterPath),
+        originalTitle = originalTitle ?: "",
+        releaseDate = getFormattedDate(releaseDate),
+        overview = overview ?: "",
+        genres = genres?.map { it.name ?: "" } ?: listOf()
+    )
+
+    private fun getUrlImage(suffix: String?) = BuildConfig.IMAGE_URL + suffix
+
+    private fun getFormattedDate(rawDate: String?): String {
+        return if (rawDate?.isNotEmpty()!!) {
+            val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(rawDate)
+            SimpleDateFormat("MMMM dd, yyyy").format(date)
+        } else {
+            rawDate
+        }
+    }
 }

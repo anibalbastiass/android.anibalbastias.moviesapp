@@ -4,4 +4,6 @@
     <string name="now_playing" tools:ignore="ExtraTranslation">Playing now</string>
     <string name="most_popular">Most popular</string>
     <string name="menu_movie_detail">Movie Detail</string>
+    <string name="back">Back</string>
+    <string name="overview">Overview</string>
 </resources>

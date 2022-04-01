@@ -37,7 +37,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class RemoteMovieDetail(
     @Json(name = ADULT) override val adult: Boolean? = false,
-    @Json(name = BACKDROP_PATH) override val backdropPath: String = "",
+    @Json(name = BACKDROP_PATH) val backdropPath: String? = "",
     @Json(name = BELONGS_TO_COLLECTION) val belongsToCollection: RemoteBelongsToCollection? = RemoteBelongsToCollection(),
     @Json(name = BUDGET) val budget: Int? = 0,
     @Json(name = GENRES) val genres: List<RemoteGenreMovieItem>? = listOf(),
@@ -70,6 +70,7 @@ data class RemoteSpokenLanguage(
     @Json(name = NAME) val name: String? = "",
 )
 
+@JsonClass(generateAdapter = true)
 data class RemoteGenreMovieItem(
     @Json(name = ID) val id: Int? = 0,
     @Json(name = NAME) val name: String? = "",

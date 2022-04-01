@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.backbase.assignment.R
 import com.backbase.assignment.databinding.FragmentMovieListBinding
 import com.backbase.assignment.feature.data.remote.state.APIState
@@ -25,7 +26,7 @@ class MovieListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentMovieListBinding.inflate(inflater, container, false)
         return binding.root
@@ -42,9 +43,15 @@ class MovieListFragment : Fragment() {
     private fun observePopularMovies() {
         pagedViewModel.movies.observe(viewLifecycleOwner) { pagedList ->
             binding.popularMoviesView.renderMovies(pagedList) { movieId ->
-                // TODO: Navigate to Details by moveId
+                navigateToDetail(movieId)
             }
         }
+    }
+
+    private fun navigateToDetail(movieId: Int) {
+        val direction =
+            MovieListFragmentDirections.actionNavMovieListToNavMovieDetails("$movieId")
+        findNavController().navigate(direction)
     }
 
     private fun observeNowPlayingMovies() {
@@ -72,7 +79,9 @@ class MovieListFragment : Fragment() {
             }
             is APIState.Success -> {
                 hideProgress()
-                binding.nowPlayingMoviesView.renderMovies(state.data)
+                binding.nowPlayingMoviesView.renderMovies(state.data) { movieId ->
+                    navigateToDetail(movieId)
+                }
             }
         }
     }

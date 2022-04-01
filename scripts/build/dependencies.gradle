@@ -30,7 +30,8 @@ ext {
                             'room'                  : '2.2.4'
                     ],
                     "google"           : [
-                            "material": "1.5.0"
+                            "material": "1.5.0",
+                            "flexbox" : "3.0.0"
                     ],
                     "square"           : [
                             "retrofit"     : "2.9.0",
@@ -94,7 +95,8 @@ ext {
             "google"      : [
                     "material"          : "com.google.android.material:material:$versions.deps.google.material",
                     "daggerHiltAndroid" : "com.google.dagger:hilt-android:$versions.deps.daggerHilt",
-                    "daggerHiltCompiler": "com.google.dagger:hilt-android-compiler:$versions.deps.daggerHilt"
+                    "daggerHiltCompiler": "com.google.dagger:hilt-android-compiler:$versions.deps.daggerHilt",
+                    "flexbox"           : "com.google.android.flexbox:flexbox:$versions.deps.google.flexbox",
             ],
             "square"      : [
                     "retrofit"     : "com.squareup.retrofit2:retrofit:$versions.deps.square.retrofit",

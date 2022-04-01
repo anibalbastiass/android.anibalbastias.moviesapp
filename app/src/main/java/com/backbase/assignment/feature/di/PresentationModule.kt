@@ -5,10 +5,11 @@ import com.backbase.assignment.feature.data.remote.RemoteMoviesRepositoryImpl
 import com.backbase.assignment.feature.data.remote.model.RemoteConstants.FIRST_PAGE
 import com.backbase.assignment.feature.data.remote.model.RemoteConstants.PAGE_SIZE
 import com.backbase.assignment.feature.data.remote.paging.PageLoadingMoviesCallback
+import com.backbase.assignment.feature.domain.GetMovieDetailUseCase
 import com.backbase.assignment.feature.domain.GetNowPlayingMoviesUseCase
 import com.backbase.assignment.feature.domain.GetPagedPopularMoviesUseCase
 import com.backbase.assignment.feature.domain.GetPopularMoviesUseCase
-import com.backbase.assignment.feature.presentation.mapper.UiMovieItemMapper
+import com.backbase.assignment.feature.presentation.mapper.UiMovieMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,27 +23,34 @@ import kotlin.coroutines.CoroutineContext
 object PresentationModule {
 
     @Provides
-    fun provideUiMovieMapper(): UiMovieItemMapper = UiMovieItemMapper()
+    fun provideUiMovieMapper(): UiMovieMapper = UiMovieMapper()
 
     @Provides
     fun provideGetNowPlayingMoviesUseCase(
-        remote: RemoteMoviesRepositoryImpl
+        remote: RemoteMoviesRepositoryImpl,
     ): GetNowPlayingMoviesUseCase {
         return GetNowPlayingMoviesUseCase(remote)
     }
 
     @Provides
     fun provideGetPopularMoviesUseCase(
-        remote: RemoteMoviesRepositoryImpl
+        remote: RemoteMoviesRepositoryImpl,
     ): GetPopularMoviesUseCase {
         return GetPopularMoviesUseCase(remote)
     }
 
     @Provides
     fun provideGetPagedPopularMoviesUseCase(
-        remote: RemoteMoviesRepositoryImpl
+        remote: RemoteMoviesRepositoryImpl,
     ): GetPagedPopularMoviesUseCase {
         return GetPagedPopularMoviesUseCase(remote)
+    }
+
+    @Provides
+    fun provideGetMovieDetailUseCase(
+        remote: RemoteMoviesRepositoryImpl,
+    ): GetMovieDetailUseCase {
+        return GetMovieDetailUseCase(remote)
     }
 
     @Provides
@@ -53,7 +61,7 @@ object PresentationModule {
     @Provides
     fun providePageLoadingBoundaryCallback(
         coroutineContext: CoroutineContext,
-        useCase: GetPopularMoviesUseCase
+        useCase: GetPopularMoviesUseCase,
     ): PageLoadingMoviesCallback {
         return PageLoadingMoviesCallback(coroutineContext, useCase, FIRST_PAGE, PAGE_SIZE)
     }

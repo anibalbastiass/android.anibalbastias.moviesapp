@@ -1,6 +1,5 @@
 package com.backbase.assignment.feature.data.remote.model
 
-import android.annotation.SuppressLint
 import com.backbase.assignment.BuildConfig
 import com.backbase.assignment.feature.data.remote.model.RemoteConstants.ADULT
 import com.backbase.assignment.feature.data.remote.model.RemoteConstants.BACKDROP_PATH
@@ -60,15 +59,17 @@ open class RemoteMovieResult(
     @Json(name = VOTE_AVERAGE) open val voteAverage: Double? = 0.0,
     @Json(name = VOTE_COUNT) open val voteCount: Int? = 0,
 ) {
-    open val backdropPath: String = getUrlImage(_backdropPath)
     open val posterPath: String = getUrlImage(_posterPath)
     open val releaseDate: String = getFormattedDate(_releaseDate)
 
     private fun getUrlImage(suffix: String?) = BuildConfig.IMAGE_URL + suffix
 
-    @SuppressLint("SimpleDateFormat")
     private fun getFormattedDate(rawDate: String?): String {
-        val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(rawDate)
-        return SimpleDateFormat("MMMM dd, yyyy").format(date)
+        return if (rawDate?.isNotEmpty()!!) {
+            val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(rawDate)
+            SimpleDateFormat("MMMM dd, yyyy").format(date)
+        } else {
+            rawDate
+        }
     }
 }

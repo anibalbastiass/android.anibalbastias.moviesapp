@@ -69,6 +69,7 @@ dependencies {
 
     // Google
     implementation deps.google.material
+    implementation deps.google.flexbox
 
     // Square
     implementation deps.square.retrofit

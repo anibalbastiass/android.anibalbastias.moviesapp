@@ -3,7 +3,7 @@ package com.backbase.assignment.feature.domain.repository
 import androidx.paging.DataSource
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem
 import com.backbase.assignment.feature.domain.DomainMovieDataState
-import com.backbase.assignment.feature.presentation.model.UiMovieItem
+import com.backbase.assignment.feature.domain.DomainMovieDetailDataState
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteMoviesRepository {
@@ -25,4 +25,10 @@ interface RemoteMoviesRepository {
      * Create a data source that returns pages of results keyed by page.
      */
     fun getPopularMovies(): DataSource.Factory<Int, EntityMovieItem>
+
+    /**
+     * Load Movie detail data
+     * @param movieId Id of movie
+     */
+    suspend fun getMovieById(movieId: String): Flow<DomainMovieDetailDataState>
 }

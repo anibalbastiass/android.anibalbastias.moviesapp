@@ -4,15 +4,13 @@ import androidx.paging.DataSource
 import com.backbase.assignment.feature.data.local.dao.MoviesDao
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem
 import com.backbase.assignment.feature.data.remote.mapper.RemoteMovieItemMapper
-import com.backbase.assignment.feature.data.remote.model.RemoteMovieData
-import com.backbase.assignment.feature.data.remote.model.RemoteMovieResult
 import com.backbase.assignment.feature.data.remote.state.APIState
 import com.backbase.assignment.feature.domain.DomainMovieDataState
-import com.backbase.assignment.feature.domain.RemoteMovieDataState
+import com.backbase.assignment.feature.domain.DomainMovieDetailDataState
 import com.backbase.assignment.feature.domain.repository.RemoteMoviesRepository
-import com.backbase.assignment.feature.presentation.model.UiMovieItem
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class RemoteMoviesRepositoryImpl @Inject constructor(
@@ -60,4 +58,21 @@ class RemoteMoviesRepositoryImpl @Inject constructor(
     override fun getPopularMovies(): DataSource.Factory<Int, EntityMovieItem> {
         return dao.getMovies()
     }
+
+    override suspend fun getMovieById(movieId: String): Flow<DomainMovieDetailDataState> =
+        flow {
+            val response = service.getMovieById(movieId)
+
+            if (response.isSuccessful) {
+                response.body()?.let { movies ->
+                    with(mapper) {
+                        emit(
+                            APIState.Success(movies.fromRemoteToDomain())
+                        )
+                    }
+                } ?: emit(APIState.Empty(response.message()))
+            } else {
+                emit(APIState.Error(response.message()))
+            }
+        }
 }

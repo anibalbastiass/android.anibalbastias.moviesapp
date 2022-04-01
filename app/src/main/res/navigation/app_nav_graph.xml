@@ -21,6 +21,12 @@
         android:id="@+id/nav_movie_details"
         android:name="com.backbase.assignment.feature.ui.detail.MovieDetailFragment"
         android:label="@string/menu_movie_detail"
-        tools:layout="@layout/fragment_movie_detail" />
+        tools:layout="@layout/fragment_movie_detail" >
+
+        <argument
+            android:name="movieId"
+            app:argType="string" />
+
+    </fragment>
 
 </navigation>

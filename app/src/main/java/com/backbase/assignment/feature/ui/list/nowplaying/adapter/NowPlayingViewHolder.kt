@@ -19,9 +19,12 @@ class NowPlayingViewHolder(private val binding: FragmentMovieNowPlayingItemBindi
         }
     }
 
-    fun from(dataItem: UiMovieItem) {
+    fun from(dataItem: UiMovieItem, itemClickListener: (Int) -> Unit) {
         binding.poster.load(dataItem.posterPath) {
             crossfade(true)
+        }
+        binding.root.setOnClickListener {
+            itemClickListener.invoke(dataItem.id.toInt())
         }
     }
 }

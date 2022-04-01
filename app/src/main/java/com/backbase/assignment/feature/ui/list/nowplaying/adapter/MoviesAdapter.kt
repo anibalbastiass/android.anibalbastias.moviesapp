@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Singleton
 
 @Singleton
-class MoviesAdapter :
+class MoviesAdapter(private val itemClickListener: (Int) -> Unit) :
     ListAdapter<UiMovieItem, NowPlayingViewHolder>(MoviesDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
@@ -33,6 +33,6 @@ class MoviesAdapter :
     }
 
     override fun onBindViewHolder(holder: NowPlayingViewHolder, position: Int) {
-        holder.from(getItem(position) as UiMovieItem)
+        holder.from(getItem(position) as UiMovieItem, itemClickListener)
     }
 }
