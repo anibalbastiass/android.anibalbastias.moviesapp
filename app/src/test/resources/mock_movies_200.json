@@ -1,0 +1,414 @@
+{
+  "dates": {
+    "maximum": "2022-03-28",
+    "minimum": "2022-02-08"
+  },
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/fOy2Jurz9k6RnJnMUMRDAgBwru2.jpg",
+      "genre_ids": [
+        16,
+        10751,
+        35,
+        14
+      ],
+      "id": 508947,
+      "original_language": "en",
+      "original_title": "Turning Red",
+      "overview": "Thirteen-year-old Mei is experiencing the awkwardness of being a teenager with a twist – when she gets too excited, she transforms into a giant red panda.",
+      "popularity": 6323.817,
+      "poster_path": "/qsdjk9oAKSQMWs0Vt5Pyfh6O4GZ.jpg",
+      "release_date": "2022-03-01",
+      "title": "Turning Red",
+      "video": false,
+      "vote_average": 7.5,
+      "vote_count": 1209
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/ewUqXnwiRLhgmGhuksOdLgh49Ch.jpg",
+      "genre_ids": [
+        28,
+        12,
+        35,
+        878,
+        18
+      ],
+      "id": 696806,
+      "original_language": "en",
+      "original_title": "The Adam Project",
+      "overview": "After accidentally crash-landing in 2022, time-traveling fighter pilot Adam Reed teams up with his 12-year-old self on a mission to save the future.",
+      "popularity": 3080.025,
+      "poster_path": "/wFjboE0aFZNbVOF05fzrka9Fqyx.jpg",
+      "release_date": "2022-03-11",
+      "title": "The Adam Project",
+      "video": false,
+      "vote_average": 7.1,
+      "vote_count": 1345
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/2hGjmgZrS1nlsEl5PZorn7EsmzH.jpg",
+      "genre_ids": [
+        28,
+        53
+      ],
+      "id": 823625,
+      "original_language": "en",
+      "original_title": "Blacklight",
+      "overview": "Travis Block is a shadowy Government agent who specializes in removing operatives whose covers have been exposed. He then has to uncover a deadly conspiracy within his own ranks that reaches the highest echelons of power.",
+      "popularity": 2289.078,
+      "poster_path": "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
+      "release_date": "2022-02-10",
+      "title": "Blacklight",
+      "video": false,
+      "vote_average": 5.9,
+      "vote_count": 211
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/f2J8DpT5bqV0AiI9VVcfiuqKo5l.jpg",
+      "genre_ids": [
+        28,
+        99,
+        35
+      ],
+      "id": 656663,
+      "original_language": "en",
+      "original_title": "Jackass Forever",
+      "overview": "Celebrate the joy of a perfectly executed shot to the groin as Johnny Knoxville, Steve-O and the rest of the gang return alongside some newcomers for one final round of hilarious, wildly absurd and often dangerous displays of stunts and comedy.",
+      "popularity": 1771.606,
+      "poster_path": "/ugIdyvtAzHWOguD91UjHKoAvfum.jpg",
+      "release_date": "2022-02-01",
+      "title": "Jackass Forever",
+      "video": false,
+      "vote_average": 7.1,
+      "vote_count": 165
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/j2zyoYrWjWyraHMdkqAkSG1MISJ.jpg",
+      "genre_ids": [
+        80,
+        9648,
+        53
+      ],
+      "id": 414906,
+      "original_language": "en",
+      "original_title": "The Batman",
+      "overview": "In his second year of fighting crime, Batman uncovers corruption in Gotham City that connects to his own family while facing a serial killer known as the Riddler.",
+      "popularity": 2103.864,
+      "poster_path": "/74xTEgt7R36Fpooo50r9T25onhq.jpg",
+      "release_date": "2022-03-01",
+      "title": "The Batman",
+      "video": false,
+      "vote_average": 7.9,
+      "vote_count": 2506
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/tq3klWQevRK0Or0cGhsw0h3FDWQ.jpg",
+      "genre_ids": [
+        12,
+        16,
+        35,
+        10751,
+        14
+      ],
+      "id": 676705,
+      "original_language": "fr",
+      "original_title": "Pil's Adventures",
+      "overview": "Pil, a little vagabond girl, lives on the streets of the medieval city of Roc-en-Brume, along with her three tame weasels. She survives of food stolen from the castle of the sinister Regent Tristain. One day, to escape his guards, Pil disguises herself as a princess. Thus she embarks upon a mad, delirious adventure, together with Crobar, a big clumsy guard who thinks she's a noble, and Rigolin, a young crackpot jester. Pil is going to have to save Roland, rightful heir to the throne under the curse of a spell. This adventure will turn the entire kingdom upside down, and teach Pil that nobility can be found in all of us.",
+      "popularity": 1883.156,
+      "poster_path": "/xy6wQ09rMIN2FfWPHJXCWyRZ3P9.jpg",
+      "release_date": "2021-08-11",
+      "title": "Pil's Adventures",
+      "video": false,
+      "vote_average": 7,
+      "vote_count": 28
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/yzH5zvuEzzsHLZnn0jwYoPf0CMT.jpg",
+      "genre_ids": [
+        53,
+        28
+      ],
+      "id": 760926,
+      "original_language": "en",
+      "original_title": "Gold",
+      "overview": "In the not-too-distant future, two drifters traveling through the desert stumble across the biggest gold nugget ever found and the dream of immense wealth and greed takes hold. They hatch a plan to excavate their bounty, with one man leaving to secure the necessary tools while the other remains with the gold. The man who remains must endure harsh desert elements, ravenous wild dogs, and mysterious intruders, while battling the sinking suspicion that he has been abandoned to his fate.",
+      "popularity": 1474.719,
+      "poster_path": "/ejXBuNLvK4kZ7YcqeKqUWnCxdJq.jpg",
+      "release_date": "2022-01-13",
+      "title": "Gold",
+      "video": false,
+      "vote_average": 6.5,
+      "vote_count": 147
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/qBLEWvJNVsehJkEJqIigPsWyBse.jpg",
+      "genre_ids": [
+        16,
+        10751,
+        14,
+        35,
+        12
+      ],
+      "id": 585083,
+      "original_language": "en",
+      "original_title": "Hotel Transylvania: Transformania",
+      "overview": "When Van Helsing's mysterious invention, the \"Monsterfication Ray,\" goes haywire, Drac and his monster pals are all transformed into humans, and Johnny becomes a monster. In their new mismatched bodies, Drac and Johnny must team up and race across the globe to find a cure before it's too late, and before they drive each other crazy.",
+      "popularity": 1192.098,
+      "poster_path": "/teCy1egGQa0y8ULJvlrDHQKnxBL.jpg",
+      "release_date": "2022-02-25",
+      "title": "Hotel Transylvania: Transformania",
+      "video": false,
+      "vote_average": 7.1,
+      "vote_count": 556
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/i5dUmY2xRzgkmjHJYKNj8kPX1Xx.jpg",
+      "genre_ids": [
+        37,
+        28
+      ],
+      "id": 928999,
+      "original_language": "en",
+      "original_title": "Desperate Riders",
+      "overview": "After Kansas Red rescues young Billy from a card-game shootout, the boy asks Red for help protecting his family from the outlaw Thorn, who’s just kidnapped Billy’s mother, Carol. As Red and Billy ride off to rescue Carol, they run into beautiful, tough-as-nails Leslie, who’s managed to escape Thorn’s men. The three race to stop Thorn’s wedding to Carol with guns a-blazing - but does she want to be rescued?",
+      "popularity": 1003.113,
+      "poster_path": "/7pYYGm1dWZGkbJuhcuaHD6nE6k7.jpg",
+      "release_date": "2022-02-25",
+      "title": "Desperate Riders",
+      "video": false,
+      "vote_average": 6.3,
+      "vote_count": 22
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/g0YNGpmlXsgHfhGnJz3c5uyzZ1B.jpg",
+      "genre_ids": [
+        80,
+        18,
+        53
+      ],
+      "id": 597208,
+      "original_language": "en",
+      "original_title": "Nightmare Alley",
+      "overview": "An ambitious carnival man with a talent for manipulating people with a few well-chosen words hooks up with a female psychiatrist who is even more dangerous than he is.",
+      "popularity": 910.973,
+      "poster_path": "/vfn1feL0V9HNSXuLLpaxAW8O6LO.jpg",
+      "release_date": "2021-12-02",
+      "title": "Nightmare Alley",
+      "video": false,
+      "vote_average": 7.1,
+      "vote_count": 1307
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/mruT954ve6P1zquaRs6XG0hA5k9.jpg",
+      "genre_ids": [
+        53
+      ],
+      "id": 800510,
+      "original_language": "en",
+      "original_title": "Kimi",
+      "overview": "A tech worker with agoraphobia discovers recorded evidence of a violent crime but is met with resistance when she tries to report it. Seeking justice, she must do the thing she fears the most: she must leave her apartment.",
+      "popularity": 1108.78,
+      "poster_path": "/okNgwtxIWzGsNlR3GsOS0i0Qgbn.jpg",
+      "release_date": "2022-02-10",
+      "title": "Kimi",
+      "video": false,
+      "vote_average": 6.2,
+      "vote_count": 300
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/xHRabofjmMGoIV3mb6xgy4nwOcS.jpg",
+      "genre_ids": [
+        27
+      ],
+      "id": 801071,
+      "original_language": "en",
+      "original_title": "The Jack in the Box: Awakening",
+      "overview": "When a vintage Jack-in-the-box is opened by a dying woman, she enters into a deal with the demon within that would see her illness cured in return for helping it claim six innocent victims.",
+      "popularity": 887.093,
+      "poster_path": "/3Ib8vlWTrAKRrTWUrTrZPOMW4jp.jpg",
+      "release_date": "2022-02-24",
+      "title": "The Jack in the Box: Awakening",
+      "video": false,
+      "vote_average": 5.7,
+      "vote_count": 25
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/ifUfE79O1raUwbaQRIB7XnFz5ZC.jpg",
+      "genre_ids": [
+        27,
+        9648,
+        53
+      ],
+      "id": 646385,
+      "original_language": "en",
+      "original_title": "Scream",
+      "overview": "Twenty-five years after a streak of brutal murders shocked the quiet town of Woodsboro, a new killer has donned the Ghostface mask and begins targeting a group of teenagers to resurrect secrets from the town’s deadly past.",
+      "popularity": 831.551,
+      "poster_path": "/kZNHR1upJKF3eTzdgl5V8s8a4C3.jpg",
+      "release_date": "2022-01-12",
+      "title": "Scream",
+      "video": false,
+      "vote_average": 6.8,
+      "vote_count": 1064
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/tutaKitJJIaqZPyMz7rxrhb4Yxm.jpg",
+      "genre_ids": [
+        16,
+        35,
+        10751,
+        10402
+      ],
+      "id": 438695,
+      "original_language": "en",
+      "original_title": "Sing 2",
+      "overview": "Buster and his new cast now have their sights set on debuting a new show at the Crystal Tower Theater in glamorous Redshore City. But with no connections, he and his singers must sneak into the Crystal Entertainment offices, run by the ruthless wolf mogul Jimmy Crystal, where the gang pitches the ridiculous idea of casting the lion rock legend Clay Calloway in their show. Buster must embark on a quest to find the now-isolated Clay and persuade him to return to the stage.",
+      "popularity": 1020.761,
+      "poster_path": "/aWeKITRFbbwY8txG5uCj4rMCfSP.jpg",
+      "release_date": "2021-12-01",
+      "title": "Sing 2",
+      "video": false,
+      "vote_average": 8.1,
+      "vote_count": 2399
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/fEe5fe82qHzjO4yej0o79etqsWV.jpg",
+      "genre_ids": [
+        16,
+        35,
+        28,
+        10751,
+        80
+      ],
+      "id": 629542,
+      "original_language": "en",
+      "original_title": "The Bad Guys",
+      "overview": "When the infamous Bad Guys are finally caught after years of countless heists and being the world’s most-wanted villains, Mr. Wolf brokers a deal to save them all from prison.",
+      "popularity": 741.43,
+      "poster_path": "/1s0em1CVrM1e6fsafiNePXqh6Hv.jpg",
+      "release_date": "2022-03-17",
+      "title": "The Bad Guys",
+      "video": false,
+      "vote_average": 7.4,
+      "vote_count": 28
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/geYUecpFI2AonDLhjyK9zoVFcMv.jpg",
+      "genre_ids": [
+        16,
+        28,
+        12,
+        9648
+      ],
+      "id": 810693,
+      "original_language": "ja",
+      "original_title": "劇場版 呪術廻戦 0",
+      "overview": "Yuta Okkotsu is a nervous high school student who is suffering from a serious problem—his childhood friend Rika has turned into a curse and won't leave him alone. Since Rika is no ordinary curse, his plight is noticed by Satoru Gojo, a teacher at Jujutsu High, a school where fledgling exorcists learn how to combat curses. Gojo convinces Yuta to enroll, but can he learn enough in time to confront the curse that haunts him?",
+      "popularity": 721.005,
+      "poster_path": "/3pTwMUEavTzVOh6yLN0aEwR7uSy.jpg",
+      "release_date": "2021-12-24",
+      "title": "Jujutsu Kaisen 0",
+      "video": false,
+      "vote_average": 7.7,
+      "vote_count": 72
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/yKnjIWNIVECfMoKy1ayl68vX6qj.jpg",
+      "genre_ids": [
+        28,
+        80,
+        53
+      ],
+      "id": 871799,
+      "original_language": "en",
+      "original_title": "Pursuit",
+      "overview": "Detective Breslin crosses paths with Calloway, a ruthless hacker desperate to find his wife, who has been kidnapped by a drug cartel. When Calloway escapes police custody, Breslin joins forces with a no-nonsense female cop to reclaim his prisoner. But is Calloway’s crime-boss father somehow involved in this explosive situation?",
+      "popularity": 647.032,
+      "poster_path": "/oUU6blOmIu155vfIgzML3ZSsDrB.jpg",
+      "release_date": "2022-02-18",
+      "title": "Pursuit",
+      "video": false,
+      "vote_average": 5.8,
+      "vote_count": 29
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/8pgKccb5PfE1kWB9qqiXJem83VC.jpg",
+      "genre_ids": [
+        28,
+        53
+      ],
+      "id": 522016,
+      "original_language": "en",
+      "original_title": "The 355",
+      "overview": "A group of top female agents from American, British, Chinese, Columbian and German  government agencies are drawn together to try and stop an organization from acquiring a deadly weapon to send the world into chaos.",
+      "popularity": 623.789,
+      "poster_path": "/zxizwEPE8jhpbMgrFbwCztgvh2m.jpg",
+      "release_date": "2022-01-05",
+      "title": "The 355",
+      "video": false,
+      "vote_average": 6,
+      "vote_count": 355
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/1Wlwnhn5sXUIwlxpJgWszT622PS.jpg",
+      "genre_ids": [
+        10751,
+        12,
+        35,
+        14
+      ],
+      "id": 585245,
+      "original_language": "en",
+      "original_title": "Clifford the Big Red Dog",
+      "overview": "As Emily struggles to fit in at home and at school, she discovers a small red puppy who is destined to become her best friend. When Clifford magically undergoes one heck of a growth spurt, becomes a gigantic dog and attracts the attention of a genetics company, Emily and her Uncle Casey have to fight the forces of greed as they go on the run across New York City. Along the way, Clifford affects the lives of everyone around him and teaches Emily and her uncle the true meaning of acceptance and unconditional love.",
+      "popularity": 563.993,
+      "poster_path": "/oifhfVhUcuDjE61V5bS5dfShQrm.jpg",
+      "release_date": "2021-11-10",
+      "title": "Clifford the Big Red Dog",
+      "video": false,
+      "vote_average": 7.3,
+      "vote_count": 1163
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/cTTggc927lEPCMsWUsdugSj6wAY.jpg",
+      "genre_ids": [
+        28,
+        12
+      ],
+      "id": 335787,
+      "original_language": "en",
+      "original_title": "Uncharted",
+      "overview": "A young street-smart, Nathan Drake and his wisecracking partner Victor “Sully” Sullivan embark on a dangerous pursuit of “the greatest treasure never found” while also tracking clues that may lead to Nathan’s long-lost brother.",
+      "popularity": 646.142,
+      "poster_path": "/sqLowacltbZLoCa4KYye64RvvdQ.jpg",
+      "release_date": "2022-02-10",
+      "title": "Uncharted",
+      "video": false,
+      "vote_average": 7.1,
+      "vote_count": 873
+    }
+  ],
+  "total_pages": 61,
+  "total_results": 1203
+}

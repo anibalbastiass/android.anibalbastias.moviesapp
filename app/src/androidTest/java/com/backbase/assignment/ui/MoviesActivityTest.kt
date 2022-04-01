@@ -1,9 +1,11 @@
-package com.backbase.assignment
+package com.backbase.assignment.ui
 
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.backbase.assignment.MoviesActivity
+import com.backbase.assignment.R
 import com.backbase.assignment.feature.ui.list.MovieListFragment
 import com.backbase.assignment.utils.launchFragmentInHiltContainer
 import org.junit.Assert.assertEquals

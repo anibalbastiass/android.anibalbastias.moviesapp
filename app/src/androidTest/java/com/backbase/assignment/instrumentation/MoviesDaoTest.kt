@@ -1,4 +1,4 @@
-package com.backbase.assignment
+package com.backbase.assignment.instrumentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.LivePagedListBuilder

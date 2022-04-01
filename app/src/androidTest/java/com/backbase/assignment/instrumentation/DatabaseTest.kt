@@ -1,4 +1,4 @@
-package com.backbase.assignment
+package com.backbase.assignment.instrumentation
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
