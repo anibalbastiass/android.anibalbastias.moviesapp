@@ -2,6 +2,8 @@ package com.backbase.assignment.feature.ui.list.popular.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout

@@ -43,12 +43,6 @@ class RemoteMoviesRepositoryImpl @Inject constructor(
         }
 
     override suspend fun loadPageOfMovies(pageToLoad: Int, pageSize: Int): List<EntityMovieItem> {
-        if (pageToLoad == 1) {
-            dao.clearMovies()
-        }
-
-        delay(500)
-
         val movies = service.getMoviesByType(page = pageToLoad.toString())
         val newPage = mapper.fromRemoteToEntity(movies.body()!!)
         dao.insert(newPage)
