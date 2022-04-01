@@ -3,6 +3,7 @@ package com.backbase.assignment.feature.data.remote.model
 object RemoteConstants {
     const val FIRST_PAGE = 1
     const val PAGE_SIZE = 20
+    const val POPULAR = "popular"
 
     const val ADULT = "adult"
     const val BACKDROP_PATH = "backdrop_path"

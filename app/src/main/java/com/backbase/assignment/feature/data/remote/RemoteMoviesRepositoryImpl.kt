@@ -4,6 +4,7 @@ import androidx.paging.DataSource
 import com.backbase.assignment.feature.data.local.dao.MoviesDao
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem
 import com.backbase.assignment.feature.data.remote.mapper.RemoteMovieItemMapper
+import com.backbase.assignment.feature.data.remote.model.RemoteConstants.POPULAR
 import com.backbase.assignment.feature.data.remote.state.APIState
 import com.backbase.assignment.feature.domain.DomainMovieDataState
 import com.backbase.assignment.feature.domain.DomainMovieDetailDataState
@@ -43,7 +44,7 @@ class RemoteMoviesRepositoryImpl @Inject constructor(
         }
 
     override suspend fun loadPageOfMovies(pageToLoad: Int, pageSize: Int): List<EntityMovieItem> {
-        val movies = service.getMoviesByType(page = pageToLoad.toString())
+        val movies = service.getMoviesByType(movieType = POPULAR, page = pageToLoad.toString())
         val newPage = mapper.fromRemoteToEntity(movies.body()!!)
         dao.insert(newPage)
         return newPage

@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
-        android:id="@+id/pbTotal"
+        android:id="@+id/pbPositiveTotal"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -33,14 +33,46 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
-        android:id="@+id/pbCurrentProgress"
+        android:id="@+id/pbPositiveProgress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:indeterminate="false"
         android:max="100"
-        android:progress="75"
+        android:progress="80"
         android:progressDrawable="@drawable/rating_positive_progress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pbNegativeTotal"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="100"
+        android:progressDrawable="@drawable/rating_negative_full"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pb_negative_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="80"
+        android:progressDrawable="@drawable/rating_negative_progress"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

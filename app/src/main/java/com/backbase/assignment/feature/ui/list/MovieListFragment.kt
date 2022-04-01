@@ -75,7 +75,10 @@ class MovieListFragment : Fragment() {
                 hideProgress()
             }
             APIState.Loading -> {
-                binding.nowPlayingMoviesView.hideView()
+                binding.run {
+                    srlList.visibility = View.GONE
+                    pbLoading.visibility = View.VISIBLE
+                }
             }
             is APIState.Success -> {
                 hideProgress()

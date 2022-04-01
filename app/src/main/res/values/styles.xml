@@ -3,10 +3,12 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/backgroundSecondaryColor</item>
+        <item name="colorPrimaryDark">@color/backgroundColor</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/backgroundSecondaryColor</item>
     </style>
+
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="colorControlNormal">@color/white</item>
         <item name="titleTextColor">@color/white</item>
