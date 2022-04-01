@@ -18,10 +18,11 @@ open class MoviesDaoTest : DatabaseTest() {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun insertAlbumTest() = runBlocking {
+    fun insertMoviesTest() = runBlocking {
         // Given
         val moviesDao = appDatabase.moviesDao()
         val movies = mutableListOf<EntityMovieItem>()
+
         for (num in 0 until 10) {
             movies.add(EntityMovieItem())
         }

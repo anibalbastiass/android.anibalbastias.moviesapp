@@ -6,5 +6,5 @@ data class DomainMovieDetail(
     val originalTitle: String,
     val releaseDate: String,
     val overview: String,
-    val genres: List<String>,
+    val genres: List<String>
 )
