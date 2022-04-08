@@ -45,6 +45,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    api project(path: lib_modules.uikit_compose)
+
     // Kotlin and Coroutines
     implementation deps.jetbrains.kotlinStdlib
     implementation deps.jetbrains.kotlinCoroutinesCore
