@@ -1,18 +1,19 @@
 package com.backbase.assignment.feature.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.backbase.assignment.feature.data.remote.state.APIState
-import com.backbase.assignment.feature.domain.usecase.GetMovieDetailUseCase
-import com.backbase.assignment.feature.domain.usecase.GetNowPlayingMoviesUseCase
 import com.backbase.assignment.feature.domain.UiMovieDataState
 import com.backbase.assignment.feature.domain.UiMovieDetailDataState
 import com.backbase.assignment.feature.domain.model.DomainMovieDetail
 import com.backbase.assignment.feature.domain.model.DomainMovieItem
+import com.backbase.assignment.feature.domain.usecase.GetMovieDetailUseCase
+import com.backbase.assignment.feature.domain.usecase.GetNowPlayingMoviesUseCase
 import com.backbase.assignment.feature.presentation.mapper.UiMovieMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,13 +25,17 @@ class MoviesViewModel @Inject constructor(
     private val mapper: UiMovieMapper,
 ) : ViewModel() {
 
-    private val _nowPlayingMovies = MutableLiveData<UiMovieDataState>()
-    val nowPlayingMovies: LiveData<UiMovieDataState>
+    private val _nowPlayingMovies = MutableStateFlow<UiMovieDataState>(APIState.Loading)
+    val nowPlayingMovies: StateFlow<UiMovieDataState>
         get() = _nowPlayingMovies
 
-    private val _detailMovies = MutableLiveData<UiMovieDetailDataState>()
-    val detailMovies: LiveData<UiMovieDetailDataState>
+    private val _detailMovies = MutableStateFlow<UiMovieDetailDataState>(APIState.Loading)
+    val detailMovies: StateFlow<UiMovieDetailDataState>
         get() = _detailMovies
+
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean>
+        get() = _isRefreshing.asStateFlow()
 
     fun getNowPlayingMovies() {
         viewModelScope.launch {

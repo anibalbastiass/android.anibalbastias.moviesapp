@@ -38,7 +38,16 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
-        viewBinding true
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion versions.deps.compose
+        kotlinCompilerVersion versions.deps.kotlin
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
     }
 }
 
@@ -65,9 +74,19 @@ dependencies {
     implementation deps.androidx.swipeRefreshLayout
 
     // Room + Paging
-    implementation deps.androidx.paging
+    implementation deps.androidx.paging // -> Migrate to Paging Compose
     implementation deps.androidx.room
     kapt deps.androidx.roomCompiler
+
+    // Compose
+    implementation deps.androidx.compose.ui
+    implementation deps.androidx.compose.material
+    implementation deps.androidx.compose.activity
+    implementation deps.androidx.compose.navigation
+    implementation deps.androidx.compose.constraintLayout
+    implementation deps.androidx.compose.accompanist.swipeRefresh
+    implementation deps.androidx.compose.uiPreview
+    debugImplementation deps.androidx.compose.uiPreviewDebug
 
     // Google
     implementation deps.google.material
@@ -81,7 +100,7 @@ dependencies {
     kapt deps.square.moshi.codeGen
 
     // 3rd party libs
-    implementation deps.thirdParty.coil
+    implementation deps.thirdParty.coilCompose
 
     // Dagger Hilt
     implementation deps.google.daggerHiltAndroid

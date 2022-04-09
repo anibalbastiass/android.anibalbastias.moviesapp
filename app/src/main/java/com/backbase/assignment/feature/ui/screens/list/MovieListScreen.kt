@@ -1,0 +1,61 @@
+package com.backbase.assignment.feature.ui.screens.list
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.backbase.assignment.R
+import com.backbase.assignment.feature.presentation.viewmodel.MoviesPagedViewModel
+import com.backbase.assignment.feature.presentation.viewmodel.MoviesViewModel
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+
+@Composable
+fun MovieListScreen(
+    moviesViewModel: MoviesViewModel,
+    moviesPagedViewModel: MoviesPagedViewModel,
+    movieDetailAction: (movieId: Int) -> Unit,
+) {
+    val nowPlayingState = moviesViewModel.nowPlayingMovies.collectAsState().value
+    moviesViewModel.getNowPlayingMovies()
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                backgroundColor = colorResource(id = R.color.backgroundColor),
+                title = {
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Image(
+                            painterResource(R.drawable.movies_logo),
+                            contentDescription = "MovieBox",
+                            modifier = Modifier.height(20.dp)
+                        )
+                    }
+                }
+            )
+        },
+        content = {
+            val isRefreshing by moviesViewModel.isRefreshing.collectAsState()
+            SwipeRefresh(
+                state = rememberSwipeRefreshState(isRefreshing),
+                onRefresh = {
+                    moviesViewModel.getNowPlayingMovies()
+                }
+            ) {
+                NowPlayingMoviesView(nowPlayingState, movieDetailAction)
+//                PopularMoviesViewContent(state)
+            }
+        }
+    )
+}
