@@ -4,17 +4,19 @@ import androidx.navigation.NavHostController
 
 class Actions(navHostController: NavHostController) {
 
-    companion object {
-        const val MOVIE_ID_KEY = "movieId"
+    val goBackAction: () -> Unit = {
+        navHostController.popBackStack()
     }
 
     val movieListAction: () -> Unit = {
-        navHostController.navigate(Routes.MOVIES_LIST.route)
+        navHostController.navigate(Routes.MoviesList.route)
     }
 
     val movieDetailAction: (movieId: Int) -> Unit = { movieId ->
         navHostController.navigate(
-            route = Routes.MOVIES_DETAIL.route.replace("{$MOVIE_ID_KEY}", "$movieId")
+            route = Routes.MoviesDetail(movieId).route
         )
     }
+
+
 }

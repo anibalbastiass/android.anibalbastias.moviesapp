@@ -1,8 +1,10 @@
 package com.backbase.assignment.feature.ui.navigation
 
-import com.backbase.assignment.feature.ui.navigation.Actions.Companion.MOVIE_ID_KEY
 
-enum class Routes(val route: String) {
-    MOVIES_LIST("movies"),
-    MOVIES_DETAIL("movies/{$MOVIE_ID_KEY}")
+sealed class Routes(val route: String) {
+    object MoviesList : Routes("movies")
+    class MoviesDetail(
+        userId: Int = 0,
+        val path: String = "movies/{$MOVIE_ID_KEY}",
+    ) : Routes("movies/$userId")
 }

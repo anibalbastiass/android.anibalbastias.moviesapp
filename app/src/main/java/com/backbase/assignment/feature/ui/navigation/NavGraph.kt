@@ -9,25 +9,27 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.backbase.assignment.feature.presentation.viewmodel.MoviesPagedViewModel
 import com.backbase.assignment.feature.presentation.viewmodel.MoviesViewModel
-import com.backbase.assignment.feature.ui.navigation.Actions.Companion.MOVIE_ID_KEY
-import com.backbase.assignment.feature.ui.screens.list.MovieDetailScreen
+import com.backbase.assignment.feature.ui.screens.detail.MovieDetailScreen
 import com.backbase.assignment.feature.ui.screens.list.MovieListScreen
+
+const val MOVIE_ID_KEY = "movieId"
 
 @Composable
 fun NavGraph(
-    startDestination: String = Routes.MOVIES_LIST.route,
+    startDestination: String = Routes.MoviesList.route,
     moviesViewModel: MoviesViewModel,
     moviesPagedViewModel: MoviesPagedViewModel,
 ) {
     val navController = rememberNavController()
     val actions = remember(navController) { Actions(navController) }
+    val onBack = { actions.goBackAction() }
 
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
         // Movie List
-        composable(route = Routes.MOVIES_LIST.route) {
+        composable(route = Routes.MoviesList.route) {
             MovieListScreen(
                 moviesViewModel = moviesViewModel,
                 moviesPagedViewModel = moviesPagedViewModel,
@@ -37,12 +39,13 @@ fun NavGraph(
 
         // Movie Detail
         composable(
-            route = Routes.MOVIES_DETAIL.route,
+            route = Routes.MoviesDetail().path,
             arguments = listOf(navArgument(MOVIE_ID_KEY) { type = NavType.IntType })
         ) { backStackEntry ->
             MovieDetailScreen(
                 movieId = backStackEntry.arguments?.getInt(MOVIE_ID_KEY),
-                moviesViewModel = moviesViewModel
+                moviesViewModel = moviesViewModel,
+                onBack = onBack
             )
         }
     }
