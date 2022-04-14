@@ -1,6 +1,6 @@
 package com.backbase.assignment.feature.data.local.dao
 
-import androidx.paging.DataSource
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -12,11 +12,11 @@ import com.backbase.assignment.feature.data.local.model.EntityMovieItem
 interface MoviesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(movies: List<EntityMovieItem>)
+    suspend fun insertAll(movies: List<EntityMovieItem>)
 
     @Query("SELECT * FROM ${DBConstants.MOVIES_TABLE}")
-    fun getMovies(): DataSource.Factory<Int, EntityMovieItem>
+    fun getAllMovies(): PagingSource<Int, EntityMovieItem>
 
     @Query("DELETE FROM ${DBConstants.MOVIES_TABLE}")
-    fun clearMovies()
+    fun clearAll()
 }

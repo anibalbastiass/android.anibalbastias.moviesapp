@@ -1,15 +1,13 @@
 package com.backbase.assignment.feature.data.remote
 
-import androidx.paging.DataSource
+import androidx.paging.PagingSource
 import com.backbase.assignment.feature.data.local.dao.MoviesDao
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem
 import com.backbase.assignment.feature.data.remote.mapper.RemoteMovieItemMapper
-import com.backbase.assignment.feature.data.remote.model.RemoteConstants.POPULAR
 import com.backbase.assignment.feature.data.remote.state.APIState
 import com.backbase.assignment.feature.domain.DomainMovieDataState
 import com.backbase.assignment.feature.domain.DomainMovieDetailDataState
 import com.backbase.assignment.feature.domain.repository.RemoteMoviesRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -43,16 +41,7 @@ class RemoteMoviesRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun loadPageOfMovies(pageToLoad: Int, pageSize: Int): List<EntityMovieItem> {
-        val movies = service.getMoviesByType(movieType = POPULAR, page = pageToLoad.toString())
-        val newPage = mapper.fromRemoteToEntity(movies.body()!!)
-        dao.insert(newPage)
-        return newPage
-    }
-
-    override fun getPopularMovies(): DataSource.Factory<Int, EntityMovieItem> {
-        return dao.getMovies()
-    }
+    override fun getPopularMovies(): PagingSource<Int, EntityMovieItem> = dao.getAllMovies()
 
     override suspend fun getMovieById(movieId: String): Flow<DomainMovieDetailDataState> =
         flow {

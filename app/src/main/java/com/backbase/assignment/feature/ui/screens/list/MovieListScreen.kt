@@ -1,7 +1,10 @@
 package com.backbase.assignment.feature.ui.screens.list
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -11,20 +14,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.backbase.assignment.R
-import com.backbase.assignment.feature.presentation.viewmodel.MoviesPagedViewModel
+import com.backbase.assignment.feature.presentation.viewmodel.MoviesPagingViewModel
 import com.backbase.assignment.feature.presentation.viewmodel.MoviesViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
+@ExperimentalPagingApi
 fun MovieListScreen(
     moviesViewModel: MoviesViewModel,
-    moviesPagedViewModel: MoviesPagedViewModel,
+    moviesPagingViewModel: MoviesPagingViewModel,
     movieDetailAction: (movieId: Int) -> Unit,
 ) {
     val nowPlayingState = moviesViewModel.nowPlayingMovies.collectAsState().value
     moviesViewModel.getNowPlayingMovies()
+
+    val moviesListItems = moviesPagingViewModel.pagedMovieList.collectAsLazyPagingItems()
 
     Scaffold(
         topBar = {
@@ -47,14 +55,14 @@ fun MovieListScreen(
         },
         content = {
             val isRefreshing by moviesViewModel.isRefreshing.collectAsState()
+
             SwipeRefresh(
                 state = rememberSwipeRefreshState(isRefreshing),
                 onRefresh = {
                     moviesViewModel.getNowPlayingMovies()
                 }
             ) {
-                NowPlayingMoviesView(nowPlayingState, movieDetailAction)
-//                PopularMoviesViewContent(state)
+                PopularMoviesView(nowPlayingState, moviesListItems, movieDetailAction)
             }
         }
     )

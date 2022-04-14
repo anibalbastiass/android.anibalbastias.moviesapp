@@ -1,11 +1,14 @@
 package com.backbase.assignment.feature.di
 
-import android.app.Application
+import android.content.Context
+import androidx.room.Room
 import com.backbase.assignment.feature.data.local.MoviesDatabase
 import com.backbase.assignment.feature.data.local.dao.MoviesDao
+import com.backbase.assignment.feature.data.local.model.DBConstants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -13,11 +16,14 @@ import javax.inject.Singleton
 @Module
 object DataLocalModule {
 
-    @Singleton
     @Provides
-    fun provideAlbumDatabase(application: Application): MoviesDatabase {
-        return MoviesDatabase.getInstance(application)
-            ?: throw RuntimeException("Database is not ready")
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext appContext: Context): MoviesDatabase {
+        return Room.databaseBuilder(
+            appContext,
+            MoviesDatabase::class.java,
+            DBConstants.DATABASE_NAME
+        ).build()
     }
 
     @Singleton

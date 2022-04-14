@@ -1,14 +1,11 @@
 package com.backbase.assignment.feature.di
 
-import androidx.paging.PagedList
+import androidx.paging.ExperimentalPagingApi
 import com.backbase.assignment.feature.data.remote.RemoteMoviesRepositoryImpl
-import com.backbase.assignment.feature.data.remote.model.RemoteConstants.FIRST_PAGE
-import com.backbase.assignment.feature.data.remote.model.RemoteConstants.PAGE_SIZE
-import com.backbase.assignment.feature.data.remote.paging.PageLoadingMoviesCallback
+import com.backbase.assignment.feature.domain.mediator.MoviesPagingMediator
 import com.backbase.assignment.feature.domain.usecase.GetMovieDetailUseCase
 import com.backbase.assignment.feature.domain.usecase.GetNowPlayingMoviesUseCase
-import com.backbase.assignment.feature.domain.usecase.GetPagedPopularMoviesUseCase
-import com.backbase.assignment.feature.domain.usecase.GetPopularMoviesUseCase
+import com.backbase.assignment.feature.domain.usecase.GetPagingMoviesUseCase
 import com.backbase.assignment.feature.presentation.mapper.UiMovieMapper
 import dagger.Module
 import dagger.Provides
@@ -18,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlin.coroutines.CoroutineContext
 
+@ExperimentalPagingApi
 @Module
 @InstallIn(ViewModelComponent::class)
 object PresentationModule {
@@ -33,17 +31,12 @@ object PresentationModule {
     }
 
     @Provides
-    fun provideGetPopularMoviesUseCase(
-        remote: RemoteMoviesRepositoryImpl,
-    ): GetPopularMoviesUseCase {
-        return GetPopularMoviesUseCase(remote)
-    }
-
-    @Provides
     fun provideGetPagedPopularMoviesUseCase(
         remote: RemoteMoviesRepositoryImpl,
-    ): GetPagedPopularMoviesUseCase {
-        return GetPagedPopularMoviesUseCase(remote)
+        mapper: UiMovieMapper,
+        mediator: MoviesPagingMediator,
+    ): GetPagingMoviesUseCase {
+        return GetPagingMoviesUseCase(remote, mapper, mediator)
     }
 
     @Provides
@@ -56,22 +49,5 @@ object PresentationModule {
     @Provides
     fun providePagedCoroutineContext(): CoroutineContext {
         return SupervisorJob() + Dispatchers.Main
-    }
-
-    @Provides
-    fun providePageLoadingBoundaryCallback(
-        coroutineContext: CoroutineContext,
-        useCase: GetPopularMoviesUseCase,
-    ): PageLoadingMoviesCallback {
-        return PageLoadingMoviesCallback(coroutineContext, useCase, FIRST_PAGE, PAGE_SIZE)
-    }
-
-    @Provides
-    fun providePagedListConfig(): PagedList.Config {
-        return PagedList.Config.Builder()
-            .setPageSize(PAGE_SIZE)
-            .setMaxSize(224)
-            .setPrefetchDistance(PAGE_SIZE * 2)
-            .build()
     }
 }

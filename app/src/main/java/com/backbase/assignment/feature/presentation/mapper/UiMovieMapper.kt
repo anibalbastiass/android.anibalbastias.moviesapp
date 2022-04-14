@@ -1,5 +1,6 @@
 package com.backbase.assignment.feature.presentation.mapper
 
+import com.backbase.assignment.feature.data.local.model.EntityMovieItem
 import com.backbase.assignment.feature.domain.model.DomainMovieDetail
 import com.backbase.assignment.feature.domain.model.DomainMovieItem
 import com.backbase.assignment.feature.presentation.model.UiMovieDetail
@@ -8,6 +9,14 @@ import com.backbase.assignment.feature.presentation.model.UiMovieItem
 class UiMovieMapper {
     fun DomainMovieItem.fromDomainToUi() = UiMovieItem(
         id = id,
+        posterPath = posterPath,
+        originalTitle = originalTitle,
+        voteAverage = voteAverage,
+        releaseDate = releaseDate
+    )
+
+    fun EntityMovieItem.fromEntityToUi() = UiMovieItem(
+        id = id.toLong(),
         posterPath = posterPath,
         originalTitle = originalTitle,
         voteAverage = voteAverage,

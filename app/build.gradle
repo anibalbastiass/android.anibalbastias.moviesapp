@@ -67,16 +67,22 @@ dependencies {
     implementation deps.androidx.constraintLayout
     implementation deps.androidx.constraintLayoutSolver
     implementation deps.androidx.fragmentKtx
-    implementation deps.androidx.lifecycleLiveData
-    implementation deps.androidx.lifecycleViewModel
+    implementation deps.androidx.lifecycle.liveData
+    implementation deps.androidx.lifecycle.viewModel
+    implementation deps.androidx.lifecycle.runtimeKtx
     implementation deps.androidx.navigationFragment
     implementation deps.androidx.recyclerView
     implementation deps.androidx.swipeRefreshLayout
 
-    // Room + Paging
-    implementation deps.androidx.paging // -> Migrate to Paging Compose
-    implementation deps.androidx.room
-    kapt deps.androidx.roomCompiler
+    // Room
+    implementation deps.androidx.room.runtime
+    implementation deps.androidx.room.ktx
+    implementation deps.androidx.room.paging
+    kapt deps.androidx.room.compiler
+
+    // Paging
+    implementation deps.androidx.paging.runtime
+    implementation deps.androidx.paging.compose
 
     // Compose
     implementation deps.androidx.compose.ui
@@ -85,6 +91,7 @@ dependencies {
     implementation deps.androidx.compose.navigation
     implementation deps.androidx.compose.constraintLayout
     implementation deps.androidx.compose.accompanist.swipeRefresh
+    implementation deps.androidx.compose.accompanist.navigationAnimation
     implementation deps.androidx.compose.uiPreview
     debugImplementation deps.androidx.compose.uiPreviewDebug
 
@@ -103,12 +110,13 @@ dependencies {
     implementation deps.thirdParty.coilCompose
 
     // Dagger Hilt
-    implementation deps.google.daggerHiltAndroid
-    implementation deps.androidx.daggerHiltViewModel
+    implementation deps.google.daggerHilt.android
+    implementation deps.androidx.daggerHilt.viewModel
+    implementation deps.androidx.daggerHilt.navigationCompose
 
     // Dagger Hilt Compiler
-    kapt deps.google.daggerHiltCompiler
-    kapt deps.androidx.daggerHiltCompiler
+    kapt deps.google.daggerHilt.compiler
+    kapt deps.androidx.daggerHilt.compiler
 
     // Coroutines tests
     testImplementation deps.test.androidx.coreTesting

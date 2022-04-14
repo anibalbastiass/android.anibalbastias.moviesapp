@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.LivePagedListBuilder
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem
-import com.backbase.assignment.utils.getFirst
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -28,13 +27,13 @@ open class MoviesDaoTest : DatabaseTest() {
         }
 
         // When
-        val liveData = LivePagedListBuilder(moviesDao.getMovies(), 10).build()
+        val liveData = LivePagedListBuilder(moviesDao.getAllMovies(), 10).build()
 
         // Then
-        moviesDao.insert(movies)
+        moviesDao.insertAll(movies)
         assertEquals(liveData.getFirst().size, 1)
 
-        moviesDao.clearMovies()
+        moviesDao.clearAll()
         assertEquals(liveData.getFirst().size, 0)
     }
 }

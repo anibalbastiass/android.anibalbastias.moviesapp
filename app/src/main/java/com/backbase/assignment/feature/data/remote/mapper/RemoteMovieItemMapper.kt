@@ -3,8 +3,6 @@ package com.backbase.assignment.feature.data.remote.mapper
 import android.annotation.SuppressLint
 import com.backbase.assignment.BuildConfig
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem
-import com.backbase.assignment.feature.data.remote.model.RemoteConstants.PAGE_SIZE
-import com.backbase.assignment.feature.data.remote.model.RemoteMovieData
 import com.backbase.assignment.feature.data.remote.model.RemoteMovieDetail
 import com.backbase.assignment.feature.data.remote.model.RemoteMovieResult
 import com.backbase.assignment.feature.domain.model.DomainMovieDetail
@@ -14,22 +12,16 @@ import java.util.*
 
 class RemoteMovieItemMapper {
 
-    fun fromRemoteToEntity(response: RemoteMovieData): List<EntityMovieItem> {
-        val firstIndex = (response.page!! - 1) * PAGE_SIZE
-        return response.results!!.mapIndexed { index, productResponse ->
-            fromRemoteToEntity(productResponse, (firstIndex + index).toLong())
-        }.toList()
-    }
-
-    private fun fromRemoteToEntity(movie: RemoteMovieResult, index: Long): EntityMovieItem {
-        return EntityMovieItem(
-            index = index,
-            movieId = movie.id ?: 0,
-            posterPath = movie.posterPath,
-            originalTitle = movie.originalTitle ?: "",
-            voteAverage = movie.voteAverage ?: 0.0,
-            releaseDate = movie.releaseDate ?: ""
-        )
+    fun fromRemoteToEntity(results: List<RemoteMovieResult>?): List<EntityMovieItem> {
+        return results!!.map { movie ->
+            EntityMovieItem(
+                id = movie.id.toString(),
+                posterPath = movie.posterPath,
+                originalTitle = movie.originalTitle ?: "",
+                voteAverage = movie.voteAverage ?: 0.0,
+                releaseDate = movie.releaseDate
+            )
+        }
     }
 
     fun RemoteMovieResult.fromRemoteToDomain() = DomainMovieItem(

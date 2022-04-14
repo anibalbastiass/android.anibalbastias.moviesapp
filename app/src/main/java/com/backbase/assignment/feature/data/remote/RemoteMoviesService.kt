@@ -15,6 +15,11 @@ interface RemoteMoviesService {
         @Query("page") page: String = "undefined"
     ): Response<RemoteMovieData>
 
+    @GET("movie/popular")
+    suspend fun getPagedMovies(
+        @Query("page") page: Int
+    ): RemoteMovieData
+
     @GET("movie/{movie_id}")
     suspend fun getMovieById(
         @Path("movie_id") movieId: String = ""

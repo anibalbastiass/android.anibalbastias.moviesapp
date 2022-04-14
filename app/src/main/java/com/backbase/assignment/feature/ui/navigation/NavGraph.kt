@@ -2,12 +2,14 @@ package com.backbase.assignment.feature.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.backbase.assignment.feature.presentation.viewmodel.MoviesPagedViewModel
+import androidx.paging.ExperimentalPagingApi
+import com.backbase.assignment.feature.presentation.viewmodel.MoviesPagingViewModel
 import com.backbase.assignment.feature.presentation.viewmodel.MoviesViewModel
 import com.backbase.assignment.feature.ui.screens.detail.MovieDetailScreen
 import com.backbase.assignment.feature.ui.screens.list.MovieListScreen
@@ -15,10 +17,11 @@ import com.backbase.assignment.feature.ui.screens.list.MovieListScreen
 const val MOVIE_ID_KEY = "movieId"
 
 @Composable
+@ExperimentalPagingApi
 fun NavGraph(
     startDestination: String = Routes.MoviesList.route,
-    moviesViewModel: MoviesViewModel,
-    moviesPagedViewModel: MoviesPagedViewModel,
+    moviesViewModel: MoviesViewModel = hiltViewModel(),
+    moviesPagingViewModel: MoviesPagingViewModel = hiltViewModel(),
 ) {
     val navController = rememberNavController()
     val actions = remember(navController) { Actions(navController) }
@@ -32,7 +35,7 @@ fun NavGraph(
         composable(route = Routes.MoviesList.route) {
             MovieListScreen(
                 moviesViewModel = moviesViewModel,
-                moviesPagedViewModel = moviesPagedViewModel,
+                moviesPagingViewModel = moviesPagingViewModel,
                 movieDetailAction = actions.movieDetailAction
             )
         }
