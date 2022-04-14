@@ -22,6 +22,7 @@ import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.anibalbastias.uikitcompose.components.atom.Body1
+import com.anibalbastias.uikitcompose.components.atom.Body2
 import com.backbase.assignment.R
 import com.backbase.assignment.feature.domain.UiMovieDataState
 import com.backbase.assignment.feature.presentation.model.UiMovieItem
@@ -103,18 +104,36 @@ fun MovieListItemView(
     movieDetailAction: (movieId: Int) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .clickable { movieDetailAction.invoke(movie.id.toInt()) }
-            .fillMaxWidth()
+        modifier = Modifier.clickable { movieDetailAction.invoke(movie.id.toInt()) }
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(movie.posterPath)
-                .crossfade(true)
-                .build(),
-            contentDescription = movie.originalTitle,
+        Row(
             modifier = Modifier
-                .height(100.dp),
+                .background(color = colorResource(id = R.color.backgroundColor))
+                .padding(10.dp)
+                .fillMaxWidth()
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(movie.posterPath)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = movie.originalTitle,
+                modifier = Modifier
+                    .height(100.dp),
+            )
+
+            Column(modifier = Modifier.padding(10.dp)) {
+                Body1(text = movie.originalTitle, color = colorResource(id = R.color.textColor))
+                Body2(text = movie.releaseDate, color = colorResource(id = R.color.textColor))
+            }
+
+            MovieRatingView(movie.voteAverage)
+        }
+
+        Box(modifier = Modifier
+            .background(color = colorResource(id = R.color.backgroundSecondaryColor))
+            .height(10.dp)
+            .fillMaxWidth()
         )
     }
 }
