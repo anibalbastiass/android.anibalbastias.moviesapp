@@ -1,5 +1,7 @@
 package com.backbase.assignment.feature.ui.screens.list
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -17,9 +21,12 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.anibalbastias.uikitcompose.components.atom.Body1
+import com.backbase.assignment.R
 import com.backbase.assignment.feature.domain.UiMovieDataState
 import com.backbase.assignment.feature.presentation.model.UiMovieItem
 
+@ExperimentalFoundationApi
 @Composable
 fun PopularMoviesView(
     nowPlayingState: UiMovieDataState,
@@ -29,8 +36,16 @@ fun PopularMoviesView(
     val lazyListState = rememberLazyListState()
 
     LazyColumn(state = lazyListState) {
+        stickyHeader {
+            StickyHeaderMovie(title = stringResource(id = R.string.now_playing))
+        }
+
         item {
             NowPlayingMoviesView(nowPlayingState, movieDetailAction)
+        }
+
+        stickyHeader {
+            StickyHeaderMovie(title = stringResource(id = R.string.most_popular))
         }
 
         items(moviesListItems) { item ->
@@ -40,6 +55,18 @@ fun PopularMoviesView(
         }
         loadState(moviesListItems.loadState)
     }
+}
+
+@Composable
+fun StickyHeaderMovie(title: String) {
+    Body1(
+        text = title,
+        color = colorResource(id = R.color.titleColor),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = colorResource(id = R.color.backgroundSecondaryColor))
+            .padding(16.dp)
+    )
 }
 
 fun LazyListScope.loadState(loadState: CombinedLoadStates) {

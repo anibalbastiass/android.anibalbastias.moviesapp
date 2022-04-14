@@ -36,14 +36,6 @@ fun NowPlayingMoviesView(state: UiMovieDataState, movieDetailAction: (movieId: I
 @Composable
 fun NowPlayingViewSuccess(data: List<UiMovieItem>, movieDetailAction: (movieId: Int) -> Unit) {
     Column {
-        Body1(
-            text = "Now Playing",
-            color = colorResource(id = R.color.titleColor),
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = colorResource(id = R.color.backgroundSecondaryColor))
-                .padding(16.dp)
-        )
         LazyRow {
             items(data) { movie ->
                 AsyncImage(

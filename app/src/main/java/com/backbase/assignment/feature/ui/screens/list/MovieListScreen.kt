@@ -1,5 +1,6 @@
 package com.backbase.assignment.feature.ui.screens.list
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
+@ExperimentalFoundationApi
 @ExperimentalPagingApi
 fun MovieListScreen(
     moviesViewModel: MoviesViewModel,
