@@ -122,10 +122,14 @@ fun MovieListItemView(
                     .height(100.dp),
             )
 
-            Column(modifier = Modifier.padding(10.dp)) {
+            Column(modifier = Modifier
+                .padding(10.dp)
+                .weight(1f)
+            ) {
                 Body1(text = movie.originalTitle, color = colorResource(id = R.color.textColor))
                 Body2(text = movie.releaseDate, color = colorResource(id = R.color.textColor))
             }
+
 
             MovieRatingView(movie.voteAverage)
         }
