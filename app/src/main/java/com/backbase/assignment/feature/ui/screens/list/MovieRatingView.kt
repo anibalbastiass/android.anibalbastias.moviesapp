@@ -1,5 +1,6 @@
 package com.backbase.assignment.feature.ui.screens.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
@@ -11,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstrainedLayoutReference
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintLayoutScope
+import com.anibalbastias.uikitcompose.components.atom.Caption
 import com.anibalbastias.uikitcompose.components.atom.HeadlineH5
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
 import com.backbase.assignment.R
@@ -20,11 +22,14 @@ import kotlin.math.roundToInt
 fun MovieRatingView(voteAverage: Double) {
     ConstraintLayout(
         modifier = Modifier
+            .background(
+                color = colorResource(id = R.color.backgroundColor)
+            )
             .width(100.dp)
             .height(100.dp)
             .padding(20.dp)
     ) {
-        val (progress, total, text) = createRefs()
+        val (progress, total, text, percentage) = createRefs()
         val value = (voteAverage / 10).toFloat()
         val formattedValue = (voteAverage * 10).roundToInt()
 
@@ -57,7 +62,14 @@ fun MovieRatingView(voteAverage: Double) {
             }
         )
 
-        // TODO: Add % text
+        Caption(
+            text = "%",
+            color = colorResource(id = R.color.textColor),
+            modifier = Modifier.constrainAs(percentage) {
+                top.linkTo(text.top)
+                start.linkTo(text.end)
+            }.padding(top = 5.dp)
+        )
     }
 }
 

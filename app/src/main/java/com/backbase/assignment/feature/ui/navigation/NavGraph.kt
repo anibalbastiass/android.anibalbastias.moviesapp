@@ -1,5 +1,6 @@
 package com.backbase.assignment.feature.ui.navigation
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -16,6 +17,7 @@ import com.backbase.assignment.feature.ui.screens.list.MovieListScreen
 
 const val MOVIE_ID_KEY = "movieId"
 
+@ExperimentalFoundationApi
 @Composable
 @ExperimentalPagingApi
 fun NavGraph(

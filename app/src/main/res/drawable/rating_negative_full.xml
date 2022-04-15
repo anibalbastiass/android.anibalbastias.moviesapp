@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:innerRadius="25dp"
-    android:shape="ring"
-    android:thickness="5dp"
-    android:useLevel="true">
-    <solid android:color="@color/ratingNegativeBackground" />
-</shape>
