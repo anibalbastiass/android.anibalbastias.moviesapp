@@ -1,22 +1,19 @@
 package com.backbase.assignment.feature.ui.screens.list
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.anibalbastias.uikitcompose.components.atom.Body1
-import com.backbase.assignment.R
+import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
 import com.backbase.assignment.feature.data.remote.state.APIState
 import com.backbase.assignment.feature.domain.UiMovieDataState
 import com.backbase.assignment.feature.presentation.model.UiMovieItem
@@ -49,6 +46,25 @@ fun NowPlayingViewSuccess(data: List<UiMovieItem>, movieDetailAction: (movieId: 
                         .clickable { movieDetailAction.invoke(movie.id.toInt()) },
                 )
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun NowPlayingViewSuccessPreview() {
+    Surface {
+        UIKitComposeTheme {
+            val data = (0..10).map {
+                UiMovieItem(
+                    id = 1L,
+                    posterPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
+                    originalTitle = "The Mask",
+                    voteAverage = 8.5,
+                    releaseDate = "March 30, 2022"
+                )
+            }
+            NowPlayingViewSuccess(data) {}
         }
     }
 }

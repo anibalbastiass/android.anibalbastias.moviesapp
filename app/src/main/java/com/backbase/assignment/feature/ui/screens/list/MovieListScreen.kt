@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState
 import com.backbase.assignment.R
 import com.backbase.assignment.feature.presentation.viewmodel.MoviesPagingViewModel
 import com.backbase.assignment.feature.presentation.viewmodel.MoviesViewModel

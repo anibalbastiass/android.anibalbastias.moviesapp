@@ -6,14 +6,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -23,6 +24,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.anibalbastias.uikitcompose.components.atom.Body1
 import com.anibalbastias.uikitcompose.components.atom.Body2
+import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
+import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState
 import com.backbase.assignment.R
 import com.backbase.assignment.feature.domain.UiMovieDataState
 import com.backbase.assignment.feature.presentation.model.UiMovieItem
@@ -34,27 +37,32 @@ fun PopularMoviesView(
     moviesListItems: LazyPagingItems<UiMovieItem>,
     movieDetailAction: (movieId: Int) -> Unit,
 ) {
-    val lazyListState = rememberLazyListState()
+    val lazyListState = rememberForeverLazyListState(key = "PopularMovies")
 
-    LazyColumn(state = lazyListState) {
-        stickyHeader {
-            StickyHeaderMovie(title = stringResource(id = R.string.now_playing))
-        }
+    when (moviesListItems.itemCount) {
+        0 -> LoadingItem()
+        else -> {
+            LazyColumn(state = lazyListState) {
+                stickyHeader {
+                    StickyHeaderMovie(title = stringResource(id = R.string.now_playing))
+                }
 
-        item {
-            NowPlayingMoviesView(nowPlayingState, movieDetailAction)
-        }
+                item {
+                    NowPlayingMoviesView(nowPlayingState, movieDetailAction)
+                }
 
-        stickyHeader {
-            StickyHeaderMovie(title = stringResource(id = R.string.most_popular))
-        }
+                stickyHeader {
+                    StickyHeaderMovie(title = stringResource(id = R.string.most_popular))
+                }
 
-        items(moviesListItems) { item ->
-            if (item != null) {
-                MovieListItemView(movie = item, movieDetailAction = movieDetailAction)
+                items(moviesListItems) { item ->
+                    if (item != null) {
+                        MovieListItemView(movie = item, movieDetailAction = movieDetailAction)
+                    }
+                }
+                loadState(moviesListItems.loadState)
             }
         }
-        loadState(moviesListItems.loadState)
     }
 }
 
@@ -90,11 +98,11 @@ fun LoadingItem() {
     CircularProgressIndicator(
         modifier =
         Modifier
-            .fillMaxWidth()
+            .background(colorResource(id = R.color.backgroundSecondaryColor))
+            .fillMaxSize()
             .padding(16.dp)
-            .wrapContentWidth(
-                Alignment.CenterHorizontally
-            )
+            .wrapContentHeight(Alignment.CenterVertically)
+            .wrapContentWidth(Alignment.CenterHorizontally)
     )
 }
 
@@ -104,7 +112,8 @@ fun MovieListItemView(
     movieDetailAction: (movieId: Int) -> Unit,
 ) {
     Column(
-        modifier = Modifier.clickable { movieDetailAction.invoke(movie.id.toInt()) }
+        modifier = Modifier
+            .clickable { movieDetailAction.invoke(movie.id.toInt()) }
     ) {
         Row(
             modifier = Modifier
@@ -117,9 +126,10 @@ fun MovieListItemView(
                     .data(movie.posterPath)
                     .crossfade(true)
                     .build(),
-                contentDescription = movie.originalTitle,
                 modifier = Modifier
+                    .width(60.dp)
                     .height(100.dp),
+                contentDescription = movie.originalTitle
             )
 
             Column(modifier = Modifier
@@ -130,7 +140,6 @@ fun MovieListItemView(
                 Body2(text = movie.releaseDate, color = colorResource(id = R.color.textColor))
             }
 
-
             MovieRatingView(movie.voteAverage)
         }
 
@@ -139,5 +148,33 @@ fun MovieListItemView(
             .height(10.dp)
             .fillMaxWidth()
         )
+    }
+}
+
+@Preview
+@Composable
+fun StickyHeaderMoviePreview() {
+    Surface {
+        UIKitComposeTheme {
+            StickyHeaderMovie("Popular Movies")
+        }
+    }
+}
+
+@Preview
+@Composable
+fun MovieListItemViewPreview() {
+    Surface {
+        UIKitComposeTheme {
+            val movie = UiMovieItem(
+                id = 1L,
+                posterPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
+                originalTitle = "The Mask",
+                voteAverage = 8.5,
+                releaseDate = "March 30, 2022"
+            )
+
+            MovieListItemView(movie) {}
+        }
     }
 }
