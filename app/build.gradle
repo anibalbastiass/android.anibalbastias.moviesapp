@@ -92,6 +92,7 @@ dependencies {
     implementation deps.androidx.compose.constraintLayout
     implementation deps.androidx.compose.accompanist.swipeRefresh
     implementation deps.androidx.compose.accompanist.navigationAnimation
+    implementation deps.androidx.compose.accompanist.flowLayout
     implementation deps.androidx.compose.uiPreview
     debugImplementation deps.androidx.compose.uiPreviewDebug
 
