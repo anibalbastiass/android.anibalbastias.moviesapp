@@ -62,7 +62,7 @@ fun MovieListScreen(
             SwipeRefresh(
                 state = rememberSwipeRefreshState(isRefreshing),
                 onRefresh = {
-                    moviesViewModel.getNowPlayingMovies()
+                    moviesViewModel.getNowPlayingMovies(true)
                 }
             ) {
                 PopularMoviesView(nowPlayingState, moviesListItems, movieDetailAction)

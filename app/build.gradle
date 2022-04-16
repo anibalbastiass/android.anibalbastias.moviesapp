@@ -109,6 +109,7 @@ dependencies {
 
     // 3rd party libs
     implementation deps.thirdParty.coilCompose
+    implementation deps.thirdParty.sharedElementCompose
 
     // Dagger Hilt
     implementation deps.google.daggerHilt.android

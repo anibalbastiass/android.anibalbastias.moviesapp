@@ -11,6 +11,7 @@ import com.backbase.assignment.feature.domain.usecase.GetMovieDetailUseCase
 import com.backbase.assignment.feature.domain.usecase.GetNowPlayingMoviesUseCase
 import com.backbase.assignment.feature.presentation.mapper.UiMovieMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,16 +38,25 @@ class MoviesViewModel @Inject constructor(
     val isRefreshing: StateFlow<Boolean>
         get() = _isRefreshing.asStateFlow()
 
-    fun getNowPlayingMovies() {
+    fun getNowPlayingMovies(isRefreshing: Boolean = false) {
+        if (isRefreshing) _isRefreshing.value = true
+
         viewModelScope.launch {
             listUseCase.execute()
                 .catch {
                     _nowPlayingMovies.value = APIState.Error("No Internet Connection")
+                    hideRefreshing()
                 }
                 .collect { dataState ->
                     _nowPlayingMovies.value = transformListState(dataState)
+                    hideRefreshing()
                 }
         }
+    }
+
+    private suspend fun hideRefreshing() {
+        delay(500)
+        _isRefreshing.value = false
     }
 
     fun getMovieDetail(movieId: String) {
