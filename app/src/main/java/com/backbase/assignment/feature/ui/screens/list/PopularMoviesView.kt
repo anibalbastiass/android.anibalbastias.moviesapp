@@ -19,16 +19,21 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.items
+import androidx.paging.compose.itemsIndexed
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.anibalbastias.uikitcompose.components.atom.Body1
 import com.anibalbastias.uikitcompose.components.atom.Body2
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
+import com.anibalbastias.uikitcompose.utils.SharedUtils
+import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedListBoxContainer
+import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedListElementContainer
 import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState
 import com.backbase.assignment.R
 import com.backbase.assignment.feature.domain.UiMovieDataState
 import com.backbase.assignment.feature.presentation.model.UiMovieItem
+import com.mxalbert.sharedelements.LocalSharedElementsRootScope
+import com.mxalbert.sharedelements.SharedElementsRootScope
 
 @ExperimentalFoundationApi
 @Composable
@@ -38,6 +43,8 @@ fun PopularMoviesView(
     movieDetailAction: (movieId: Int) -> Unit,
 ) {
     val lazyListState = rememberForeverLazyListState(key = "PopularMovies")
+
+    val scope = LocalSharedElementsRootScope.current!!
 
     when (moviesListItems.itemCount) {
         0 -> LoadingItem()
@@ -55,9 +62,14 @@ fun PopularMoviesView(
                     StickyHeaderMovie(title = stringResource(id = R.string.most_popular))
                 }
 
-                items(moviesListItems) { item ->
+                itemsIndexed(moviesListItems) { index, item ->
                     if (item != null) {
-                        MovieListItemView(movie = item, movieDetailAction = movieDetailAction)
+                        MovieListItemView(
+                            index = index,
+                            movie = item,
+                            movieDetailAction = movieDetailAction,
+                            scope = scope
+                        )
                     }
                 }
                 loadState(moviesListItems.loadState)
@@ -110,10 +122,24 @@ fun LoadingItem() {
 fun MovieListItemView(
     movie: UiMovieItem,
     movieDetailAction: (movieId: Int) -> Unit,
+    scope: SharedElementsRootScope,
+    index: Int,
 ) {
     Column(
         modifier = Modifier
-            .clickable { movieDetailAction.invoke(movie.id.toInt()) }
+            .clickable(
+                enabled = !scope.isRunningTransition
+            ) {
+                with(SharedUtils) {
+                    scope.changeItem(
+                        index,
+                        movie.posterPath,
+                        movie.originalTitle,
+                        movie.releaseDate
+                    )
+                }
+                movieDetailAction.invoke(movie.id.toInt())
+            }
     ) {
         Row(
             modifier = Modifier
@@ -121,23 +147,29 @@ fun MovieListItemView(
                 .padding(10.dp)
                 .fillMaxWidth()
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(movie.posterPath)
-                    .crossfade(true)
-                    .build(),
-                modifier = Modifier
-                    .width(60.dp)
-                    .height(100.dp),
-                contentDescription = movie.originalTitle
-            )
+            SharedListBoxContainer(movie.posterPath + index) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(movie.posterPath)
+                        .crossfade(true)
+                        .build(),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(100.dp),
+                    contentDescription = movie.originalTitle
+                )
+            }
 
             Column(modifier = Modifier
                 .padding(10.dp)
                 .weight(1f)
             ) {
-                Body1(text = movie.originalTitle, color = colorResource(id = R.color.textColor))
-                Body2(text = movie.releaseDate, color = colorResource(id = R.color.textColor))
+                SharedListElementContainer(movie.originalTitle + index) {
+                    Body1(text = movie.originalTitle, color = colorResource(id = R.color.textColor))
+                }
+                SharedListElementContainer(movie.releaseDate + index) {
+                    Body2(text = movie.releaseDate, color = colorResource(id = R.color.textColor))
+                }
             }
 
             MovieRatingView(movie.voteAverage)
@@ -174,7 +206,7 @@ fun MovieListItemViewPreview() {
                 releaseDate = "March 30, 2022"
             )
 
-            MovieListItemView(movie) {}
+            MovieListItemView(movie, {}, LocalSharedElementsRootScope.current!!, 0)
         }
     }
 }

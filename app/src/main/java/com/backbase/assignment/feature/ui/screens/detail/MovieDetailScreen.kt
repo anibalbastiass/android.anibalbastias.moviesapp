@@ -22,6 +22,9 @@ import com.anibalbastias.uikitcompose.components.atom.Body1
 import com.anibalbastias.uikitcompose.components.atom.HeadlineH4
 import com.anibalbastias.uikitcompose.components.atom.HeadlineH6
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
+import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailBoxContainer
+import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailElementContainer
+import com.anibalbastias.uikitcompose.utils.SharedUtils.changeItem
 import com.backbase.assignment.R
 import com.backbase.assignment.feature.data.remote.state.APIState
 import com.backbase.assignment.feature.presentation.model.UiMovieDetail
@@ -29,15 +32,19 @@ import com.backbase.assignment.feature.presentation.viewmodel.MoviesViewModel
 import com.backbase.assignment.feature.ui.screens.list.state.ErrorView
 import com.backbase.assignment.feature.ui.screens.list.state.LoadingView
 import com.google.accompanist.flowlayout.FlowRow
+import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 
 @Composable
 fun MovieDetailScreen(
     moviesViewModel: MoviesViewModel,
     movieId: Int?,
     onBack: () -> Unit,
+    index: Int,
 ) {
     val detailState = moviesViewModel.detailMovies.collectAsState().value
     moviesViewModel.getMovieDetail(movieId = movieId.toString())
+
+    val scope = LocalSharedElementsRootScope.current!!
 
     Scaffold(
         backgroundColor = colorResource(id = R.color.backgroundColor),
@@ -45,7 +52,10 @@ fun MovieDetailScreen(
             TopAppBar(
                 backgroundColor = colorResource(id = R.color.backgroundColor),
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = {
+                        scope.changeItem(-1)
+                        onBack.invoke()
+                    }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             tint = colorResource(id = R.color.white),
@@ -57,23 +67,23 @@ fun MovieDetailScreen(
             )
         },
         content = {
-            DetailMoviesViewContent(detailState)
+            DetailMoviesViewContent(detailState, index)
         }
     )
 }
 
 @Composable
-fun DetailMoviesViewContent(state: APIState<UiMovieDetail>) {
+fun DetailMoviesViewContent(state: APIState<UiMovieDetail>, index: Int) {
     when (state) {
         is APIState.Empty -> ErrorView(state.error) {}
         is APIState.Error -> ErrorView(state.error) {}
         APIState.Loading -> LoadingView()
-        is APIState.Success -> MovieDetailSuccessView(state.data)
+        is APIState.Success -> MovieDetailSuccessView(state.data, index)
     }
 }
 
 @Composable
-fun MovieDetailSuccessView(movie: UiMovieDetail) {
+fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -82,19 +92,26 @@ fun MovieDetailSuccessView(movie: UiMovieDetail) {
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(movie.posterPath)
-                .crossfade(true)
-                .build(),
-            contentDescription = movie.originalTitle,
-            modifier = Modifier
-                .width(180.dp)
-                .height(250.dp)
-        )
+        SharedDetailBoxContainer(movie.posterPath + index) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(movie.posterPath)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = movie.originalTitle,
+                modifier = Modifier
+                    .width(180.dp)
+                    .height(250.dp)
+            )
+        }
 
-        HeadlineH4(text = movie.originalTitle, color = colorResource(id = R.color.textColor))
-        HeadlineH6(text = movie.releaseDate, color = colorResource(id = R.color.textColor))
+        SharedDetailElementContainer(movie.originalTitle + index) {
+            HeadlineH4(text = movie.originalTitle, color = colorResource(id = R.color.textColor))
+        }
+
+        SharedDetailElementContainer(movie.releaseDate + index) {
+            HeadlineH6(text = movie.releaseDate, color = colorResource(id = R.color.textColor))
+        }
 
         Body1(
             text = movie.overview,
@@ -130,7 +147,7 @@ fun MovieDetailSuccessViewPreview() {
                 overview = stringResource(id = R.string.lorem),
                 genres = listOf("Action", "Drama")
             )
-            MovieDetailSuccessView(movie)
+            MovieDetailSuccessView(movie, 0)
         }
     }
 }
