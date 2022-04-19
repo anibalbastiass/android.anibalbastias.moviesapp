@@ -13,10 +13,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.paging.ExperimentalPagingApi
 import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedListRootContainer
+import com.anibalbastias.uikitcompose.utils.SharedUtils.changeItem
 import com.backbase.assignment.feature.presentation.viewmodel.MoviesPagingViewModel
 import com.backbase.assignment.feature.presentation.viewmodel.MoviesViewModel
 import com.backbase.assignment.feature.ui.screens.detail.MovieDetailScreen
 import com.backbase.assignment.feature.ui.screens.list.MovieListScreen
+import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 
 const val MOVIE_ID_KEY = "movieId"
 
@@ -31,9 +33,13 @@ fun NavGraph(
 ) {
     val navController = rememberNavController()
     val actions = remember(navController) { Actions(navController) }
-    val onBack = { actions.goBackAction() }
 
-    SharedListRootContainer { tweenSpec, selectedItem ->
+    SharedListRootContainer(actions.goBackAction) { tweenSpec, selectedItem ->
+        val scope = LocalSharedElementsRootScope.current!!
+        val onBack = {
+            scope.changeItem(-1)
+            actions.goBackAction()
+        }
         NavHost(
             navController = navController,
             startDestination = startDestination
