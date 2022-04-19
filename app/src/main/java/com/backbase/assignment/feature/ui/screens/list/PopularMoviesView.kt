@@ -45,8 +45,6 @@ fun PopularMoviesView(
     val lazyListState = rememberForeverLazyListState(key = "PopularMovies")
     val scope = LocalSharedElementsRootScope.current!!
 
-    with(SharedUtils) { PrepareShareEffect(lazyListState) }
-
     when (moviesListItems.itemCount) {
         0 -> LoadingItem()
         else -> {

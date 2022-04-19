@@ -109,8 +109,12 @@ fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int) {
             HeadlineH4(text = movie.originalTitle, color = colorResource(id = R.color.textColor))
         }
 
-        SharedDetailElementContainer(movie.releaseDate + index) {
-            HeadlineH6(text = movie.releaseDate, color = colorResource(id = R.color.textColor))
+        if (movie.releaseDate.isNotEmpty()) {
+            SharedDetailElementContainer(movie.releaseDate + index) {
+                ReleaseDateText(movie.releaseDate)
+            }
+        } else {
+            ReleaseDateText(movie.releaseDate)
         }
 
         Body1(
@@ -132,6 +136,11 @@ fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int) {
             }
         }
     }
+}
+
+@Composable
+fun ReleaseDateText(releaseDate: String) {
+    HeadlineH6(text = releaseDate, color = colorResource(id = R.color.textColor))
 }
 
 @Preview
