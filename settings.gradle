@@ -9,4 +9,4 @@ dependencyResolutionManagement {
 }
 include ':app'
 include ':android.anibalbastias.uikit-compose'
-rootProject.name='CS Android Assignment'
+rootProject.name='Movies App'

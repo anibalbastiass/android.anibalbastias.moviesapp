@@ -1,6 +1,6 @@
-# android.eit.backbase-challenge
+# android.anibalbastias.moviesapp
 
-## Backbase Code Challenge
+## Movies App Code Challenge
 
 [![Kotlin Version](https://img.shields.io/badge/Kotlin-1.6.10-blue.svg)](https://kotlinlang.org)
 [![AGP](https://img.shields.io/badge/AndroidStudio-2021.1.1-blue?style=flat)](https://developer.android.com/studio/releases/gradle-plugin)
@@ -70,14 +70,9 @@ repositories, models.
 * ic_launcher for Movies logo
 * Extra security layer for sensitive data
 
-# Known issues
+# Approaches
+## Both approaches are using the same architecture, with different
+Ui frameworks
 
-* REST API is no longer showing "duration" parameter.
-
-* Implement Nested Scroll view for have entire scrolling. Some performance issues with Paging
-  library meanwhile is scrolling, freezing the Main thread. Maybe upgrading to Paging 3 should fix
-  this.
-  
-# Future improvements
-
-* Add translucent style for Movie Detail Fragment.
+* `feature/xml-approach`: Using ViewBinding with XML Custom Views and LiveData.
+* `feature/compose-approach`: Using Jetpack Compose with SharedFlow

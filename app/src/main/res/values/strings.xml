@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">CS Android Assignment</string>
+    <string name="app_name">Movies App</string>
     <string name="menu_movie_list">Movie List</string>
     <string name="now_playing" tools:ignore="ExtraTranslation">Playing now</string>
     <string name="most_popular">Most popular</string>

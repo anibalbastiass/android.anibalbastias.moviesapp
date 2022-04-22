@@ -11,7 +11,7 @@ android {
     compileSdkVersion versions.android.compile
 
     defaultConfig {
-        applicationId "com.backbase.assignment"
+        applicationId "com.anibalbastias.moviesapp"
         minSdkVersion versions.android.minSdk
         targetSdkVersion versions.android.targetSdk
         versionCode versions.project.code
