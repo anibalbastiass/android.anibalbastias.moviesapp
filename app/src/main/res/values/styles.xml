@@ -9,6 +9,12 @@
         <item name="android:windowBackground">@color/backgroundSecondaryColor</item>
     </style>
 
+    <style name="Theme.AppSplash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/backgroundSecondaryColor</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_content</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
+
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="colorControlNormal">@color/white</item>
         <item name="titleTextColor">@color/white</item>

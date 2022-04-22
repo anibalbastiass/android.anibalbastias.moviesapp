@@ -73,6 +73,7 @@ dependencies {
     implementation deps.androidx.navigationFragment
     implementation deps.androidx.recyclerView
     implementation deps.androidx.swipeRefreshLayout
+    implementation deps.androidx.core.splashScreen
 
     // Room
     implementation deps.androidx.room.runtime
