@@ -1,0 +1,6 @@
+[submodule "android.anibalbastias.uikit-compose"]
+	path = android.anibalbastias.uikit-compose
+	url = git@github.com:anibalbastiass/android.anibalbastias.uikit-compose.git
+[submodule "android.anibalbastias.dependencies"]
+	path = android.anibalbastias.dependencies
+	url = git@github.com:anibalbastiass/android.anibalbastias.dependencies.git
