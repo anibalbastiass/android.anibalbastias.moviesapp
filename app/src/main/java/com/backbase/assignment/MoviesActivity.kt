@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.paging.ExperimentalPagingApi
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
 import com.backbase.assignment.feature.ui.navigation.NavGraph
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @ExperimentalPagingApi
 @AndroidEntryPoint

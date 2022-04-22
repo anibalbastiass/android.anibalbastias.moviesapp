@@ -2,6 +2,7 @@ package com.backbase.assignment.feature.presentation.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import com.backbase.assignment.TestCoroutineRule
 import com.backbase.assignment.feature.data.remote.state.APIState
 import com.backbase.assignment.feature.domain.UiMovieDataState
@@ -65,7 +66,7 @@ class MoviesViewModelTest {
             val success = with(mapperMock) { APIState.Success(result.map { it.fromDomainToUi() }) }
 
             // when
-            cut.nowPlayingMovies.observeForever(listObserver)
+            cut.nowPlayingMovies.asLiveData().observeForever(listObserver)
             whenever(getNowPlayingMoviesUseCaseMock.execute()).thenAnswer {
                 flowOf(success)
             }
@@ -83,7 +84,7 @@ class MoviesViewModelTest {
             val error = APIState.Error("Error")
 
             // when
-            cut.nowPlayingMovies.observeForever(listObserver)
+            cut.nowPlayingMovies.asLiveData().observeForever(listObserver)
             whenever(getNowPlayingMoviesUseCaseMock.execute()).thenAnswer {
                 flowOf(error)
             }
@@ -101,7 +102,7 @@ class MoviesViewModelTest {
             val error = APIState.Empty("Error")
 
             // when
-            cut.nowPlayingMovies.observeForever(listObserver)
+            cut.nowPlayingMovies.asLiveData().observeForever(listObserver)
             whenever(getNowPlayingMoviesUseCaseMock.execute()).thenAnswer {
                 flowOf(error)
             }
@@ -120,7 +121,7 @@ class MoviesViewModelTest {
             val error = APIState.Error("Error")
 
             // when
-            cut.detailMovies.observeForever(detailObserver)
+            cut.detailMovies.asLiveData().observeForever(detailObserver)
             whenever(getMovieDetailUseCaseMock.execute(movieId)).thenAnswer {
                 flowOf(error)
             }
@@ -139,7 +140,7 @@ class MoviesViewModelTest {
             val error = APIState.Empty("Error")
 
             // when
-            cut.detailMovies.observeForever(detailObserver)
+            cut.detailMovies.asLiveData().observeForever(detailObserver)
             whenever(getMovieDetailUseCaseMock.execute(movieId)).thenAnswer {
                 flowOf(error)
             }

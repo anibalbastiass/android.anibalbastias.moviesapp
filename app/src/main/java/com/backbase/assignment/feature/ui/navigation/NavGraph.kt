@@ -1,5 +1,6 @@
 package com.backbase.assignment.feature.ui.navigation
 
+import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -40,6 +41,7 @@ fun NavGraph(
             scope.changeItem(-1)
             actions.goBackAction()
         }
+
         NavHost(
             navController = navController,
             startDestination = startDestination
@@ -50,6 +52,8 @@ fun NavGraph(
                     targetState = selectedItem,
                     animationSpec = tweenSpec
                 ) { item ->
+                    Log.d("Index", item.toString())
+
                     MovieListScreen(
                         moviesViewModel = moviesViewModel,
                         moviesPagingViewModel = moviesPagingViewModel,

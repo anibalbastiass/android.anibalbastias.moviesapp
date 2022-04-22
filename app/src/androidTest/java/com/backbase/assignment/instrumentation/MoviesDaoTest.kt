@@ -1,7 +1,7 @@
 package com.backbase.assignment.instrumentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagingSource
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.backbase.assignment.feature.data.local.model.EntityMovieItem
 import junit.framework.TestCase.assertEquals
@@ -23,17 +23,33 @@ open class MoviesDaoTest : DatabaseTest() {
         val movies = mutableListOf<EntityMovieItem>()
 
         for (num in 0 until 10) {
-            movies.add(EntityMovieItem())
+            movies.add(
+                EntityMovieItem(
+                    id = "1",
+                    posterPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
+                    originalTitle = "The Mask",
+                    voteAverage = 8.0,
+                    releaseDate = "March 30, 2022"
+                )
+            )
         }
 
         // When
-        val liveData = LivePagedListBuilder(moviesDao.getAllMovies(), 10).build()
+        val pagingSource = moviesDao.getAllMovies()
 
-        // Then
-        moviesDao.insertAll(movies)
-        assertEquals(liveData.getFirst().size, 1)
-
-        moviesDao.clearAll()
-        assertEquals(liveData.getFirst().size, 0)
+        assertEquals(
+            PagingSource.LoadResult.Page(
+                data = listOf(movies[0], movies[1]),
+                prevKey = null,
+                nextKey = movies[1].id
+            ),
+            pagingSource.load(
+                PagingSource.LoadParams.Refresh(
+                    key = null,
+                    loadSize = 2,
+                    placeholdersEnabled = false
+                )
+            ),
+        )
     }
 }
