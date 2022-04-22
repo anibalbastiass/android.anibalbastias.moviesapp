@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_movie_list"
-        android:name="com.backbase.assignment.feature.ui.list.MovieListFragment"
+        android:name="com.anibalbastias.moviesapp.feature.ui.list.MovieListFragment"
         android:label="@string/menu_movie_list"
         tools:layout="@layout/fragment_movie_list">
 
@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/nav_movie_details"
-        android:name="com.backbase.assignment.feature.ui.detail.MovieDetailFragment"
+        android:name="com.anibalbastias.moviesapp.feature.ui.detail.MovieDetailFragment"
         android:label="@string/menu_movie_detail"
         tools:layout="@layout/fragment_movie_detail" >
 

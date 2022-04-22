@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.backbase.assignment.feature.ui.list.nowplaying.PlayingNowMoviesView
+            <com.anibalbastias.moviesapp.feature.ui.list.nowplaying.PlayingNowMoviesView
                 android:id="@+id/nowPlayingMoviesView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.backbase.assignment.feature.ui.list.popular.PopularMoviesView
+            <com.anibalbastias.moviesapp.feature.ui.list.popular.PopularMoviesView
                 android:id="@+id/popularMoviesView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
