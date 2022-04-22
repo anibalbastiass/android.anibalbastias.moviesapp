@@ -2,10 +2,12 @@ package com.anibalbastias.moviesapp.feature.ui.screens.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,11 +29,24 @@ fun MovieRatingView(voteAverage: Double) {
             )
             .width(100.dp)
             .height(100.dp)
-            .padding(20.dp)
+            .padding(10.dp)
     ) {
-        val (progress, total, text, percentage) = createRefs()
+        val (circle, progress, total, text, percentage) = createRefs()
         val value = (voteAverage / 10).toFloat()
         val formattedValue = (voteAverage * 10).roundToInt()
+
+        Box(
+            modifier = Modifier
+                .constrainAs(circle) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+                .clip(CircleShape)
+                .background(colorResource(id = R.color.ratingBackground))
+                .size(70.dp)
+        )
 
         ProgressView(
             total,
