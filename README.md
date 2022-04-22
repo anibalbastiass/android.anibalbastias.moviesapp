@@ -12,6 +12,13 @@ details of the movie.
 
 This project is being maintained to match current industry standards.
 
+# Motivation
+
+In my previous job I supported, coached and guided many junior consultants to carry out quality Android Code challenges. This is why I was inspired by one in particular and took the opportunity to catch up with Jetpack Compose and the other Jetpack Libraries to improve my skills in Android Development.
+Also, I took advantage of applying some knowledge (from previous jobs) of good practices, design patterns, clean architectures, testing, modularization and git submodules.
+
+And lastly, create a Compose component library using Atomic Design, to maintain a structural and elegant design pattern.
+
 # Architecture
 
 * This project was developed using CLEAN Architecture and MVVM (Model View ViewModel) with some
