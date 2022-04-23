@@ -14,14 +14,19 @@ android {
         applicationId "com.anibalbastias.moviesapp"
         minSdkVersion versions.android.minSdk
         targetSdkVersion versions.android.targetSdk
-        versionCode versions.project.code
-        versionName versions.project.name
+        versionCode 2
+        versionName "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "API_BASE_URL", "\"https://api.themoviedb.org/3/\""
         buildConfigField "String", "API_HOST", "\"api.themoviedb.org\""
+
         buildConfigField "String", "API_PUBLIC_KEY_HASH", "\"sha256/47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        buildConfigField "String", "API_PUBLIC_KEY_HASH_AWS1", "\"sha256/oD/WAoRPvbez1Y2dfYfuo4yujAcYHXdv1Ivb2v2MOKk\""
+        buildConfigField "String", "API_PUBLIC_KEY_HASH_AWS2", "\"sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=\""
+        buildConfigField "String", "API_PUBLIC_KEY_HASH_AWS3", "\"sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=\""
+
         buildConfigField "String", "API_KEY", "\"55957fcf3ba81b137f8fc01ac5a31fb5\""
         buildConfigField "String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/w500/\""
     }
