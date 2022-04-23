@@ -20,6 +20,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "API_BASE_URL", "\"https://api.themoviedb.org/3/\""
+        buildConfigField "String", "API_HOST", "\"api.themoviedb.org\""
+        buildConfigField "String", "API_PUBLIC_KEY_HASH", "\"sha256/47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
         buildConfigField "String", "API_KEY", "\"55957fcf3ba81b137f8fc01ac5a31fb5\""
         buildConfigField "String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/w500/\""
     }
