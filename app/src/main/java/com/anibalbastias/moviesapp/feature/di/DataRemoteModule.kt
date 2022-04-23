@@ -50,7 +50,13 @@ object DataRemoteModule {
     @Provides
     fun provideCertificatePinner(): CertificatePinner {
         return CertificatePinner.Builder()
-            .add(BuildConfig.API_HOST, BuildConfig.API_PUBLIC_KEY_HASH)
+            .add(
+                BuildConfig.API_HOST,
+                BuildConfig.API_PUBLIC_KEY_HASH,
+                BuildConfig.API_PUBLIC_KEY_HASH_AWS1,
+                BuildConfig.API_PUBLIC_KEY_HASH_AWS2,
+                BuildConfig.API_PUBLIC_KEY_HASH_AWS3
+            )
             .build()
     }
 
