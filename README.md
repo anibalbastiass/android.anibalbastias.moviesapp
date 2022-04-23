@@ -76,6 +76,11 @@ repositories, models.
 * Swipe Refresh Layout in the list
 * ic_launcher for Movies logo
 * Extra security layer for sensitive data
+* Certification Pinning
+```
+openssl s_client -connect api.themoviedb.org:443 | openssl x509 -pubkey -noout | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
+```
+* Splash Screen API from Jetpack
 
 # Approaches
 ## Both approaches are using the same architecture, with different
