@@ -1,4 +1,4 @@
-package com.anibalbastias.moviesapp.feature.ui.screens.detail
+package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -29,8 +29,8 @@ import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
-import com.anibalbastias.moviesapp.feature.ui.screens.list.state.ErrorView
-import com.anibalbastias.moviesapp.feature.ui.screens.list.state.LoadingView
+import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.ErrorView
+import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.LoadingView
 import com.google.accompanist.flowlayout.FlowRow
 import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 
@@ -38,38 +38,12 @@ import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 fun MovieDetailScreen(
     moviesViewModel: MoviesViewModel,
     movieId: Int?,
-    onBack: () -> Unit,
     index: Int,
 ) {
     val detailState = moviesViewModel.detailMovies.collectAsState().value
     moviesViewModel.getMovieDetail(movieId = movieId.toString())
 
-    val scope = LocalSharedElementsRootScope.current!!
-
-    Scaffold(
-        backgroundColor = colorResource(id = R.color.backgroundColor),
-        topBar = {
-            TopAppBar(
-                backgroundColor = colorResource(id = R.color.backgroundColor),
-                navigationIcon = {
-                    IconButton(onClick = {
-                        scope.changeItem(-1)
-                        onBack.invoke()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            tint = colorResource(id = R.color.white),
-                            contentDescription = "backIcon"
-                        )
-                    }
-                },
-                title = {}
-            )
-        },
-        content = {
-            DetailMoviesViewContent(detailState, index)
-        }
-    )
+    DetailMoviesViewContent(detailState, index)
 }
 
 @Composable
@@ -88,7 +62,7 @@ fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .background(color = colorResource(id = R.color.backgroundColor))
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
@@ -123,7 +97,7 @@ fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int) {
             modifier = Modifier.padding(vertical = 20.dp)
         )
 
-        FlowRow {
+        FlowRow(modifier = Modifier.padding(bottom = 50.dp)) {
             movie.genres.map { genre ->
                 Body1(
                     text = genre,

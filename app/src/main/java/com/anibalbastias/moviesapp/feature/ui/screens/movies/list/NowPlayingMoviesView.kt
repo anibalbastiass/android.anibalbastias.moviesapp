@@ -1,4 +1,4 @@
-package com.anibalbastias.moviesapp.feature.ui.screens.list
+package com.anibalbastias.moviesapp.feature.ui.screens.movies.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -18,8 +18,8 @@ import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedListElementContain
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.domain.UiMovieDataState
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
-import com.anibalbastias.moviesapp.feature.ui.screens.list.state.ErrorView
-import com.anibalbastias.moviesapp.feature.ui.screens.list.state.LoadingView
+import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.ErrorView
+import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.LoadingView
 
 @Composable
 fun NowPlayingMoviesView(

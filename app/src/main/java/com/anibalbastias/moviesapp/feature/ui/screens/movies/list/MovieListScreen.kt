@@ -1,4 +1,4 @@
-package com.anibalbastias.moviesapp.feature.ui.screens.list
+package com.anibalbastias.moviesapp.feature.ui.screens.movies.list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -37,24 +37,6 @@ fun MovieListScreen(
     val moviesListItems = moviesPagingViewModel.pagedMovieList.collectAsLazyPagingItems()
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                backgroundColor = colorResource(id = R.color.backgroundColor),
-                title = {
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ) {
-                        Image(
-                            painterResource(R.drawable.movies_logo),
-                            contentDescription = "MovieBox",
-                            modifier = Modifier.height(20.dp)
-                        )
-                    }
-                }
-            )
-        },
         content = {
             val isRefreshing by moviesViewModel.isRefreshing.collectAsState()
 
