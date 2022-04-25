@@ -1,4 +1,4 @@
-package com.anibalbastias.moviesapp.feature.ui.screens.list.state
+package com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth

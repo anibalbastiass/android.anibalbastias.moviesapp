@@ -1,4 +1,4 @@
-package com.anibalbastias.moviesapp.feature.ui.screens.list
+package com.anibalbastias.moviesapp.feature.ui.screens.movies.list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -22,6 +22,9 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.anibalbastias.moviesapp.R
+import com.anibalbastias.moviesapp.feature.domain.UiMovieDataState
+import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 import com.anibalbastias.uikitcompose.components.atom.Body1
 import com.anibalbastias.uikitcompose.components.atom.Body2
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
@@ -29,11 +32,8 @@ import com.anibalbastias.uikitcompose.utils.SharedUtils
 import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedListBoxContainer
 import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedListElementContainer
 import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState
-import com.anibalbastias.moviesapp.feature.domain.UiMovieDataState
-import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 import com.mxalbert.sharedelements.SharedElementsRootScope
-import com.anibalbastias.moviesapp.R
 
 @ExperimentalFoundationApi
 @Composable

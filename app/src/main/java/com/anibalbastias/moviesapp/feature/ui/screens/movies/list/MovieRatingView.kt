@@ -1,4 +1,4 @@
-package com.anibalbastias.moviesapp.feature.ui.screens.list
+package com.anibalbastias.moviesapp.feature.ui.screens.movies.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
