@@ -23,7 +23,7 @@ object DataLocalModule {
             appContext,
             MoviesDatabase::class.java,
             DBConstants.DATABASE_NAME
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Singleton

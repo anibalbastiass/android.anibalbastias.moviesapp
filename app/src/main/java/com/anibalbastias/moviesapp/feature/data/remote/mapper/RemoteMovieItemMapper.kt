@@ -19,7 +19,8 @@ class RemoteMovieItemMapper {
                 posterPath = movie.posterPath,
                 originalTitle = movie.originalTitle ?: "",
                 voteAverage = movie.voteAverage ?: 0.0,
-                releaseDate = movie.releaseDate
+                releaseDate = movie.releaseDate,
+                isFavorite = false
             )
         }
     }
@@ -29,7 +30,8 @@ class RemoteMovieItemMapper {
         posterPath = posterPath,
         originalTitle = originalTitle ?: "",
         voteAverage = voteAverage ?: 0.0,
-        releaseDate = releaseDate
+        releaseDate = releaseDate,
+        isFavorite = false
     )
 
     fun RemoteMovieDetail.fromRemoteToDomain() = DomainMovieDetail(

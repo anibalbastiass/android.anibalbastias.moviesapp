@@ -12,7 +12,8 @@ class UiMovieMapper {
         posterPath = posterPath,
         originalTitle = originalTitle,
         voteAverage = voteAverage,
-        releaseDate = releaseDate
+        releaseDate = releaseDate,
+        isFavorite = isFavorite,
     )
 
     fun EntityMovieItem.fromEntityToUi() = UiMovieItem(
@@ -20,7 +21,8 @@ class UiMovieMapper {
         posterPath = posterPath,
         originalTitle = originalTitle,
         voteAverage = voteAverage,
-        releaseDate = releaseDate
+        releaseDate = releaseDate,
+        isFavorite = isFavorite
     )
 
     fun DomainMovieDetail.fromDomainToUi() = UiMovieDetail(

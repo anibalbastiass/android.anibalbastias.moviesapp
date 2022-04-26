@@ -72,7 +72,8 @@ fun NowPlayingViewSuccessPreview() {
                     posterPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
                     originalTitle = "The Mask",
                     voteAverage = 8.5,
-                    releaseDate = "March 30, 2022"
+                    releaseDate = "March 30, 2022",
+                    isFavorite = true
                 )
             }
             NowPlayingViewSuccess(data) {}

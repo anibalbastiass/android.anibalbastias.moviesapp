@@ -44,7 +44,7 @@ fun NavGraph() {
         topBar = { TopBar(moviesNavController, moviesNavBackStackEntry, navBackStackEntry) },
         bottomBar = { BottomNavGraph(navController) }
     ) {
-        MainNavHost(
+        TabNavHost(
             navController = navController,
             moviesNavController = moviesNavController
         )
@@ -93,7 +93,7 @@ fun TopBar(
 @ExperimentalPagingApi
 @ExperimentalFoundationApi
 @Composable
-fun MainNavHost(
+fun TabNavHost(
     navController: NavHostController,
     moviesNavController: NavHostController,
 ) {
