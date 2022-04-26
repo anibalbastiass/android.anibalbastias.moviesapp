@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -80,7 +81,11 @@ fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int) {
         }
 
         SharedDetailElementContainer(movie.originalTitle + index) {
-            HeadlineH4(text = movie.originalTitle, color = colorResource(id = R.color.textColor))
+            HeadlineH4(
+                text = movie.originalTitle,
+                color = colorResource(id = R.color.textColor),
+                textAlign = TextAlign.Center
+            )
         }
 
         if (movie.releaseDate.isNotEmpty()) {
@@ -94,6 +99,7 @@ fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int) {
         Body1(
             text = movie.overview,
             color = colorResource(id = R.color.textColor),
+            textAlign = TextAlign.Justify,
             modifier = Modifier.padding(vertical = 20.dp)
         )
 
@@ -114,7 +120,11 @@ fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int) {
 
 @Composable
 fun ReleaseDateText(releaseDate: String) {
-    HeadlineH6(text = releaseDate, color = colorResource(id = R.color.textColor))
+    HeadlineH6(
+        text = releaseDate,
+        color = colorResource(id = R.color.textColor),
+        textAlign = TextAlign.Center
+    )
 }
 
 @Preview
