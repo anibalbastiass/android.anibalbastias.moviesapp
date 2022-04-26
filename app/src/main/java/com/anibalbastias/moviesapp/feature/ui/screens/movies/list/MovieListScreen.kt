@@ -35,7 +35,12 @@ fun MovieListScreen(
                     moviesViewModel.getNowPlayingMovies(true)
                 }
             ) {
-                PopularMoviesView(nowPlayingState, moviesListItems, movieDetailAction)
+                PopularMoviesView(
+                    nowPlayingState,
+                    moviesListItems,
+                    movieDetailAction) { movie ->
+                    moviesViewModel.updateMovie(movie)
+                }
             }
         }
     )

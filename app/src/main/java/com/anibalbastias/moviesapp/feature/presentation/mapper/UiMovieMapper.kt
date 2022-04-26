@@ -7,6 +7,15 @@ import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 
 class UiMovieMapper {
+    fun UiMovieItem.fromUiToDomain() = EntityMovieItem(
+        id = id.toString(),
+        posterPath = posterPath,
+        originalTitle = originalTitle,
+        voteAverage = voteAverage,
+        releaseDate = releaseDate,
+        isFavorite = isFavorite,
+    )
+
     fun DomainMovieItem.fromDomainToUi() = UiMovieItem(
         id = id,
         posterPath = posterPath,

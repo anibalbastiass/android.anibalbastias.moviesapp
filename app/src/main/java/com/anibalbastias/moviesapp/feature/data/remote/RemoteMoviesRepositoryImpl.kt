@@ -43,6 +43,11 @@ class RemoteMoviesRepositoryImpl @Inject constructor(
 
     override fun getPopularMovies(): PagingSource<Int, EntityMovieItem> = dao.getAllMovies()
 
+    override fun updateMovie(movie: EntityMovieItem): Flow<Boolean> = flow {
+        dao.updateMovie(movie)
+        emit(true)
+    }
+
     override suspend fun getMovieById(movieId: String): Flow<DomainMovieDetailDataState> =
         flow {
             val response = service.getMovieById(movieId)

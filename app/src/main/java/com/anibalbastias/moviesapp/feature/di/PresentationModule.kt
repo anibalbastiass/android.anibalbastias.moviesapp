@@ -6,6 +6,7 @@ import com.anibalbastias.moviesapp.feature.domain.mediator.MoviesPagingMediator
 import com.anibalbastias.moviesapp.feature.domain.usecase.GetMovieDetailUseCase
 import com.anibalbastias.moviesapp.feature.domain.usecase.GetNowPlayingMoviesUseCase
 import com.anibalbastias.moviesapp.feature.domain.usecase.GetPagingMoviesUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.UpdateMovieUseCase
 import com.anibalbastias.moviesapp.feature.presentation.mapper.UiMovieMapper
 import dagger.Module
 import dagger.Provides
@@ -37,6 +38,14 @@ object PresentationModule {
         mediator: MoviesPagingMediator,
     ): GetPagingMoviesUseCase {
         return GetPagingMoviesUseCase(remote, mapper, mediator)
+    }
+
+    @Provides
+    fun provideUpdateMovieUseCase(
+        remote: RemoteMoviesRepositoryImpl,
+        mapper: UiMovieMapper,
+    ): UpdateMovieUseCase {
+        return UpdateMovieUseCase(remote, mapper)
     }
 
     @Provides

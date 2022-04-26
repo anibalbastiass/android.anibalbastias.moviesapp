@@ -19,6 +19,11 @@ interface RemoteMoviesRepository {
     fun getPopularMovies(): PagingSource<Int, EntityMovieItem>
 
     /**
+     * Update movie
+     */
+    fun updateMovie(movie: EntityMovieItem): Flow<Boolean>
+
+    /**
      * Load Movie detail data
      * @param movieId Id of movie
      */
