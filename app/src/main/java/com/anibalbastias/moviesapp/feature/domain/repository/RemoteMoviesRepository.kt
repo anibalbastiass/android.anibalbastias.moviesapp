@@ -28,4 +28,9 @@ interface RemoteMoviesRepository {
      * @param movieId Id of movie
      */
     suspend fun getMovieById(movieId: String): Flow<DomainMovieDetailDataState>
+
+    /**
+     * Create a data source that returns pages of results keyed by page.
+     */
+    fun getFavoriteMovies(): PagingSource<Int, EntityMovieItem>
 }

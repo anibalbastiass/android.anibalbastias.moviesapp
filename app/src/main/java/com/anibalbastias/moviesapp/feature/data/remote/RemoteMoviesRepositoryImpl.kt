@@ -43,6 +43,8 @@ class RemoteMoviesRepositoryImpl @Inject constructor(
 
     override fun getPopularMovies(): PagingSource<Int, EntityMovieItem> = dao.getAllMovies()
 
+    override fun getFavoriteMovies(): PagingSource<Int, EntityMovieItem> = dao.getFavoriteMovies()
+
     override fun updateMovie(movie: EntityMovieItem): Flow<Boolean> = flow {
         dao.updateMovie(movie)
         emit(true)

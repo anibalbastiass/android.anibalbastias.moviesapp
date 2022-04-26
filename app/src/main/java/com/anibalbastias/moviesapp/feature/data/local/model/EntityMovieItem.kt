@@ -18,5 +18,5 @@ data class EntityMovieItem(
     @ColumnInfo(name = ORIGINAL_TITLE) val originalTitle: String,
     @ColumnInfo(name = VOTE_AVERAGE) val voteAverage: Double,
     @ColumnInfo(name = RELEASE_DATE) val releaseDate: String,
-    @ColumnInfo(name = IS_FAVORITE) val isFavorite: Boolean,
+    @ColumnInfo(name = IS_FAVORITE) val isFavorite: Boolean = false,
 )

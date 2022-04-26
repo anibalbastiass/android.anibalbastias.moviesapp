@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.paging.ExperimentalPagingApi
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesPagingViewModel
@@ -26,10 +27,10 @@ import com.anibalbastias.uikitcompose.utils.SharedUtils
 @ExperimentalPagingApi
 @Composable
 fun MoviesScreen(
-    moviesNavController: NavHostController,
     moviesViewModel: MoviesViewModel = hiltViewModel(),
     moviesPagingViewModel: MoviesPagingViewModel = hiltViewModel(),
 ) {
+    val moviesNavController = rememberNavController()
     val movieActions = remember(moviesNavController) { Actions(moviesNavController) }
 
     SharedUtils.SharedListRootContainer(movieActions.goBackAction) { tweenSpec, selectedItem ->

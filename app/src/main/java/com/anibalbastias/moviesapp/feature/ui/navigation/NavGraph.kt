@@ -6,20 +6,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.ExperimentalPagingApi
 import com.anibalbastias.moviesapp.R
@@ -34,38 +32,25 @@ const val MOVIE_ID_KEY = "movieId"
 @ExperimentalPagingApi
 fun NavGraph() {
     val navController = rememberNavController()
-    val moviesNavController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val moviesNavBackStackEntry by moviesNavController.currentBackStackEntryAsState()
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(
         scaffoldState = scaffoldState,
-        topBar = { TopBar(moviesNavController, moviesNavBackStackEntry, navBackStackEntry) },
+        topBar = { TopBar() },
         bottomBar = { BottomNavGraph(navController) }
     ) {
-        TabNavHost(
-            navController = navController,
-            moviesNavController = moviesNavController
-        )
+        TabNavHost(navController)
     }
 }
 
 @Composable
-fun TopBar(
-    navController: NavHostController,
-    moviesNavBackStackEntry: NavBackStackEntry?,
-    navBackStackEntry: NavBackStackEntry?,
-) {
-    val showBackButton = moviesNavBackStackEntry?.destination?.route == "movies/{movieId}" &&
-            navBackStackEntry?.destination?.route == "movies"
-
+fun TopBar() {
     TopAppBar(
         backgroundColor = colorResource(id = R.color.backgroundColor),
         title = {
             Row(
                 horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth(if (showBackButton) 0.83f else 1f)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Image(
                     painterResource(R.drawable.movies_logo),
@@ -73,19 +58,6 @@ fun TopBar(
                     modifier = Modifier.height(20.dp)
                 )
             }
-        },
-        navigationIcon = if (showBackButton) {
-            {
-                IconButton(onClick = { navController.navigateUp() }) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        tint = colorResource(id = R.color.white),
-                        contentDescription = "Back"
-                    )
-                }
-            }
-        } else {
-            null
         }
     )
 }
@@ -94,12 +66,11 @@ fun TopBar(
 @ExperimentalFoundationApi
 @Composable
 fun TabNavHost(
-    navController: NavHostController,
-    moviesNavController: NavHostController,
+    navController: NavHostController
 ) {
     NavHost(navController, startDestination = NavTabItem.Movies.route) {
         composable(NavTabItem.Movies.route) {
-            MoviesScreen(moviesNavController)
+            MoviesScreen()
         }
         composable(NavTabItem.Favorites.route) {
             FavoritesScreen()

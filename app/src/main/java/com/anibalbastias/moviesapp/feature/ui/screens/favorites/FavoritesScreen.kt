@@ -1,109 +1,94 @@
 package com.anibalbastias.moviesapp.feature.ui.screens.favorites
 
+import android.util.Log
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.rememberLottieComposition
-import com.anibalbastias.moviesapp.R
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import androidx.paging.ExperimentalPagingApi
+import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesPagingViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
-import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.StickyHeaderMovie
-import com.anibalbastias.uikitcompose.components.atom.Body1
-import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState
+import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
+import com.anibalbastias.moviesapp.feature.ui.navigation.MOVIE_ID_KEY
+import com.anibalbastias.moviesapp.feature.ui.navigation.Routes
+import com.anibalbastias.moviesapp.feature.ui.screens.movies.detail.MovieDetailScreen
+import com.anibalbastias.uikitcompose.utils.SharedUtils
 
+@ExperimentalPagingApi
 @ExperimentalFoundationApi
 @Composable
 fun FavoritesScreen(
     moviesViewModel: MoviesViewModel = hiltViewModel(),
+    moviesPagingViewModel: MoviesPagingViewModel = hiltViewModel(),
 ) {
-    EmptyFavoriteScreen()
+    val favoritesNavController = rememberNavController()
+    val movieActions = remember(favoritesNavController) { Actions(favoritesNavController) }
 
-//    val lazyListState = rememberForeverLazyListState(key = "Favorites")
-//
-//    LazyColumn(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .background(colorResource(id = R.color.backgroundColor)),
-//        state = lazyListState
-//    ) {
-//        stickyHeader {
-//            StickyHeaderMovie(title = stringResource(id = R.string.favorites))
-//        }
-//
-//        item {
-//
-//        }
-//    }
-}
-
-@Composable
-fun EmptyFavoriteScreen() {
-    ConstraintLayout(modifier = Modifier
-        .padding(bottom = 50.dp)
-        .fillMaxSize()
-        .background(colorResource(id = R.color.backgroundColor))
-    ) {
-        val (circle, loader, text) = createRefs()
-
-        Box(
-            modifier = Modifier
-                .constrainAs(circle) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
-                .clip(CircleShape)
-                .background(colorResource(id = R.color.white))
-                .size(120.dp)
-        )
-
-        Box(
-            modifier = Modifier
-                .size(100.dp)
-                .constrainAs(loader) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
-                .padding(start = 20.dp)
-        ) {
-            Loader()
-        }
-
-        Body1(
-            text = stringResource(id = R.string.favorites_empty),
-            color = colorResource(id = R.color.textColor),
-            modifier = Modifier
-                .padding(top = 30.dp)
-                .constrainAs(text) {
-                    top.linkTo(loader.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
+    SharedUtils.SharedListRootContainer(movieActions.goBackAction) { tweenSpec, selectedItem ->
+        FavoritesNavHost(
+            favoritesNavController = favoritesNavController,
+            selectedItem = selectedItem,
+            tweenSpec = tweenSpec,
+            moviesPagingViewModel = moviesPagingViewModel,
+            moviesViewModel = moviesViewModel,
+            movieActions = movieActions
         )
     }
 }
 
+@ExperimentalFoundationApi
+@ExperimentalPagingApi
 @Composable
-fun Loader() {
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.movie))
-    LottieAnimation(
-        composition = composition,
-        iterations = LottieConstants.IterateForever
-    )
+fun FavoritesNavHost(
+    favoritesNavController: NavHostController,
+    selectedItem: Int,
+    tweenSpec: FiniteAnimationSpec<Float>,
+    moviesPagingViewModel: MoviesPagingViewModel,
+    movieActions: Actions,
+    moviesViewModel: MoviesViewModel,
+) {
+    NavHost(
+        navController = favoritesNavController,
+        startDestination = Routes.Favorites.route
+    ) {
+        // Movie List
+        composable(route = Routes.Favorites.route) {
+            Crossfade(
+                targetState = selectedItem,
+                animationSpec = tweenSpec
+            ) { item ->
+                Log.d("Index", item.toString())
+
+                FavoritesListScreen(
+                    moviesPagingViewModel = moviesPagingViewModel,
+                    movieDetailAction = movieActions.movieDetailAction
+                )
+            }
+        }
+
+        // Movie Detail
+        composable(
+            route = Routes.MoviesDetail().path,
+            arguments = listOf(navArgument(MOVIE_ID_KEY) { type = NavType.IntType })
+        ) { backStackEntry ->
+            Crossfade(
+                targetState = selectedItem,
+                animationSpec = tweenSpec
+            ) { item ->
+                MovieDetailScreen(
+                    movieId = backStackEntry.arguments?.getInt(MOVIE_ID_KEY),
+                    moviesViewModel = moviesViewModel,
+                    index = item
+                )
+            }
+        }
+    }
 }

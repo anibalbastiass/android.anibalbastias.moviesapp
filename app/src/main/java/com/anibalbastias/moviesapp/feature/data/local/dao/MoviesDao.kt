@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.room.*
 import com.anibalbastias.moviesapp.feature.data.local.model.DBConstants
 import com.anibalbastias.moviesapp.feature.data.local.model.EntityMovieItem
+import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.IS_FAVORITE
 
 @Dao
 interface MoviesDao {
@@ -16,6 +17,9 @@ interface MoviesDao {
 
     @Query("SELECT * FROM ${DBConstants.MOVIES_TABLE}")
     fun getAllMovies(): PagingSource<Int, EntityMovieItem>
+
+    @Query("SELECT * FROM ${DBConstants.MOVIES_TABLE} WHERE $IS_FAVORITE = :isFavorite")
+    fun getFavoriteMovies(isFavorite: Boolean = true): PagingSource<Int, EntityMovieItem>
 
     @Query("DELETE FROM ${DBConstants.MOVIES_TABLE}")
     fun clearAll()
