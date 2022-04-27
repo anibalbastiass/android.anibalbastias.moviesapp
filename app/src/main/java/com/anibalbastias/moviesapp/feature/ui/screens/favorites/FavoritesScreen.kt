@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.paging.ExperimentalPagingApi
-import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesPagingViewModel
+import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
 import com.anibalbastias.moviesapp.feature.ui.navigation.MOVIE_ID_KEY
@@ -27,7 +27,7 @@ import com.anibalbastias.uikitcompose.utils.SharedUtils
 @Composable
 fun FavoritesScreen(
     moviesViewModel: MoviesViewModel = hiltViewModel(),
-    moviesPagingViewModel: MoviesPagingViewModel = hiltViewModel(),
+    favoriteViewModel: FavoriteViewModel = hiltViewModel(),
 ) {
     val favoritesNavController = rememberNavController()
     val movieActions = remember(favoritesNavController) { Actions(favoritesNavController) }
@@ -37,7 +37,7 @@ fun FavoritesScreen(
             favoritesNavController = favoritesNavController,
             selectedItem = selectedItem,
             tweenSpec = tweenSpec,
-            moviesPagingViewModel = moviesPagingViewModel,
+            favoriteViewModel = favoriteViewModel,
             moviesViewModel = moviesViewModel,
             movieActions = movieActions
         )
@@ -51,7 +51,7 @@ fun FavoritesNavHost(
     favoritesNavController: NavHostController,
     selectedItem: Int,
     tweenSpec: FiniteAnimationSpec<Float>,
-    moviesPagingViewModel: MoviesPagingViewModel,
+    favoriteViewModel: FavoriteViewModel,
     movieActions: Actions,
     moviesViewModel: MoviesViewModel,
 ) {
@@ -68,7 +68,7 @@ fun FavoritesNavHost(
                 Log.d("Index", item.toString())
 
                 FavoritesListScreen(
-                    moviesPagingViewModel = moviesPagingViewModel,
+                    favoriteViewModel = favoriteViewModel,
                     movieDetailAction = movieActions.movieDetailAction
                 )
             }

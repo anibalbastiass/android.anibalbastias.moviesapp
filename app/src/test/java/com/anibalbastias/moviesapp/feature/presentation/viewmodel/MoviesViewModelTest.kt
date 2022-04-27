@@ -7,8 +7,8 @@ import com.anibalbastias.moviesapp.TestCoroutineRule
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.domain.UiMovieDataState
 import com.anibalbastias.moviesapp.feature.domain.UiMovieDetailDataState
-import com.anibalbastias.moviesapp.feature.domain.usecase.GetMovieDetailUseCase
-import com.anibalbastias.moviesapp.feature.domain.usecase.GetNowPlayingMoviesUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetMovieDetailUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetNowPlayingMoviesUseCase
 import com.anibalbastias.moviesapp.feature.fixture.MoviesFixture
 import com.anibalbastias.moviesapp.feature.presentation.mapper.UiMovieMapper
 import kotlinx.coroutines.ExperimentalCoroutinesApi

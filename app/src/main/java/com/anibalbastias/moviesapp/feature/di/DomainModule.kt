@@ -1,5 +1,7 @@
 package com.anibalbastias.moviesapp.feature.di
 
+import com.anibalbastias.moviesapp.feature.data.local.LocalMoviesRepositoryImpl
+import com.anibalbastias.moviesapp.feature.data.local.dao.FavoritesDao
 import com.anibalbastias.moviesapp.feature.data.local.dao.MoviesDao
 import com.anibalbastias.moviesapp.feature.data.remote.RemoteMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.data.remote.RemoteMoviesService
@@ -18,9 +20,17 @@ object DomainModule {
     @Provides
     fun provideRemoteMoviesRepository(
         service: RemoteMoviesService,
-        dao: MoviesDao,
-        mapper: RemoteMovieItemMapper
+        mapper: RemoteMovieItemMapper,
     ): RemoteMoviesRepositoryImpl {
-        return RemoteMoviesRepositoryImpl(service, dao, mapper)
+        return RemoteMoviesRepositoryImpl(service, mapper)
+    }
+
+    @Singleton
+    @Provides
+    fun provideLocalMoviesRepository(
+        movieDao: MoviesDao,
+        favoriteDao: FavoritesDao,
+    ): LocalMoviesRepositoryImpl {
+        return LocalMoviesRepositoryImpl(movieDao, favoriteDao)
     }
 }

@@ -18,9 +18,6 @@ interface MoviesDao {
     @Query("SELECT * FROM ${DBConstants.MOVIES_TABLE}")
     fun getAllMovies(): PagingSource<Int, EntityMovieItem>
 
-    @Query("SELECT * FROM ${DBConstants.MOVIES_TABLE} WHERE $IS_FAVORITE = :isFavorite")
-    fun getFavoriteMovies(isFavorite: Boolean = true): PagingSource<Int, EntityMovieItem>
-
     @Query("DELETE FROM ${DBConstants.MOVIES_TABLE}")
     fun clearAll()
 }

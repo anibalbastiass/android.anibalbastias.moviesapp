@@ -1,8 +1,8 @@
-package com.anibalbastias.moviesapp.feature.domain.usecase
+package com.anibalbastias.moviesapp.feature.domain.usecase.remote
 
 import androidx.paging.*
+import com.anibalbastias.moviesapp.feature.data.local.LocalMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.domain.mediator.MoviesPagingMediator
-import com.anibalbastias.moviesapp.feature.domain.repository.RemoteMoviesRepository
 import com.anibalbastias.moviesapp.feature.presentation.mapper.UiMovieMapper
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 import kotlinx.coroutines.flow.Flow
@@ -10,15 +10,15 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @ExperimentalPagingApi
-open class GetFavoriteMoviesUseCase @Inject constructor(
-    private val repository: RemoteMoviesRepository,
+open class GetPagingMoviesUseCase @Inject constructor(
+    private val repository: LocalMoviesRepositoryImpl,
     private val mapper: UiMovieMapper,
     private val mediator: MoviesPagingMediator,
 ) {
     fun execute(pagingConfig: PagingConfig): Flow<PagingData<UiMovieItem>> =
         Pager(
             config = pagingConfig,
-            pagingSourceFactory = repository::getFavoriteMovies,
+            pagingSourceFactory = repository::getPopularMovies,
             remoteMediator = mediator
         ).flow.map { pagingData ->
             pagingData.map { movieEntity ->

@@ -1,8 +1,5 @@
 package com.anibalbastias.moviesapp.feature.data.remote
 
-import androidx.paging.PagingSource
-import com.anibalbastias.moviesapp.feature.data.local.dao.MoviesDao
-import com.anibalbastias.moviesapp.feature.data.local.model.EntityMovieItem
 import com.anibalbastias.moviesapp.feature.data.remote.mapper.RemoteMovieItemMapper
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.domain.DomainMovieDataState
@@ -14,7 +11,6 @@ import javax.inject.Inject
 
 class RemoteMoviesRepositoryImpl @Inject constructor(
     private val service: RemoteMoviesService,
-    private val dao: MoviesDao,
     private val mapper: RemoteMovieItemMapper,
 ) : RemoteMoviesRepository {
 
@@ -40,15 +36,6 @@ class RemoteMoviesRepositoryImpl @Inject constructor(
                 emit(APIState.Error(response.message()))
             }
         }
-
-    override fun getPopularMovies(): PagingSource<Int, EntityMovieItem> = dao.getAllMovies()
-
-    override fun getFavoriteMovies(): PagingSource<Int, EntityMovieItem> = dao.getFavoriteMovies()
-
-    override fun updateMovie(movie: EntityMovieItem): Flow<Boolean> = flow {
-        dao.updateMovie(movie)
-        emit(true)
-    }
 
     override suspend fun getMovieById(movieId: String): Flow<DomainMovieDetailDataState> =
         flow {

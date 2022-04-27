@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.anibalbastias.moviesapp.TestCoroutineRule
 import com.anibalbastias.moviesapp.feature.data.remote.RemoteMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
+import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetMovieDetailUseCase
 import com.anibalbastias.moviesapp.feature.fixture.MoviesFixture
 import junit.framework.TestCase.assertNotNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi

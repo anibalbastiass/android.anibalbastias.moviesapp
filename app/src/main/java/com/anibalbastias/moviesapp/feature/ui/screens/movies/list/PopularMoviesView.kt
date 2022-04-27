@@ -51,7 +51,7 @@ fun PopularMoviesView(
     nowPlayingState: UiMovieDataState,
     moviesListItems: LazyPagingItems<UiMovieItem>,
     movieDetailAction: (movieId: Int) -> Unit,
-    movieUpdateAction: (movie: UiMovieItem) -> Unit,
+    movieFavoriteAction: (movie: UiMovieItem, isFavorite: Boolean) -> Unit,
 ) {
     val lazyListState = rememberForeverLazyListState(key = "PopularMovies")
     val scope = LocalSharedElementsRootScope.current!!
@@ -76,7 +76,7 @@ fun PopularMoviesView(
                     if (item != null) {
                         FavoriteSwipeCard(item.isFavorite) { isFavorite ->
                             item.isFavorite = isFavorite
-                            movieUpdateAction(item)
+                            movieFavoriteAction(item, isFavorite)
 
                             MovieListItemView(
                                 index = index,

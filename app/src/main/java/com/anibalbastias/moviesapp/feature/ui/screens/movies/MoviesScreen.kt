@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.paging.ExperimentalPagingApi
+import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesPagingViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
@@ -29,6 +30,7 @@ import com.anibalbastias.uikitcompose.utils.SharedUtils
 fun MoviesScreen(
     moviesViewModel: MoviesViewModel = hiltViewModel(),
     moviesPagingViewModel: MoviesPagingViewModel = hiltViewModel(),
+    favoriteViewModel: FavoriteViewModel = hiltViewModel(),
 ) {
     val moviesNavController = rememberNavController()
     val movieActions = remember(moviesNavController) { Actions(moviesNavController) }
@@ -40,6 +42,7 @@ fun MoviesScreen(
             tweenSpec = tweenSpec,
             moviesViewModel = moviesViewModel,
             moviesPagingViewModel = moviesPagingViewModel,
+            favoriteViewModel = favoriteViewModel,
             movieActions = movieActions
         )
     }
@@ -52,9 +55,10 @@ fun MoviesNavHost(
     moviesNavController: NavHostController,
     selectedItem: Int,
     tweenSpec: FiniteAnimationSpec<Float>,
+    movieActions: Actions,
     moviesViewModel: MoviesViewModel,
     moviesPagingViewModel: MoviesPagingViewModel,
-    movieActions: Actions,
+    favoriteViewModel: FavoriteViewModel,
 ) {
     NavHost(
         navController = moviesNavController,
@@ -71,6 +75,7 @@ fun MoviesNavHost(
                 MovieListScreen(
                     moviesViewModel = moviesViewModel,
                     moviesPagingViewModel = moviesPagingViewModel,
+                    favoriteViewModel = favoriteViewModel,
                     movieDetailAction = movieActions.movieDetailAction
                 )
             }

@@ -3,6 +3,7 @@ package com.anibalbastias.moviesapp.feature.di
 import android.content.Context
 import androidx.room.Room
 import com.anibalbastias.moviesapp.feature.data.local.MoviesDatabase
+import com.anibalbastias.moviesapp.feature.data.local.dao.FavoritesDao
 import com.anibalbastias.moviesapp.feature.data.local.dao.MoviesDao
 import com.anibalbastias.moviesapp.feature.data.local.model.DBConstants
 import dagger.Module
@@ -28,7 +29,13 @@ object DataLocalModule {
 
     @Singleton
     @Provides
-    fun provideAlbumDao(database: MoviesDatabase): MoviesDao {
+    fun provideMoviesDao(database: MoviesDatabase): MoviesDao {
         return database.moviesDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideFavoriteMoviesDao(database: MoviesDatabase): FavoritesDao {
+        return database.favoriteMoviesDao()
     }
 }

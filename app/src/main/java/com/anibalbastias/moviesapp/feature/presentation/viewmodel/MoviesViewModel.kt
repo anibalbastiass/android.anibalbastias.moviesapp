@@ -7,11 +7,9 @@ import com.anibalbastias.moviesapp.feature.domain.UiMovieDataState
 import com.anibalbastias.moviesapp.feature.domain.UiMovieDetailDataState
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieDetail
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieItem
-import com.anibalbastias.moviesapp.feature.domain.usecase.GetMovieDetailUseCase
-import com.anibalbastias.moviesapp.feature.domain.usecase.GetNowPlayingMoviesUseCase
-import com.anibalbastias.moviesapp.feature.domain.usecase.UpdateMovieUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetMovieDetailUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetNowPlayingMoviesUseCase
 import com.anibalbastias.moviesapp.feature.presentation.mapper.UiMovieMapper
-import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -22,7 +20,6 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val listUseCase: GetNowPlayingMoviesUseCase,
     private val detailUseCase: GetMovieDetailUseCase,
-    private val updateUseCase: UpdateMovieUseCase,
     private val mapper: UiMovieMapper,
 ) : ViewModel() {
 
@@ -37,10 +34,6 @@ class MoviesViewModel @Inject constructor(
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean>
         get() = _isRefreshing.asStateFlow()
-
-    private val _updateMovie = MutableStateFlow(false)
-    val updateMovie: StateFlow<Boolean>
-        get() = _updateMovie
 
     fun getNowPlayingMovies(isRefreshing: Boolean = false) {
         if (isRefreshing) _isRefreshing.value = true
@@ -71,15 +64,6 @@ class MoviesViewModel @Inject constructor(
                 }
                 .collect { dataState ->
                     _detailMovies.value = transformDetailState(dataState)
-                }
-        }
-    }
-
-    fun updateMovie(movie: UiMovieItem) {
-        viewModelScope.launch {
-            updateUseCase.execute(movie)
-                .collect {
-                    _updateMovie.value = it
                 }
         }
     }

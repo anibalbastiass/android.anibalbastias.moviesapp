@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -16,19 +18,15 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.ExperimentalPagingApi
-import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemsIndexed
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.anibalbastias.moviesapp.R
-import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesPagingViewModel
+import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewModel
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.MovieListItemView
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.StickyHeaderMovie
-import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.loadState
 import com.anibalbastias.uikitcompose.components.atom.Body1
 import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState
 import com.mxalbert.sharedelements.LocalSharedElementsRootScope
@@ -37,15 +35,16 @@ import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 @ExperimentalFoundationApi
 @Composable
 fun FavoritesListScreen(
-    moviesPagingViewModel: MoviesPagingViewModel = hiltViewModel(),
+    favoriteViewModel: FavoriteViewModel,
     movieDetailAction: (movieId: Int) -> Unit,
 ) {
-    val moviesListItems = moviesPagingViewModel.pagedFavoriteMovieList.collectAsLazyPagingItems()
+    favoriteViewModel.getFavoriteList()
+    val moviesListItems = favoriteViewModel.favoriteMovies.collectAsState().value
 
     val lazyListState = rememberForeverLazyListState(key = "FavoriteMovies")
     val scope = LocalSharedElementsRootScope.current!!
 
-    when (moviesListItems.itemCount) {
+    when (moviesListItems.size) {
         0 -> EmptyFavoriteScreen()
         else -> {
             LazyColumn(
@@ -59,16 +58,13 @@ fun FavoritesListScreen(
                 }
 
                 itemsIndexed(moviesListItems) { index, item ->
-                    if (item != null) {
-                        MovieListItemView(
-                            index = index,
-                            movie = item,
-                            movieDetailAction = movieDetailAction,
-                            scope = scope
-                        )
-                    }
+                    MovieListItemView(
+                        index = index,
+                        movie = item,
+                        movieDetailAction = movieDetailAction,
+                        scope = scope
+                    )
                 }
-                loadState(moviesListItems.loadState)
             }
         }
     }
