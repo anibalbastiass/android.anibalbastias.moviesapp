@@ -48,7 +48,7 @@ And lastly, create a Compose component library using Atomic Design, to maintain 
     * di: Means about using Dependency Injection using Dagger Hilt, separating the scopes for any
       layer and the ViewModel.
 
-![package_arch](art/package_arch.png?raw=true)
+![packages](art/packages.png?raw=true)
 
 # Screenshots
 
