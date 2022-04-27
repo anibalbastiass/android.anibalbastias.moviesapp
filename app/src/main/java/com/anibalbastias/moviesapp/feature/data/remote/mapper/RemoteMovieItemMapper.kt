@@ -12,14 +12,17 @@ import java.util.*
 
 class RemoteMovieItemMapper {
 
-    fun fromRemoteToEntity(results: List<RemoteMovieResult>?): List<EntityMovieItem> {
+    fun fromRemoteToEntity(
+        results: List<RemoteMovieResult>?
+    ): List<EntityMovieItem> {
         return results!!.map { movie ->
             EntityMovieItem(
                 id = movie.id.toString(),
                 posterPath = movie.posterPath,
                 originalTitle = movie.originalTitle ?: "",
                 voteAverage = movie.voteAverage ?: 0.0,
-                releaseDate = movie.releaseDate
+                releaseDate = movie.releaseDate,
+                isFavorite = true
             )
         }
     }
@@ -29,7 +32,8 @@ class RemoteMovieItemMapper {
         posterPath = posterPath,
         originalTitle = originalTitle ?: "",
         voteAverage = voteAverage ?: 0.0,
-        releaseDate = releaseDate
+        releaseDate = releaseDate,
+        isFavorite = false
     )
 
     fun RemoteMovieDetail.fromRemoteToDomain() = DomainMovieDetail(

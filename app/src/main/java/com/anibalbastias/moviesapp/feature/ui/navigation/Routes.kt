@@ -3,6 +3,7 @@ package com.anibalbastias.moviesapp.feature.ui.navigation
 
 sealed class Routes(val route: String) {
     object MoviesList : Routes("movies")
+    object Favorites : Routes("favorites")
     class MoviesDetail(
         userId: Int = 0,
         val path: String = "movies/{$MOVIE_ID_KEY}",

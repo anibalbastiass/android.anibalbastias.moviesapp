@@ -1,34 +1,90 @@
 package com.anibalbastias.moviesapp.feature.ui.screens.favorites
 
+import android.util.Log
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.anibalbastias.moviesapp.R
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import androidx.paging.ExperimentalPagingApi
+import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
-import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.StickyHeaderMovie
-import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState
+import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
+import com.anibalbastias.moviesapp.feature.ui.navigation.MOVIE_ID_KEY
+import com.anibalbastias.moviesapp.feature.ui.navigation.Routes
+import com.anibalbastias.moviesapp.feature.ui.screens.movies.detail.MovieDetailScreen
+import com.anibalbastias.uikitcompose.utils.SharedUtils
 
+@ExperimentalPagingApi
 @ExperimentalFoundationApi
 @Composable
 fun FavoritesScreen(
     moviesViewModel: MoviesViewModel = hiltViewModel(),
+    favoriteViewModel: FavoriteViewModel = hiltViewModel(),
 ) {
-    val lazyListState = rememberForeverLazyListState(key = "Favorites")
+    val favoritesNavController = rememberNavController()
+    val movieActions = remember(favoritesNavController) { Actions(favoritesNavController) }
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colorResource(id = R.color.backgroundColor)),
-        state = lazyListState
-    ) {
-        stickyHeader {
-            StickyHeaderMovie(title = stringResource(id = R.string.favorites))
+    FavoritesNavHost(
+        favoritesNavController = favoritesNavController,
+        favoriteViewModel = favoriteViewModel,
+        moviesViewModel = moviesViewModel,
+        movieActions = movieActions
+    )
+}
+
+@ExperimentalFoundationApi
+@ExperimentalPagingApi
+@Composable
+fun FavoritesNavHost(
+    favoritesNavController: NavHostController,
+    favoriteViewModel: FavoriteViewModel,
+    movieActions: Actions,
+    moviesViewModel: MoviesViewModel,
+) {
+    SharedUtils.SharedListRootContainer(movieActions.goBackAction) { tweenSpec, selectedItem ->
+        NavHost(
+            navController = favoritesNavController,
+            startDestination = Routes.Favorites.route
+        ) {
+            // Movie List
+            composable(route = Routes.Favorites.route) {
+                Crossfade(
+                    targetState = selectedItem,
+                    animationSpec = tweenSpec
+                ) { item ->
+                    Log.d("Index", item.toString())
+
+                    FavoritesListScreen(
+                        favoriteViewModel = favoriteViewModel,
+                        movieDetailAction = movieActions.movieDetailAction
+                    )
+                }
+            }
+
+            // Movie Detail
+            composable(
+                route = Routes.MoviesDetail().path,
+                arguments = listOf(navArgument(MOVIE_ID_KEY) { type = NavType.IntType })
+            ) { backStackEntry ->
+                Crossfade(
+                    targetState = selectedItem,
+                    animationSpec = tweenSpec
+                ) { item ->
+                    MovieDetailScreen(
+                        movieId = backStackEntry.arguments?.getInt(MOVIE_ID_KEY),
+                        moviesViewModel = moviesViewModel,
+                        index = item
+                    )
+                }
+            }
         }
     }
 }

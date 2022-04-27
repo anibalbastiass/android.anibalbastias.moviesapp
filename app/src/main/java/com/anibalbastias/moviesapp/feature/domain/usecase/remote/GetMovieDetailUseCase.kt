@@ -1,4 +1,4 @@
-package com.anibalbastias.moviesapp.feature.domain.usecase
+package com.anibalbastias.moviesapp.feature.domain.usecase.remote
 
 import com.anibalbastias.moviesapp.feature.data.remote.RemoteMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.domain.DomainMovieDetailDataState

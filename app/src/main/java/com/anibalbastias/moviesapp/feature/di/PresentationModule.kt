@@ -1,19 +1,20 @@
 package com.anibalbastias.moviesapp.feature.di
 
 import androidx.paging.ExperimentalPagingApi
+import com.anibalbastias.moviesapp.feature.data.local.LocalMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.data.remote.RemoteMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.domain.mediator.MoviesPagingMediator
-import com.anibalbastias.moviesapp.feature.domain.usecase.GetMovieDetailUseCase
-import com.anibalbastias.moviesapp.feature.domain.usecase.GetNowPlayingMoviesUseCase
-import com.anibalbastias.moviesapp.feature.domain.usecase.GetPagingMoviesUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.local.AddFavoriteMovieUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.local.GetFavoriteMoviesUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.local.RemoveFavoriteMovieUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetMovieDetailUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetNowPlayingMoviesUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetPagingMoviesUseCase
 import com.anibalbastias.moviesapp.feature.presentation.mapper.UiMovieMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlin.coroutines.CoroutineContext
 
 @ExperimentalPagingApi
 @Module
@@ -31,12 +32,36 @@ object PresentationModule {
     }
 
     @Provides
+    fun provideGetFavoriteMoviesUseCase(
+        local: LocalMoviesRepositoryImpl,
+        mapper: UiMovieMapper,
+    ): GetFavoriteMoviesUseCase {
+        return GetFavoriteMoviesUseCase(local, mapper)
+    }
+
+    @Provides
     fun provideGetPagedPopularMoviesUseCase(
-        remote: RemoteMoviesRepositoryImpl,
+        local: LocalMoviesRepositoryImpl,
         mapper: UiMovieMapper,
         mediator: MoviesPagingMediator,
     ): GetPagingMoviesUseCase {
-        return GetPagingMoviesUseCase(remote, mapper, mediator)
+        return GetPagingMoviesUseCase(local, mapper, mediator)
+    }
+
+    @Provides
+    fun provideAddFavoriteMovieUseCase(
+        local: LocalMoviesRepositoryImpl,
+        mapper: UiMovieMapper,
+    ): AddFavoriteMovieUseCase {
+        return AddFavoriteMovieUseCase(local, mapper)
+    }
+
+    @Provides
+    fun provideRemoveFavoriteMovieUseCase(
+        local: LocalMoviesRepositoryImpl,
+        mapper: UiMovieMapper,
+    ): RemoveFavoriteMovieUseCase {
+        return RemoveFavoriteMovieUseCase(local, mapper)
     }
 
     @Provides
@@ -44,10 +69,5 @@ object PresentationModule {
         remote: RemoteMoviesRepositoryImpl,
     ): GetMovieDetailUseCase {
         return GetMovieDetailUseCase(remote)
-    }
-
-    @Provides
-    fun providePagedCoroutineContext(): CoroutineContext {
-        return SupervisorJob() + Dispatchers.Main
     }
 }

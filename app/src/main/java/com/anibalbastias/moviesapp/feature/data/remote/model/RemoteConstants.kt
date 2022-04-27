@@ -21,6 +21,7 @@ object RemoteConstants {
     const val PRODUCTION_COMPANIES = "production_companies"
     const val PRODUCTION_COUNTRIES = "production_countries"
     const val RELEASE_DATE = "release_date"
+    const val IS_FAVORITE = "is_favorite"
     const val REVENUE = "revenue"
     const val RUNTIME = "runtime"
     const val SPOKEN_LANGUAGES = "spoken_languages"

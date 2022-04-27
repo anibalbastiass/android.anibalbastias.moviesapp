@@ -2,6 +2,7 @@ package com.anibalbastias.moviesapp.feature.ui.screens.movies
 
 import android.util.Log
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -10,8 +11,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.paging.ExperimentalPagingApi
+import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesPagingViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
@@ -20,26 +23,38 @@ import com.anibalbastias.moviesapp.feature.ui.navigation.Routes
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.detail.MovieDetailScreen
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.MovieListScreen
 import com.anibalbastias.uikitcompose.utils.SharedUtils
-import com.anibalbastias.uikitcompose.utils.SharedUtils.changeItem
-import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 
 @ExperimentalFoundationApi
 @ExperimentalPagingApi
 @Composable
 fun MoviesScreen(
-    moviesNavController: NavHostController,
     moviesViewModel: MoviesViewModel = hiltViewModel(),
     moviesPagingViewModel: MoviesPagingViewModel = hiltViewModel(),
+    favoriteViewModel: FavoriteViewModel = hiltViewModel(),
 ) {
+    val moviesNavController = rememberNavController()
     val movieActions = remember(moviesNavController) { Actions(moviesNavController) }
 
-    SharedUtils.SharedListRootContainer(movieActions.goBackAction) { tweenSpec, selectedItem ->
-        val scope = LocalSharedElementsRootScope.current!!
-        val onBack = {
-            scope.changeItem(-1)
-            movieActions.goBackAction()
-        }
+    MoviesNavHost(
+        moviesNavController = moviesNavController,
+        moviesViewModel = moviesViewModel,
+        moviesPagingViewModel = moviesPagingViewModel,
+        favoriteViewModel = favoriteViewModel,
+        movieActions = movieActions
+    )
+}
 
+@ExperimentalFoundationApi
+@ExperimentalPagingApi
+@Composable
+fun MoviesNavHost(
+    moviesNavController: NavHostController,
+    movieActions: Actions,
+    moviesViewModel: MoviesViewModel,
+    moviesPagingViewModel: MoviesPagingViewModel,
+    favoriteViewModel: FavoriteViewModel,
+) {
+    SharedUtils.SharedListRootContainer(movieActions.goBackAction) { tweenSpec, selectedItem ->
         NavHost(
             navController = moviesNavController,
             startDestination = Routes.MoviesList.route
@@ -55,6 +70,7 @@ fun MoviesScreen(
                     MovieListScreen(
                         moviesViewModel = moviesViewModel,
                         moviesPagingViewModel = moviesPagingViewModel,
+                        favoriteViewModel = favoriteViewModel,
                         movieDetailAction = movieActions.movieDetailAction
                     )
                 }

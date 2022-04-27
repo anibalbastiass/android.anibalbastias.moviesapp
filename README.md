@@ -48,7 +48,7 @@ And lastly, create a Compose component library using Atomic Design, to maintain 
     * di: Means about using Dependency Injection using Dagger Hilt, separating the scopes for any
       layer and the ViewModel.
 
-![package_arch](art/package_arch.png?raw=true)
+![packages](art/packages.png?raw=true)
 
 # Screenshots
 
@@ -59,6 +59,10 @@ And lastly, create a Compose component library using Atomic Design, to maintain 
 ## Movie Detail
 
 ![movie_details](art/fragment_details.png?raw=true)
+
+## Movie Favorites
+
+![movie_favorites](art/fragment_favorites.png?raw=true)
 
 # Testing
 
@@ -77,6 +81,8 @@ repositories, models.
 * ic_launcher for Movies logo
 * Extra security layer for sensitive data
 * Certification Pinning
+* Favorite movies
+* Swipe to add favorite
 ```
 openssl s_client -connect api.themoviedb.org:443 | openssl x509 -pubkey -noout | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
 ```

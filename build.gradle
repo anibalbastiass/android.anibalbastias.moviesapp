@@ -18,3 +18,9 @@ buildscript {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+def credentialsProperties = new Properties()
+if (file("$rootDir/credentials.properties").exists()) {
+    file("$rootDir/credentials.properties").withInputStream { credentialsProperties.load(it) }
+}
+ext.credentialsProperties = credentialsProperties

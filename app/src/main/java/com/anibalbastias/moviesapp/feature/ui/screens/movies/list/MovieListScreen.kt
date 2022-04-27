@@ -7,6 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesPagingViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -19,6 +20,7 @@ fun MovieListScreen(
     moviesViewModel: MoviesViewModel,
     moviesPagingViewModel: MoviesPagingViewModel,
     movieDetailAction: (movieId: Int) -> Unit,
+    favoriteViewModel: FavoriteViewModel,
 ) {
     val nowPlayingState = moviesViewModel.nowPlayingMovies.collectAsState().value
     moviesViewModel.getNowPlayingMovies()
@@ -35,7 +37,17 @@ fun MovieListScreen(
                     moviesViewModel.getNowPlayingMovies(true)
                 }
             ) {
-                PopularMoviesView(nowPlayingState, moviesListItems, movieDetailAction)
+                PopularMoviesView(
+                    nowPlayingState,
+                    moviesListItems,
+                    movieDetailAction) { movie, isFavorite ->
+
+                    if (isFavorite) {
+                        favoriteViewModel.addFavoriteMovie(movie)
+                    } else {
+                        favoriteViewModel.removeFavoriteMovie(movie)
+                    }
+                }
             }
         }
     )

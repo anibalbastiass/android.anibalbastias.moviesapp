@@ -2,7 +2,6 @@ package com.anibalbastias.moviesapp.feature.data.remote
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.anibalbastias.moviesapp.TestCoroutineRule
-import com.anibalbastias.moviesapp.feature.data.local.dao.MoviesDao
 import com.anibalbastias.moviesapp.feature.data.remote.mapper.RemoteMovieItemMapper
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieItem
@@ -35,9 +34,6 @@ class RemoteMoviesRepositoryImplTest {
     internal lateinit var mockService: RemoteMoviesService
 
     @Mock
-    internal lateinit var mockDao: MoviesDao
-
-    @Mock
     internal lateinit var mockMapper: RemoteMovieItemMapper
 
     private lateinit var cut: RemoteMoviesRepositoryImpl
@@ -45,7 +41,7 @@ class RemoteMoviesRepositoryImplTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        cut = RemoteMoviesRepositoryImpl(mockService, mockDao, mockMapper)
+        cut = RemoteMoviesRepositoryImpl(mockService, mockMapper)
     }
 
     @Test

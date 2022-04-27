@@ -7,15 +7,12 @@ import com.anibalbastias.moviesapp.feature.domain.UiMovieDataState
 import com.anibalbastias.moviesapp.feature.domain.UiMovieDetailDataState
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieDetail
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieItem
-import com.anibalbastias.moviesapp.feature.domain.usecase.GetMovieDetailUseCase
-import com.anibalbastias.moviesapp.feature.domain.usecase.GetNowPlayingMoviesUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetMovieDetailUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetNowPlayingMoviesUseCase
 import com.anibalbastias.moviesapp.feature.presentation.mapper.UiMovieMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -6,4 +6,5 @@ data class UiMovieItem(
     val originalTitle: String,
     val voteAverage: Double,
     val releaseDate: String,
+    var isFavorite: Boolean
 )

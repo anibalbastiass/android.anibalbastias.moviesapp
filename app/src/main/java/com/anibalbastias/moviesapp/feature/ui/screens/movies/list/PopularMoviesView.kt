@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalMaterialApi::class)
+
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.list
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -7,15 +10,21 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -27,6 +36,7 @@ import com.anibalbastias.moviesapp.feature.domain.UiMovieDataState
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 import com.anibalbastias.uikitcompose.components.atom.Body1
 import com.anibalbastias.uikitcompose.components.atom.Body2
+import com.anibalbastias.uikitcompose.components.molecules.FavoriteSwipeCard
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
 import com.anibalbastias.uikitcompose.utils.SharedUtils
 import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedListBoxContainer
@@ -41,6 +51,7 @@ fun PopularMoviesView(
     nowPlayingState: UiMovieDataState,
     moviesListItems: LazyPagingItems<UiMovieItem>,
     movieDetailAction: (movieId: Int) -> Unit,
+    movieFavoriteAction: (movie: UiMovieItem, isFavorite: Boolean) -> Unit,
 ) {
     val lazyListState = rememberForeverLazyListState(key = "PopularMovies")
     val scope = LocalSharedElementsRootScope.current!!
@@ -63,11 +74,18 @@ fun PopularMoviesView(
 
                 itemsIndexed(moviesListItems) { index, item ->
                     if (item != null) {
-                        MovieListItemView(
-                            index = index,
-                            movie = item,
-                            movieDetailAction = movieDetailAction,
-                            scope = scope
+                        FavoriteSwipeCard(item.isFavorite,
+                            screenItem = { isFavorite ->
+                                item.isFavorite = isFavorite
+
+                                MovieListItemView(
+                                    index = index,
+                                    movie = item,
+                                    movieDetailAction = movieDetailAction,
+                                    scope = scope
+                                )
+                            },
+                            onSwipe = { isFavorite -> movieFavoriteAction(item, isFavorite) }
                         )
                     }
                 }
@@ -146,17 +164,44 @@ fun MovieListItemView(
                 .padding(10.dp)
                 .fillMaxWidth()
         ) {
-            SharedListBoxContainer(movie.posterPath + index) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(movie.posterPath)
-                        .crossfade(true)
-                        .build(),
-                    modifier = Modifier
-                        .width(60.dp)
-                        .height(100.dp),
-                    contentDescription = movie.originalTitle
-                )
+            ConstraintLayout(
+                modifier = Modifier.width(70.dp)
+            ) {
+                val (image, favorite) = createRefs()
+
+                SharedListBoxContainer(movie.posterPath + index) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(movie.posterPath)
+                            .crossfade(true)
+                            .build(),
+                        modifier = Modifier
+                            .width(60.dp)
+                            .height(100.dp)
+                            .constrainAs(image) {
+                                top.linkTo(parent.top)
+                                bottom.linkTo(parent.bottom)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                            },
+                        contentDescription = movie.originalTitle
+                    )
+                }
+
+                this@Row.AnimatedVisibility(visible = movie.isFavorite) {
+                    Icon(
+                        Icons.Default.Favorite,
+                        tint = Color.Red,
+                        contentDescription = "Localized description",
+                        modifier = Modifier
+                            .padding(start = 50.dp)
+                            .constrainAs(favorite) {
+                                top.linkTo(parent.top)
+                                bottom.linkTo(parent.bottom)
+                                start.linkTo(image.end)
+                            }
+                    )
+                }
             }
 
             Column(modifier = Modifier
@@ -202,7 +247,8 @@ fun MovieListItemViewPreview() {
                 posterPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
                 originalTitle = "The Mask",
                 voteAverage = 8.5,
-                releaseDate = "March 30, 2022"
+                releaseDate = "March 30, 2022",
+                isFavorite = true
             )
 
             MovieListItemView(movie, {}, LocalSharedElementsRootScope.current!!, 0)

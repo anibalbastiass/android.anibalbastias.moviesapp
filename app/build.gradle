@@ -8,27 +8,29 @@ plugins {
 }
 
 android {
+    def CONFIG = { k -> "${credentialsProperties.get(k)}" }
+
     compileSdkVersion versions.android.compile
 
     defaultConfig {
         applicationId "com.anibalbastias.moviesapp"
         minSdkVersion versions.android.minSdk
         targetSdkVersion versions.android.targetSdk
-        versionCode 3
-        versionName "1.2.0"
+        versionCode 4
+        versionName "1.3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "API_BASE_URL", "\"https://api.themoviedb.org/3/\""
-        buildConfigField "String", "API_HOST", "\"api.themoviedb.org\""
+        buildConfigField "String", "API_BASE_URL", CONFIG("API_BASE_URL")
+        buildConfigField "String", "API_HOST", CONFIG("API_HOST")
 
-        buildConfigField "String", "API_PUBLIC_KEY_HASH", "\"sha256/47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
-        buildConfigField "String", "API_PUBLIC_KEY_HASH_AWS1", "\"sha256/oD/WAoRPvbez1Y2dfYfuo4yujAcYHXdv1Ivb2v2MOKk\""
-        buildConfigField "String", "API_PUBLIC_KEY_HASH_AWS2", "\"sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=\""
-        buildConfigField "String", "API_PUBLIC_KEY_HASH_AWS3", "\"sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=\""
+        buildConfigField "String", "API_PUBLIC_KEY_HASH", CONFIG("API_PUBLIC_KEY_HASH")
+        buildConfigField "String", "API_PUBLIC_KEY_HASH_AWS1", CONFIG("API_PUBLIC_KEY_HASH_AWS1")
+        buildConfigField "String", "API_PUBLIC_KEY_HASH_AWS2", CONFIG("API_PUBLIC_KEY_HASH_AWS2")
+        buildConfigField "String", "API_PUBLIC_KEY_HASH_AWS3", CONFIG("API_PUBLIC_KEY_HASH_AWS3")
 
-        buildConfigField "String", "API_KEY", "\"55957fcf3ba81b137f8fc01ac5a31fb5\""
-        buildConfigField "String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/w500/\""
+        buildConfigField "String", "API_KEY", CONFIG("API_KEY")
+        buildConfigField "String", "IMAGE_URL", CONFIG("IMAGE_URL")
     }
 
     buildTypes {
@@ -117,6 +119,7 @@ dependencies {
 
     // 3rd party libs
     implementation deps.thirdParty.coilCompose
+    implementation deps.thirdParty.lottieCompose
     implementation deps.thirdParty.sharedElementCompose
 
     // Dagger Hilt
