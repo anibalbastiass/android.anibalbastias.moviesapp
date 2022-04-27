@@ -8,13 +8,6 @@ import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 
 class UiMovieMapper {
-    fun UiMovieItem.fromUiToDomain() = EntityMovieItem(
-        id = id.toString(),
-        posterPath = posterPath,
-        originalTitle = originalTitle,
-        voteAverage = voteAverage,
-        releaseDate = releaseDate,
-    )
 
     fun DomainMovieItem.fromDomainToUi() = UiMovieItem(
         id = id,
@@ -22,17 +15,19 @@ class UiMovieMapper {
         originalTitle = originalTitle,
         voteAverage = voteAverage,
         releaseDate = releaseDate,
-        isFavorite = false // TODO: CHECK THIS OUT!
+        isFavorite = isFavorite
     )
 
-    fun EntityMovieItem.fromEntityToUi() = UiMovieItem(
-        id = id.toLong(),
-        posterPath = posterPath,
-        originalTitle = originalTitle,
-        voteAverage = voteAverage,
-        releaseDate = releaseDate,
-        isFavorite = false
-    )
+    fun EntityMovieItem.fromEntityToUi(favorites: List<EntityFavoriteMovieItem>): UiMovieItem {
+        return UiMovieItem(
+            id = id.toLong(),
+            posterPath = posterPath,
+            originalTitle = originalTitle,
+            voteAverage = voteAverage,
+            releaseDate = releaseDate,
+            isFavorite = favorites.find { it.id == id } != null
+        )
+    }
 
     fun EntityFavoriteMovieItem.fromEntityToUi() = UiMovieItem(
         id = id.toLong(),

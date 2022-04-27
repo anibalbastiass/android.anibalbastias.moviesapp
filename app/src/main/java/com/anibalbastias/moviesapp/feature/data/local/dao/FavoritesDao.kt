@@ -15,7 +15,4 @@ interface FavoritesDao {
 
     @Delete
     suspend fun removeFavoriteMovies(movie: EntityFavoriteMovieItem)
-
-    @Query("DELETE FROM ${DBConstants.FAVORITE_MOVIES_TABLE}")
-    fun clearAll()
 }

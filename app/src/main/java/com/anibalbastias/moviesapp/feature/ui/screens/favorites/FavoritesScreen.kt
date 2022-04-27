@@ -32,16 +32,12 @@ fun FavoritesScreen(
     val favoritesNavController = rememberNavController()
     val movieActions = remember(favoritesNavController) { Actions(favoritesNavController) }
 
-    SharedUtils.SharedListRootContainer(movieActions.goBackAction) { tweenSpec, selectedItem ->
-        FavoritesNavHost(
-            favoritesNavController = favoritesNavController,
-            selectedItem = selectedItem,
-            tweenSpec = tweenSpec,
-            favoriteViewModel = favoriteViewModel,
-            moviesViewModel = moviesViewModel,
-            movieActions = movieActions
-        )
-    }
+    FavoritesNavHost(
+        favoritesNavController = favoritesNavController,
+        favoriteViewModel = favoriteViewModel,
+        moviesViewModel = moviesViewModel,
+        movieActions = movieActions
+    )
 }
 
 @ExperimentalFoundationApi
@@ -49,45 +45,45 @@ fun FavoritesScreen(
 @Composable
 fun FavoritesNavHost(
     favoritesNavController: NavHostController,
-    selectedItem: Int,
-    tweenSpec: FiniteAnimationSpec<Float>,
     favoriteViewModel: FavoriteViewModel,
     movieActions: Actions,
     moviesViewModel: MoviesViewModel,
 ) {
-    NavHost(
-        navController = favoritesNavController,
-        startDestination = Routes.Favorites.route
-    ) {
-        // Movie List
-        composable(route = Routes.Favorites.route) {
-            Crossfade(
-                targetState = selectedItem,
-                animationSpec = tweenSpec
-            ) { item ->
-                Log.d("Index", item.toString())
+    SharedUtils.SharedListRootContainer(movieActions.goBackAction) { tweenSpec, selectedItem ->
+        NavHost(
+            navController = favoritesNavController,
+            startDestination = Routes.Favorites.route
+        ) {
+            // Movie List
+            composable(route = Routes.Favorites.route) {
+                Crossfade(
+                    targetState = selectedItem,
+                    animationSpec = tweenSpec
+                ) { item ->
+                    Log.d("Index", item.toString())
 
-                FavoritesListScreen(
-                    favoriteViewModel = favoriteViewModel,
-                    movieDetailAction = movieActions.movieDetailAction
-                )
+                    FavoritesListScreen(
+                        favoriteViewModel = favoriteViewModel,
+                        movieDetailAction = movieActions.movieDetailAction
+                    )
+                }
             }
-        }
 
-        // Movie Detail
-        composable(
-            route = Routes.MoviesDetail().path,
-            arguments = listOf(navArgument(MOVIE_ID_KEY) { type = NavType.IntType })
-        ) { backStackEntry ->
-            Crossfade(
-                targetState = selectedItem,
-                animationSpec = tweenSpec
-            ) { item ->
-                MovieDetailScreen(
-                    movieId = backStackEntry.arguments?.getInt(MOVIE_ID_KEY),
-                    moviesViewModel = moviesViewModel,
-                    index = item
-                )
+            // Movie Detail
+            composable(
+                route = Routes.MoviesDetail().path,
+                arguments = listOf(navArgument(MOVIE_ID_KEY) { type = NavType.IntType })
+            ) { backStackEntry ->
+                Crossfade(
+                    targetState = selectedItem,
+                    animationSpec = tweenSpec
+                ) { item ->
+                    MovieDetailScreen(
+                        movieId = backStackEntry.arguments?.getInt(MOVIE_ID_KEY),
+                        moviesViewModel = moviesViewModel,
+                        index = item
+                    )
+                }
             }
         }
     }

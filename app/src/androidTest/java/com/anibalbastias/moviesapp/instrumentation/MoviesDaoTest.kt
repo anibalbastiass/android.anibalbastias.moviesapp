@@ -29,7 +29,8 @@ open class MoviesDaoTest : DatabaseTest() {
                     posterPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
                     originalTitle = "The Mask",
                     voteAverage = 8.0,
-                    releaseDate = "March 30, 2022"
+                    releaseDate = "March 30, 2022",
+                    isFavorite = true
                 )
             )
         }

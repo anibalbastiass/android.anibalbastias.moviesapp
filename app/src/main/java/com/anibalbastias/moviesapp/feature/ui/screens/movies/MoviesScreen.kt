@@ -35,17 +35,13 @@ fun MoviesScreen(
     val moviesNavController = rememberNavController()
     val movieActions = remember(moviesNavController) { Actions(moviesNavController) }
 
-    SharedUtils.SharedListRootContainer(movieActions.goBackAction) { tweenSpec, selectedItem ->
-        MoviesNavHost(
-            moviesNavController = moviesNavController,
-            selectedItem = selectedItem,
-            tweenSpec = tweenSpec,
-            moviesViewModel = moviesViewModel,
-            moviesPagingViewModel = moviesPagingViewModel,
-            favoriteViewModel = favoriteViewModel,
-            movieActions = movieActions
-        )
-    }
+    MoviesNavHost(
+        moviesNavController = moviesNavController,
+        moviesViewModel = moviesViewModel,
+        moviesPagingViewModel = moviesPagingViewModel,
+        favoriteViewModel = favoriteViewModel,
+        movieActions = movieActions
+    )
 }
 
 @ExperimentalFoundationApi
@@ -53,48 +49,48 @@ fun MoviesScreen(
 @Composable
 fun MoviesNavHost(
     moviesNavController: NavHostController,
-    selectedItem: Int,
-    tweenSpec: FiniteAnimationSpec<Float>,
     movieActions: Actions,
     moviesViewModel: MoviesViewModel,
     moviesPagingViewModel: MoviesPagingViewModel,
     favoriteViewModel: FavoriteViewModel,
 ) {
-    NavHost(
-        navController = moviesNavController,
-        startDestination = Routes.MoviesList.route
-    ) {
-        // Movie List
-        composable(route = Routes.MoviesList.route) {
-            Crossfade(
-                targetState = selectedItem,
-                animationSpec = tweenSpec
-            ) { item ->
-                Log.d("Index", item.toString())
+    SharedUtils.SharedListRootContainer(movieActions.goBackAction) { tweenSpec, selectedItem ->
+        NavHost(
+            navController = moviesNavController,
+            startDestination = Routes.MoviesList.route
+        ) {
+            // Movie List
+            composable(route = Routes.MoviesList.route) {
+                Crossfade(
+                    targetState = selectedItem,
+                    animationSpec = tweenSpec
+                ) { item ->
+                    Log.d("Index", item.toString())
 
-                MovieListScreen(
-                    moviesViewModel = moviesViewModel,
-                    moviesPagingViewModel = moviesPagingViewModel,
-                    favoriteViewModel = favoriteViewModel,
-                    movieDetailAction = movieActions.movieDetailAction
-                )
+                    MovieListScreen(
+                        moviesViewModel = moviesViewModel,
+                        moviesPagingViewModel = moviesPagingViewModel,
+                        favoriteViewModel = favoriteViewModel,
+                        movieDetailAction = movieActions.movieDetailAction
+                    )
+                }
             }
-        }
 
-        // Movie Detail
-        composable(
-            route = Routes.MoviesDetail().path,
-            arguments = listOf(navArgument(MOVIE_ID_KEY) { type = NavType.IntType })
-        ) { backStackEntry ->
-            Crossfade(
-                targetState = selectedItem,
-                animationSpec = tweenSpec
-            ) { item ->
-                MovieDetailScreen(
-                    movieId = backStackEntry.arguments?.getInt(MOVIE_ID_KEY),
-                    moviesViewModel = moviesViewModel,
-                    index = item
-                )
+            // Movie Detail
+            composable(
+                route = Routes.MoviesDetail().path,
+                arguments = listOf(navArgument(MOVIE_ID_KEY) { type = NavType.IntType })
+            ) { backStackEntry ->
+                Crossfade(
+                    targetState = selectedItem,
+                    animationSpec = tweenSpec
+                ) { item ->
+                    MovieDetailScreen(
+                        movieId = backStackEntry.arguments?.getInt(MOVIE_ID_KEY),
+                        moviesViewModel = moviesViewModel,
+                        index = item
+                    )
+                }
             }
         }
     }

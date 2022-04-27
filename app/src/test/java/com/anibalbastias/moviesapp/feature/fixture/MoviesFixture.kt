@@ -10,7 +10,8 @@ object MoviesFixture {
             posterPath = "",
             originalTitle = "",
             voteAverage = 0.0,
-            releaseDate = ""
+            releaseDate = "",
+            isFavorite = true
         )
     }
 

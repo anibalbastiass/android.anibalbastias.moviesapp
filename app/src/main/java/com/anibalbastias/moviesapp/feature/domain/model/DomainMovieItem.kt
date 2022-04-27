@@ -5,5 +5,6 @@ data class DomainMovieItem(
     val posterPath: String,
     val originalTitle: String,
     val voteAverage: Double,
-    val releaseDate: String
+    val releaseDate: String,
+    val isFavorite: Boolean
 )

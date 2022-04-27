@@ -14,6 +14,7 @@ import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.FIR
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -71,7 +72,9 @@ class MoviesPagingMediator @Inject constructor(
         }
 
         try {
-            val apiResponse = service.getPagedMovies(page)
+            val apiResponse = withContext(ioScope.coroutineContext) {
+                service.getPagedMovies(page)
+            }
 
             val movies = apiResponse.results!!
             val endOfPaginationReached = movies.isEmpty()
@@ -102,7 +105,7 @@ class MoviesPagingMediator @Inject constructor(
     }
 
     private fun getRemoteKeyForLastItem(state: PagingState<Int, EntityMovieItem>): EntityMovieKey? {
-        return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { movie ->
                 // Get the remote keys of the last item retrieved
                 database.moviesKeysDao().getRemoteKey(movie.id)

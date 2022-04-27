@@ -74,17 +74,19 @@ fun PopularMoviesView(
 
                 itemsIndexed(moviesListItems) { index, item ->
                     if (item != null) {
-                        FavoriteSwipeCard(item.isFavorite) { isFavorite ->
-                            item.isFavorite = isFavorite
-                            movieFavoriteAction(item, isFavorite)
+                        FavoriteSwipeCard(item.isFavorite,
+                            screenItem = { isFavorite ->
+                                item.isFavorite = isFavorite
 
-                            MovieListItemView(
-                                index = index,
-                                movie = item,
-                                movieDetailAction = movieDetailAction,
-                                scope = scope
-                            )
-                        }
+                                MovieListItemView(
+                                    index = index,
+                                    movie = item,
+                                    movieDetailAction = movieDetailAction,
+                                    scope = scope
+                                )
+                            },
+                            onSwipe = { isFavorite -> movieFavoriteAction(item, isFavorite) }
+                        )
                     }
                 }
                 loadState(moviesListItems.loadState)

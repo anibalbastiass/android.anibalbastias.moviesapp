@@ -4,9 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -19,21 +17,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.anibalbastias.uikitcompose.components.atom.Body1
-import com.anibalbastias.uikitcompose.components.atom.HeadlineH4
-import com.anibalbastias.uikitcompose.components.atom.HeadlineH6
-import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
-import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailBoxContainer
-import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailElementContainer
-import com.anibalbastias.uikitcompose.utils.SharedUtils.changeItem
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.ErrorView
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.LoadingView
+import com.anibalbastias.uikitcompose.components.atom.Body1
+import com.anibalbastias.uikitcompose.components.atom.HeadlineH4
+import com.anibalbastias.uikitcompose.components.atom.HeadlineH6
+import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
+import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailBoxContainer
+import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailElementContainer
 import com.google.accompanist.flowlayout.FlowRow
-import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 
 @Composable
 fun MovieDetailScreen(
