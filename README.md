@@ -60,6 +60,10 @@ And lastly, create a Compose component library using Atomic Design, to maintain 
 
 ![movie_details](art/fragment_details.png?raw=true)
 
+## Movie Favorites
+
+![movie_favorites](art/fragment_favorites.png?raw=true)
+
 # Testing
 
 This project have 3 kind of tests:
@@ -77,6 +81,8 @@ repositories, models.
 * ic_launcher for Movies logo
 * Extra security layer for sensitive data
 * Certification Pinning
+* Favorite movies
+* Swipe to add favorite
 ```
 openssl s_client -connect api.themoviedb.org:443 | openssl x509 -pubkey -noout | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
 ```
