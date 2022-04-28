@@ -2,7 +2,6 @@ package com.anibalbastias.moviesapp.feature.ui.screens.favorites
 
 import android.util.Log
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -79,9 +78,10 @@ fun FavoritesNavHost(
                     animationSpec = tweenSpec
                 ) { item ->
                     MovieDetailScreen(
-                        movieId = backStackEntry.arguments?.getInt(MOVIE_ID_KEY),
                         moviesViewModel = moviesViewModel,
-                        index = item
+                        movieId = backStackEntry.arguments?.getInt(MOVIE_ID_KEY),
+                        index = item,
+                        movieActions = movieActions
                     )
                 }
             }

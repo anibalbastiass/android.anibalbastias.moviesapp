@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,6 +26,8 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewModel
+import com.anibalbastias.moviesapp.feature.ui.navigation.AppTopBar
+import com.anibalbastias.moviesapp.feature.ui.navigation.TopBarType
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.MovieListItemView
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.StickyHeaderMovie
 import com.anibalbastias.uikitcompose.components.atom.Body1
@@ -37,6 +40,22 @@ import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 fun FavoritesListScreen(
     favoriteViewModel: FavoriteViewModel,
     movieDetailAction: (movieId: Int) -> Unit,
+) {
+    Scaffold(
+        topBar = {
+            AppTopBar(type = TopBarType.FAVORITES)
+        },
+        content = {
+            FavoriteListContent(favoriteViewModel, movieDetailAction)
+        }
+    )
+}
+
+@ExperimentalFoundationApi
+@Composable
+fun FavoriteListContent(
+    favoriteViewModel: FavoriteViewModel,
+    movieDetailAction: (movieId: Int) -> Unit
 ) {
     favoriteViewModel.getFavoriteList()
     val moviesListItems = favoriteViewModel.favoriteMovies.collectAsState().value
