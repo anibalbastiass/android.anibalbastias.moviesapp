@@ -64,7 +64,7 @@ fun FavoriteListContent(
     val scope = LocalSharedElementsRootScope.current!!
 
     when (moviesListItems.size) {
-        0 -> EmptyFavoriteScreen()
+        0 -> EmptyMoviesScreen(stringResource(id = R.string.favorites_empty))
         else -> {
             LazyColumn(
                 modifier = Modifier
@@ -90,7 +90,7 @@ fun FavoriteListContent(
 }
 
 @Composable
-fun EmptyFavoriteScreen() {
+fun EmptyMoviesScreen(message: String) {
     ConstraintLayout(modifier = Modifier
         .padding(bottom = 50.dp)
         .fillMaxSize()
@@ -126,7 +126,7 @@ fun EmptyFavoriteScreen() {
         }
 
         Body1(
-            text = stringResource(id = R.string.favorites_empty),
+            text = message,
             color = colorResource(id = R.color.textColor),
             modifier = Modifier
                 .padding(top = 30.dp)
