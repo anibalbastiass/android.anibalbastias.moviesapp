@@ -24,4 +24,10 @@ interface RemoteMoviesService {
     suspend fun getMovieById(
         @Path("movie_id") movieId: String = ""
     ): Response<RemoteMovieDetail>
+
+    @GET("search/movie")
+    suspend fun searchPagedMovies(
+        @Query("query") query: String,
+        @Query("page") page: Int
+    ): RemoteMovieData
 }

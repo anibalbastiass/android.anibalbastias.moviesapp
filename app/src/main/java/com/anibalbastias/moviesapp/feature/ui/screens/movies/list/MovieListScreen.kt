@@ -10,6 +10,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesPagingViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
+import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
+import com.anibalbastias.moviesapp.feature.ui.navigation.AppTopBar
+import com.anibalbastias.moviesapp.feature.ui.navigation.TopBarType
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
@@ -19,7 +22,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 fun MovieListScreen(
     moviesViewModel: MoviesViewModel,
     moviesPagingViewModel: MoviesPagingViewModel,
-    movieDetailAction: (movieId: Int) -> Unit,
+    movieActions: Actions,
     favoriteViewModel: FavoriteViewModel,
 ) {
     val nowPlayingState = moviesViewModel.nowPlayingMovies.collectAsState().value
@@ -28,6 +31,12 @@ fun MovieListScreen(
     val moviesListItems = moviesPagingViewModel.pagedMovieList.collectAsLazyPagingItems()
 
     Scaffold(
+        topBar = {
+            AppTopBar(
+                type = TopBarType.MOVIE_LIST,
+                onSearchBarClick = { movieActions.movieSearchAction() }
+            )
+        },
         content = {
             val isRefreshing by moviesViewModel.isRefreshing.collectAsState()
 
@@ -40,7 +49,7 @@ fun MovieListScreen(
                 PopularMoviesView(
                     nowPlayingState,
                     moviesListItems,
-                    movieDetailAction) { movie, isFavorite ->
+                    movieActions.movieDetailAction) { movie, isFavorite ->
 
                     if (isFavorite) {
                         favoriteViewModel.addFavoriteMovie(movie)

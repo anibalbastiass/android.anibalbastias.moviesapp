@@ -18,5 +18,7 @@ class Actions(navHostController: NavHostController) {
         )
     }
 
-
+    val movieSearchAction: () -> Unit = {
+        navHostController.navigate(Routes.MoviesSearch.route)
+    }
 }

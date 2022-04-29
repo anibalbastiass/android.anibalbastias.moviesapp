@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -15,12 +16,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
+import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
+import com.anibalbastias.moviesapp.feature.ui.navigation.AppTopBar
+import com.anibalbastias.moviesapp.feature.ui.navigation.TopBarType
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.ErrorView
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.LoadingView
 import com.anibalbastias.uikitcompose.components.atom.Body1
@@ -36,25 +41,41 @@ fun MovieDetailScreen(
     moviesViewModel: MoviesViewModel,
     movieId: Int?,
     index: Int,
+    movieActions: Actions,
 ) {
     val detailState = moviesViewModel.detailMovies.collectAsState().value
     moviesViewModel.getMovieDetail(movieId = movieId.toString())
 
-    DetailMoviesViewContent(detailState, index)
+    DetailMoviesViewContent(detailState, index, movieActions)
 }
 
 @Composable
-fun DetailMoviesViewContent(state: APIState<UiMovieDetail>, index: Int) {
+fun DetailMoviesViewContent(state: APIState<UiMovieDetail>, index: Int, movieActions: Actions) {
     when (state) {
         is APIState.Empty -> ErrorView(state.error) {}
         is APIState.Error -> ErrorView(state.error) {}
         APIState.Loading -> LoadingView()
-        is APIState.Success -> MovieDetailSuccessView(state.data, index)
+        is APIState.Success -> MovieDetailSuccessView(state.data, index, movieActions)
     }
 }
 
 @Composable
-fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int) {
+fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int, movieActions: Actions) {
+    Scaffold(
+        topBar = {
+            AppTopBar(
+                type = TopBarType.MOVIE_DETAILS,
+                onBackClick = { movieActions.goBackAction() }
+            )
+        },
+        content = {
+            MovieDetailsContent(movie, index)
+        }
+    )
+}
+
+@Composable
+fun MovieDetailsContent(movie: UiMovieDetail, index: Int) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -136,7 +157,7 @@ fun MovieDetailSuccessViewPreview() {
                 overview = stringResource(id = R.string.lorem),
                 genres = listOf("Action", "Drama")
             )
-            MovieDetailSuccessView(movie, 0)
+            MovieDetailSuccessView(movie, 0, Actions(rememberNavController()))
         }
     }
 }

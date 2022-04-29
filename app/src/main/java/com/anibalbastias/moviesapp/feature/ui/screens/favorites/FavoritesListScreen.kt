@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,6 +26,8 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewModel
+import com.anibalbastias.moviesapp.feature.ui.navigation.AppTopBar
+import com.anibalbastias.moviesapp.feature.ui.navigation.TopBarType
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.MovieListItemView
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.StickyHeaderMovie
 import com.anibalbastias.uikitcompose.components.atom.Body1
@@ -38,6 +41,22 @@ fun FavoritesListScreen(
     favoriteViewModel: FavoriteViewModel,
     movieDetailAction: (movieId: Int) -> Unit,
 ) {
+    Scaffold(
+        topBar = {
+            AppTopBar(type = TopBarType.FAVORITES)
+        },
+        content = {
+            FavoriteListContent(favoriteViewModel, movieDetailAction)
+        }
+    )
+}
+
+@ExperimentalFoundationApi
+@Composable
+fun FavoriteListContent(
+    favoriteViewModel: FavoriteViewModel,
+    movieDetailAction: (movieId: Int) -> Unit
+) {
     favoriteViewModel.getFavoriteList()
     val moviesListItems = favoriteViewModel.favoriteMovies.collectAsState().value
 
@@ -45,7 +64,7 @@ fun FavoritesListScreen(
     val scope = LocalSharedElementsRootScope.current!!
 
     when (moviesListItems.size) {
-        0 -> EmptyFavoriteScreen()
+        0 -> EmptyMoviesScreen(stringResource(id = R.string.favorites_empty))
         else -> {
             LazyColumn(
                 modifier = Modifier
@@ -71,7 +90,7 @@ fun FavoritesListScreen(
 }
 
 @Composable
-fun EmptyFavoriteScreen() {
+fun EmptyMoviesScreen(message: String) {
     ConstraintLayout(modifier = Modifier
         .padding(bottom = 50.dp)
         .fillMaxSize()
@@ -107,7 +126,7 @@ fun EmptyFavoriteScreen() {
         }
 
         Body1(
-            text = stringResource(id = R.string.favorites_empty),
+            text = message,
             color = colorResource(id = R.color.textColor),
             modifier = Modifier
                 .padding(top = 30.dp)

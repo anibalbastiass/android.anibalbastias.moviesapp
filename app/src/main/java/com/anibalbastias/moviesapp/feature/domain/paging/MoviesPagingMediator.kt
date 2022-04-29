@@ -1,4 +1,4 @@
-package com.anibalbastias.moviesapp.feature.domain.mediator
+package com.anibalbastias.moviesapp.feature.domain.paging
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
