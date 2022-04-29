@@ -1,37 +1,28 @@
 package com.anibalbastias.moviesapp.feature.ui.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.ExperimentalPagingApi
-import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.ui.screens.favorites.FavoritesScreen
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.MoviesScreen
-import com.anibalbastias.moviesapp.feature.ui.screens.search.SearchScreen
-import com.anibalbastias.uikitcompose.components.molecules.CenterTopAppBar
 
 const val MOVIE_ID_KEY = "movieId"
 
+@ExperimentalAnimationApi
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
-@Composable
 @ExperimentalPagingApi
+@Composable
 fun NavGraph() {
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
@@ -44,6 +35,8 @@ fun NavGraph() {
     }
 }
 
+@ExperimentalComposeUiApi
+@ExperimentalAnimationApi
 @ExperimentalPagingApi
 @ExperimentalFoundationApi
 @Composable
