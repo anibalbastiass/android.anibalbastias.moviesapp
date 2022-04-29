@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.anibalbastias.moviesapp.feature.data.remote.RemoteMoviesService
 import com.anibalbastias.moviesapp.feature.data.remote.mapper.RemoteMovieItemMapper
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieItem
+import kotlinx.coroutines.delay
 import okio.IOException
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -16,6 +17,7 @@ class SearchMoviesPagingSource @Inject constructor(
 
     companion object {
         const val POST_STARTING_PAGE_INDEX = 1
+        const val DELAY_AFTER_TYPING = 500L
     }
 
     var query: String = ""
@@ -33,6 +35,9 @@ class SearchMoviesPagingSource @Inject constructor(
             val response = service.searchPagedMovies(query = query, page = position)
             val prevKey = if (position == POST_STARTING_PAGE_INDEX) null else position - 1
             val nextKey = if (response.results!!.isEmpty()) null else position + 1
+
+            delay(DELAY_AFTER_TYPING)
+
             LoadResult.Page(
                 data = with(mapper) { response.results.map { it.fromRemoteToDomain() } },
                 prevKey = prevKey,

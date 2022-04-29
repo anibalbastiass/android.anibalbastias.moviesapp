@@ -10,6 +10,7 @@ import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @ExperimentalPagingApi
@@ -18,14 +19,17 @@ class SearchViewModel @Inject constructor(
     private val useCase: SearchPagingMoviesUseCase,
 ) : ViewModel() {
 
-    val searchText: MutableStateFlow<String> = MutableStateFlow("")
+    private val _searchText: MutableStateFlow<String> = MutableStateFlow("")
+    val searchText: StateFlow<String> = _searchText
 
-    fun searchMovies(query: String): Flow<PagingData<UiMovieItem>> {
-        searchText.value = query
-        return useCase.execute(query).cachedIn(viewModelScope)
+    fun searchMovies(query: String): Flow<PagingData<UiMovieItem>> =
+        useCase.execute(query).cachedIn(viewModelScope)
+
+    fun updateSearchText(query: String) {
+        _searchText.value = query
     }
 
     fun onClearClick() {
-        searchText.value = ""
+        _searchText.value = ""
     }
 }

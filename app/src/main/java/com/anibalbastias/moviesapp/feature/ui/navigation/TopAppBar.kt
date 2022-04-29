@@ -15,11 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.uikitcompose.components.molecules.CenterTopAppBar
-import java.lang.IllegalStateException
 
-enum class TopBarType {
-    MOVIE_LIST, MOVIE_DETAILS, FAVORITES
-}
+enum class TopBarType { MOVIE_LIST, MOVIE_DETAILS, FAVORITES }
 
 @Composable
 fun AppTopBar(

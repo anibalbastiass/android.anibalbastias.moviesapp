@@ -20,12 +20,8 @@ import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.SearchViewModel
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
 import com.anibalbastias.moviesapp.feature.ui.screens.favorites.EmptyMoviesScreen
-import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.LoadingItem
 import com.anibalbastias.uikitcompose.components.molecules.SearchTopBar
 import com.anibalbastias.uikitcompose.utils.SharedUtils
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
 @ExperimentalPagingApi
@@ -57,11 +53,11 @@ fun SearchScreen(
                     searchText = searchText,
                     placeholderText = "Search movies",
                     onSearchTextChanged = {
-                        searchViewModel.searchMovies(it)
+                        searchViewModel.updateSearchText(it)
                     },
-                    onClearClick = { searchViewModel.onClearClick() },
-                    onNavigateBack = { movieActions.goBackAction() },
                     matchesFound = moviesListItems.itemCount > 0,
+                    onNavigateBack = { movieActions.goBackAction() },
+                    onClearClick = { searchViewModel.onClearClick() },
                     results = {
                         SearchListScreen(moviesListItems, movieActions.movieDetailAction)
                     },
