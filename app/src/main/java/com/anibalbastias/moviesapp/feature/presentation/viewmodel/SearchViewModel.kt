@@ -33,9 +33,6 @@ class SearchViewModel @Inject constructor(
     private val _searchText: MutableStateFlow<String> = MutableStateFlow("")
     val searchText: StateFlow<String> = _searchText
 
-//    private val _savedSearches: MutableStateFlow<List<UiSavedMovieItem>> =
-//        MutableStateFlow(listOf())
-//    val savedSearches: StateFlow<List<UiSavedMovieItem>> = _savedSearches
     val savedSearches = mutableStateListOf<UiSavedMovieItem>()
 
     fun searchMovies(query: String): Flow<PagingData<UiMovieItem>> =
