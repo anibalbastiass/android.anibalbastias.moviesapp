@@ -2,10 +2,12 @@ package com.anibalbastias.moviesapp.feature.presentation.mapper
 
 import com.anibalbastias.moviesapp.feature.data.local.model.EntityFavoriteMovieItem
 import com.anibalbastias.moviesapp.feature.data.local.model.EntityMovieItem
+import com.anibalbastias.moviesapp.feature.data.local.model.EntitySavedMovieItem
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieDetail
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieItem
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
+import com.anibalbastias.moviesapp.feature.presentation.model.UiSavedMovieItem
 
 class UiMovieMapper {
 
@@ -53,5 +55,17 @@ class UiMovieMapper {
         releaseDate = releaseDate,
         overview = overview,
         genres = genres
+    )
+
+    fun EntitySavedMovieItem.fromEntityToUi() = UiSavedMovieItem(
+        id = id,
+        title = title,
+        createdAt = createdAt
+    )
+
+    fun UiSavedMovieItem.fromUiToEntity() = EntitySavedMovieItem(
+        id = id,
+        title = title,
+        createdAt = createdAt
     )
 }

@@ -1,8 +1,14 @@
 package com.anibalbastias.moviesapp.feature.domain.repository
 
 import androidx.paging.PagingSource
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.anibalbastias.moviesapp.feature.data.local.model.DBConstants
 import com.anibalbastias.moviesapp.feature.data.local.model.EntityFavoriteMovieItem
 import com.anibalbastias.moviesapp.feature.data.local.model.EntityMovieItem
+import com.anibalbastias.moviesapp.feature.data.local.model.EntitySavedMovieItem
 import kotlinx.coroutines.flow.Flow
 
 interface LocalMoviesRepository {
@@ -26,4 +32,25 @@ interface LocalMoviesRepository {
      * Create a data source that returns pages of results keyed by page.
      */
     fun getFavoriteMovies(): Flow<List<EntityFavoriteMovieItem>>
+
+    /**
+     * Add Saved movie
+     */
+    suspend fun addSavedMovieSearch(movie: EntitySavedMovieItem): Flow<Boolean>
+
+    /**
+     * Fetch all saved movies
+     */
+    suspend fun getSavedMoviesList(): Flow<List<EntitySavedMovieItem>>
+
+    /**
+     * Remove All saved movies
+     */
+    suspend fun clearAllSavedMovies(): Flow<Boolean>
+
+    /**
+     * Remove saved search by id
+     * @param id movie search id
+     */
+    suspend fun deleteSavedMovieById(id: String): Flow<Boolean>
 }

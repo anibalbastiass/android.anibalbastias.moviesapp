@@ -5,9 +5,7 @@ import com.anibalbastias.moviesapp.feature.data.local.LocalMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.data.remote.RemoteMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.domain.paging.MoviesPagingMediator
 import com.anibalbastias.moviesapp.feature.domain.paging.SearchMoviesPagingSource
-import com.anibalbastias.moviesapp.feature.domain.usecase.local.AddFavoriteMovieUseCase
-import com.anibalbastias.moviesapp.feature.domain.usecase.local.GetFavoriteMoviesUseCase
-import com.anibalbastias.moviesapp.feature.domain.usecase.local.RemoveFavoriteMovieUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.local.*
 import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetMovieDetailUseCase
 import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetNowPlayingMoviesUseCase
 import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetPagingMoviesUseCase
@@ -79,5 +77,35 @@ object PresentationModule {
         remote: RemoteMoviesRepositoryImpl,
     ): GetMovieDetailUseCase {
         return GetMovieDetailUseCase(remote)
+    }
+
+    @Provides
+    fun provideClearAllSavedMoviesUseCase(
+        local: LocalMoviesRepositoryImpl,
+    ): ClearAllSavedMoviesUseCase {
+        return ClearAllSavedMoviesUseCase(local)
+    }
+
+    @Provides
+    fun provideGetSavedMoviesUseCase(
+        local: LocalMoviesRepositoryImpl,
+        mapper: UiMovieMapper,
+    ): GetSavedMoviesUseCase {
+        return GetSavedMoviesUseCase(local, mapper)
+    }
+
+    @Provides
+    fun provideSaveMovieUseCase(
+        local: LocalMoviesRepositoryImpl,
+        mapper: UiMovieMapper,
+    ): AddSavedMovieUseCase {
+        return AddSavedMovieUseCase(local, mapper)
+    }
+
+    @Provides
+    fun provideRemoveSavedMovieByIdUseCase(
+        local: LocalMoviesRepositoryImpl,
+    ): RemoveSavedMovieByIdUseCase {
+        return RemoveSavedMovieByIdUseCase(local)
     }
 }

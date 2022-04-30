@@ -49,7 +49,8 @@ fun MovieListScreen(
                 PopularMoviesView(
                     nowPlayingState,
                     moviesListItems,
-                    movieActions.movieDetailAction) { movie, isFavorite ->
+                    movieActions.movieDetailAction
+                ) { movie, isFavorite ->
 
                     if (isFavorite) {
                         favoriteViewModel.addFavoriteMovie(movie)

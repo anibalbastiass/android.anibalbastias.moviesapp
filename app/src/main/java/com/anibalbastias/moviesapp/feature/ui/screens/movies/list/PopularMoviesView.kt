@@ -50,7 +50,7 @@ import com.mxalbert.sharedelements.SharedElementsRootScope
 fun PopularMoviesView(
     nowPlayingState: UiMovieDataState,
     moviesListItems: LazyPagingItems<UiMovieItem>,
-    movieDetailAction: (movieId: Int) -> Unit,
+    movieDetailAction: (movie: UiMovieItem) -> Unit,
     movieFavoriteAction: (movie: UiMovieItem, isFavorite: Boolean) -> Unit,
 ) {
     val lazyListState = rememberForeverLazyListState(key = "PopularMovies")
@@ -138,7 +138,7 @@ fun LoadingItem() {
 @Composable
 fun MovieListItemView(
     movie: UiMovieItem,
-    movieDetailAction: (movieId: Int) -> Unit,
+    movieDetailAction: (movie: UiMovieItem) -> Unit,
     scope: SharedElementsRootScope,
     index: Int,
 ) {
@@ -155,7 +155,7 @@ fun MovieListItemView(
                         movie.releaseDate
                     )
                 }
-                movieDetailAction.invoke(movie.id.toInt())
+                movieDetailAction.invoke(movie)
             }
     ) {
         Row(

@@ -5,18 +5,22 @@ import androidx.room.RoomDatabase
 import com.anibalbastias.moviesapp.feature.data.local.dao.FavoritesDao
 import com.anibalbastias.moviesapp.feature.data.local.dao.MoviesDao
 import com.anibalbastias.moviesapp.feature.data.local.dao.MoviesRemoteKeyDao
-import com.anibalbastias.moviesapp.feature.data.local.model.DBConstants
-import com.anibalbastias.moviesapp.feature.data.local.model.EntityFavoriteMovieItem
-import com.anibalbastias.moviesapp.feature.data.local.model.EntityMovieItem
-import com.anibalbastias.moviesapp.feature.data.local.model.EntityMovieKey
+import com.anibalbastias.moviesapp.feature.data.local.dao.SavedMoviesDao
+import com.anibalbastias.moviesapp.feature.data.local.model.*
 
 @Database(
-    entities = [EntityMovieItem::class, EntityFavoriteMovieItem::class, EntityMovieKey::class],
+    entities = [
+        EntityMovieItem::class,
+        EntityFavoriteMovieItem::class,
+        EntityMovieKey::class,
+        EntitySavedMovieItem::class
+    ],
     version = DBConstants.DATABASE_VERSION_CODE,
     exportSchema = true
 )
 abstract class MoviesDatabase : RoomDatabase() {
     abstract fun moviesDao(): MoviesDao
     abstract fun favoriteMoviesDao(): FavoritesDao
+    abstract fun savedMoviesDao(): SavedMoviesDao
     abstract fun moviesKeysDao(): MoviesRemoteKeyDao
 }

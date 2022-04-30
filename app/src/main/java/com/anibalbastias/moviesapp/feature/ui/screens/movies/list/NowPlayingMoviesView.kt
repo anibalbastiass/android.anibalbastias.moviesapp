@@ -24,7 +24,7 @@ import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.LoadingV
 @Composable
 fun NowPlayingMoviesView(
     state: UiMovieDataState,
-    movieDetailAction: (movieId: Int) -> Unit,
+    movieDetailAction: (movie: UiMovieItem) -> Unit,
 ) {
     when (state) {
         is APIState.Empty -> ErrorView(state.error) {}
@@ -37,7 +37,7 @@ fun NowPlayingMoviesView(
 @Composable
 fun NowPlayingViewSuccess(
     data: List<UiMovieItem>,
-    movieDetailAction: (movieId: Int) -> Unit,
+    movieDetailAction: (movie: UiMovieItem) -> Unit,
 ) {
     Column {
         LazyRow {
@@ -52,7 +52,7 @@ fun NowPlayingViewSuccess(
                         modifier = Modifier
                             .height(180.dp)
                             .clickable {
-                                movieDetailAction.invoke(movie.id.toInt())
+                                movieDetailAction.invoke(movie)
                             }
                     )
                 }

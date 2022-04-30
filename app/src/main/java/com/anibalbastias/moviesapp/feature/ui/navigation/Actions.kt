@@ -1,6 +1,7 @@
 package com.anibalbastias.moviesapp.feature.ui.navigation
 
 import androidx.navigation.NavHostController
+import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 
 class Actions(navHostController: NavHostController) {
 
@@ -8,13 +9,9 @@ class Actions(navHostController: NavHostController) {
         navHostController.popBackStack()
     }
 
-    val movieListAction: () -> Unit = {
-        navHostController.navigate(Routes.MoviesList.route)
-    }
-
-    val movieDetailAction: (movieId: Int) -> Unit = { movieId ->
+    val movieDetailAction: (movie: UiMovieItem) -> Unit = { movieId ->
         navHostController.navigate(
-            route = Routes.MoviesDetail(movieId).route
+            route = Routes.MoviesDetail(movieId.id.toInt()).route
         )
     }
 

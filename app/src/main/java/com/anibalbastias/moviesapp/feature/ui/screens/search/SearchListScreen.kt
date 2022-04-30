@@ -21,7 +21,7 @@ import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 @Composable
 fun SearchListScreen(
     moviesListItems: LazyPagingItems<UiMovieItem>,
-    movieDetailAction: (movieId: Int) -> Unit
+    movieDetailAction: (movie: UiMovieItem) -> Unit
 ) {
     val lazyListState = rememberForeverLazyListState(key = "SearchMovies")
     val scope = LocalSharedElementsRootScope.current!!

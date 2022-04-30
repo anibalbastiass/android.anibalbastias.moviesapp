@@ -25,6 +25,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.anibalbastias.moviesapp.R
+import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewModel
 import com.anibalbastias.moviesapp.feature.ui.navigation.AppTopBar
 import com.anibalbastias.moviesapp.feature.ui.navigation.TopBarType
@@ -39,7 +40,7 @@ import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 @Composable
 fun FavoritesListScreen(
     favoriteViewModel: FavoriteViewModel,
-    movieDetailAction: (movieId: Int) -> Unit,
+    movieDetailAction: (movie: UiMovieItem) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -55,7 +56,7 @@ fun FavoritesListScreen(
 @Composable
 fun FavoriteListContent(
     favoriteViewModel: FavoriteViewModel,
-    movieDetailAction: (movieId: Int) -> Unit
+    movieDetailAction: (movie: UiMovieItem) -> Unit
 ) {
     favoriteViewModel.getFavoriteList()
     val moviesListItems = favoriteViewModel.favoriteMovies.collectAsState().value
