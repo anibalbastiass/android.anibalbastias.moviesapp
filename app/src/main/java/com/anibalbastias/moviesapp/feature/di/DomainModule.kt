@@ -3,6 +3,7 @@ package com.anibalbastias.moviesapp.feature.di
 import com.anibalbastias.moviesapp.feature.data.local.LocalMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.data.local.dao.FavoritesDao
 import com.anibalbastias.moviesapp.feature.data.local.dao.MoviesDao
+import com.anibalbastias.moviesapp.feature.data.local.dao.SavedMoviesDao
 import com.anibalbastias.moviesapp.feature.data.remote.RemoteMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.data.remote.RemoteMoviesService
 import com.anibalbastias.moviesapp.feature.data.remote.mapper.RemoteMovieItemMapper
@@ -30,7 +31,8 @@ object DomainModule {
     fun provideLocalMoviesRepository(
         movieDao: MoviesDao,
         favoriteDao: FavoritesDao,
+        savedMoviesDao: SavedMoviesDao,
     ): LocalMoviesRepositoryImpl {
-        return LocalMoviesRepositoryImpl(movieDao, favoriteDao)
+        return LocalMoviesRepositoryImpl(movieDao, favoriteDao, savedMoviesDao)
     }
 }

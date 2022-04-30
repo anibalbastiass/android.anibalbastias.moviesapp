@@ -35,6 +35,7 @@ fun NavGraph() {
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @ExperimentalPagingApi

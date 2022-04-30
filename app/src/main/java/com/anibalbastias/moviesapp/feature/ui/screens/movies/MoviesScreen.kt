@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -26,6 +27,7 @@ import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.MovieListScree
 import com.anibalbastias.moviesapp.feature.ui.screens.search.SearchScreen
 import com.anibalbastias.uikitcompose.utils.SharedUtils
 
+@ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
@@ -48,6 +50,7 @@ fun MoviesScreen(
     )
 }
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
