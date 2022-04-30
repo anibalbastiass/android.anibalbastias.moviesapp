@@ -49,8 +49,8 @@ interface LocalMoviesRepository {
     suspend fun clearAllSavedMovies(): Flow<Boolean>
 
     /**
-     * Remove saved search by id
-     * @param id movie search id
+     * Remove saved search by title
+     * @param title movie search title
      */
-    suspend fun deleteSavedMovieById(id: String): Flow<Boolean>
+    suspend fun deleteSavedMovieByTitle(title: String): Flow<Boolean>
 }

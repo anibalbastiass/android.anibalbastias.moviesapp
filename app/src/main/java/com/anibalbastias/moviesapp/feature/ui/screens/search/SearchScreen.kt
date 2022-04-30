@@ -77,8 +77,8 @@ fun SearchScreen(
                             onSelectSaved = { query ->
                                 searchViewModel.updateSearchText(query)
                             },
-                            onRemoveSaved = { searchId ->
-                                searchViewModel.removeSavedSearch(searchId)
+                            onRemoveSaved = { title ->
+                                searchViewModel.removeSavedSearch(title)
                                 searchViewModel.getSavedSearchesMovies()
                             },
                             onRemoveAll = {

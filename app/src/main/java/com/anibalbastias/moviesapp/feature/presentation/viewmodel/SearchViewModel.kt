@@ -10,7 +10,7 @@ import androidx.paging.cachedIn
 import com.anibalbastias.moviesapp.feature.domain.usecase.local.AddSavedMovieUseCase
 import com.anibalbastias.moviesapp.feature.domain.usecase.local.ClearAllSavedMoviesUseCase
 import com.anibalbastias.moviesapp.feature.domain.usecase.local.GetSavedMoviesUseCase
-import com.anibalbastias.moviesapp.feature.domain.usecase.local.RemoveSavedMovieByIdUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.local.RemoveSavedMovieByTitleUseCase
 import com.anibalbastias.moviesapp.feature.domain.usecase.remote.SearchPagingMoviesUseCase
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 import com.anibalbastias.moviesapp.feature.presentation.model.UiSavedMovieItem
@@ -27,7 +27,7 @@ class SearchViewModel @Inject constructor(
     private val addSavedMovieUseCase: AddSavedMovieUseCase,
     private val clearAllSavedMoviesUseCase: ClearAllSavedMoviesUseCase,
     private val getSavedMoviesUseCase: GetSavedMoviesUseCase,
-    private val removeSavedMovieByIdUseCase: RemoveSavedMovieByIdUseCase,
+    private val removeSavedMovieByIdUseCase: RemoveSavedMovieByTitleUseCase,
 ) : ViewModel() {
 
     private val _searchText: MutableStateFlow<String> = MutableStateFlow("")
@@ -50,11 +50,7 @@ class SearchViewModel @Inject constructor(
         val createdAt = Date().time
         viewModelScope.launch {
             addSavedMovieUseCase.execute(
-                UiSavedMovieItem(
-                    id = "$createdAt",
-                    title = query,
-                    createdAt = createdAt
-                )
+                UiSavedMovieItem(title = query, createdAt = createdAt)
             )
                 .catch { Log.d("Search Movie", "Created Error") }
                 .collect { Log.d("Search Movie", "Created OK") }
@@ -81,12 +77,12 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun removeSavedSearch(searchId: String) {
+    fun removeSavedSearch(title: String) {
         viewModelScope.launch {
-            removeSavedMovieByIdUseCase.execute(searchId)
-                .catch { Log.d("Search Movie", "Remove Movie $searchId Error") }
+            removeSavedMovieByIdUseCase.execute(title)
+                .catch { Log.d("Search Movie", "Remove Movie $title Error") }
                 .collect { list ->
-                    Log.d("Search Movie", "Remove Movie $searchId OK")
+                    Log.d("Search Movie", "Remove Movie $title OK")
                 }
         }
     }

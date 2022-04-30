@@ -59,9 +59,9 @@ class LocalMoviesRepositoryImpl @Inject constructor(
         emit(true)
     }
 
-    override suspend fun deleteSavedMovieById(id: String): Flow<Boolean> = flow {
+    override suspend fun deleteSavedMovieByTitle(title: String): Flow<Boolean> = flow {
         delay(DELAY)
-        savedMoviesDao.deleteSavedMovieById(id)
+        savedMoviesDao.deleteSavedMovieByTitle(title)
         emit(true)
     }
 }

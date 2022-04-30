@@ -82,7 +82,7 @@ fun SavedSearches(
                         modifier = Modifier
                             .size(60.dp)
                             .wrapContentSize(Alignment.Center)
-                            .clickable { onRemoveSaved(item.id) }
+                            .clickable { onRemoveSaved(item.title) }
                             .fillParentMaxWidth(0.1f)
                             .padding(top = 18.dp, bottom = 10.dp, start = 0.dp, end = 10.dp),
                         contentDescription = "Close"

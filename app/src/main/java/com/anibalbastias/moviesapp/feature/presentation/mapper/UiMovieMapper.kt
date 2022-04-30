@@ -58,13 +58,11 @@ class UiMovieMapper {
     )
 
     fun EntitySavedMovieItem.fromEntityToUi() = UiSavedMovieItem(
-        id = id,
         title = title,
         createdAt = createdAt
     )
 
     fun UiSavedMovieItem.fromUiToEntity() = EntitySavedMovieItem(
-        id = id,
         title = title,
         createdAt = createdAt
     )

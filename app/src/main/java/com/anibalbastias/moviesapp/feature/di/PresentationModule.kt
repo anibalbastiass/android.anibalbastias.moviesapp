@@ -105,7 +105,7 @@ object PresentationModule {
     @Provides
     fun provideRemoveSavedMovieByIdUseCase(
         local: LocalMoviesRepositoryImpl,
-    ): RemoveSavedMovieByIdUseCase {
-        return RemoveSavedMovieByIdUseCase(local)
+    ): RemoveSavedMovieByTitleUseCase {
+        return RemoveSavedMovieByTitleUseCase(local)
     }
 }
