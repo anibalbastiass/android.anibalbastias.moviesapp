@@ -51,6 +51,7 @@ class UiMovieMapper {
     fun DomainMovieDetail.fromDomainToUi() = UiMovieDetail(
         id = id,
         posterPath = posterPath,
+        backdropPath = backdropPath,
         originalTitle = originalTitle,
         releaseDate = releaseDate,
         overview = overview,

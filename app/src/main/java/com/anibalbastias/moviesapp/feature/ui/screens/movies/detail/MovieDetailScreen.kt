@@ -152,6 +152,7 @@ fun MovieDetailSuccessViewPreview() {
             val movie = UiMovieDetail(
                 id = 1,
                 posterPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
+                backdropPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
                 originalTitle = "The Mask",
                 releaseDate = "March 30, 2022",
                 overview = stringResource(id = R.string.lorem),

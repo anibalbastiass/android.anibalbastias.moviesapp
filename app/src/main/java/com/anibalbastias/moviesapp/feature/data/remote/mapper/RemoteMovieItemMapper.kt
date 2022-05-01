@@ -39,6 +39,7 @@ class RemoteMovieItemMapper {
     fun RemoteMovieDetail.fromRemoteToDomain() = DomainMovieDetail(
         id = id?.toInt() ?: 0,
         posterPath = getUrlImage(posterPath),
+        backdropPath = getUrlImage(backdropPath),
         originalTitle = originalTitle ?: "",
         releaseDate = getFormattedDate(releaseDate),
         overview = overview ?: "",

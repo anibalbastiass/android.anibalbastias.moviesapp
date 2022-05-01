@@ -60,6 +60,7 @@ open class RemoteMovieResult(
     @Json(name = VOTE_COUNT) open val voteCount: Int? = 0,
 ) {
     open val posterPath: String = getUrlImage(_posterPath)
+    open val backdropPath: String = getUrlImage(_backdropPath)
     open val releaseDate: String = getFormattedDate(_releaseDate)
 
     private fun getUrlImage(suffix: String?) = BuildConfig.IMAGE_URL + suffix
