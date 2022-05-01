@@ -14,7 +14,6 @@ import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.VOT
 
 @Entity(tableName = SAVED_MOVIES_TABLE)
 data class EntitySavedMovieItem(
-    @PrimaryKey @ColumnInfo(name = ID) var id: String,
-    @ColumnInfo(name = TITLE) val title: String,
+    @PrimaryKey @ColumnInfo(name = TITLE) val title: String,
     @ColumnInfo(name = RELEASE_DATE) val createdAt: Long,
 )

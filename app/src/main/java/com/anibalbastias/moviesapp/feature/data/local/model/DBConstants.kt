@@ -1,7 +1,7 @@
 package com.anibalbastias.moviesapp.feature.data.local.model
 
 object DBConstants {
-    const val DATABASE_VERSION_CODE = 5
+    const val DATABASE_VERSION_CODE = 6
     const val DATABASE_NAME = "anibalbastias_movies.db"
 
     const val MOVIES_TABLE = "movies"

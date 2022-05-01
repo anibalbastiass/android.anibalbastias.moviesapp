@@ -51,6 +51,7 @@ class UiMovieMapper {
     fun DomainMovieDetail.fromDomainToUi() = UiMovieDetail(
         id = id,
         posterPath = posterPath,
+        backdropPath = backdropPath,
         originalTitle = originalTitle,
         releaseDate = releaseDate,
         overview = overview,
@@ -58,13 +59,11 @@ class UiMovieMapper {
     )
 
     fun EntitySavedMovieItem.fromEntityToUi() = UiSavedMovieItem(
-        id = id,
         title = title,
         createdAt = createdAt
     )
 
     fun UiSavedMovieItem.fromUiToEntity() = EntitySavedMovieItem(
-        id = id,
         title = title,
         createdAt = createdAt
     )

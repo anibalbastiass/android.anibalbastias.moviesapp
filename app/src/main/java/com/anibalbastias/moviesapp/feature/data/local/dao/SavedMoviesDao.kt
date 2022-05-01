@@ -5,6 +5,7 @@ import com.anibalbastias.moviesapp.feature.data.local.model.DBConstants
 import com.anibalbastias.moviesapp.feature.data.local.model.EntityFavoriteMovieItem
 import com.anibalbastias.moviesapp.feature.data.local.model.EntitySavedMovieItem
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants
+import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.TITLE
 
 @Dao
 interface SavedMoviesDao {
@@ -19,6 +20,6 @@ interface SavedMoviesDao {
     @Query("DELETE FROM ${DBConstants.SAVED_MOVIES_TABLE}")
     suspend fun clearAll()
 
-    @Query("DELETE FROM ${DBConstants.SAVED_MOVIES_TABLE} WHERE id = :id")
-    suspend fun deleteSavedMovieById(id: String)
+    @Query("DELETE FROM ${DBConstants.SAVED_MOVIES_TABLE} WHERE $TITLE = :title")
+    suspend fun deleteSavedMovieByTitle(title: String)
 }

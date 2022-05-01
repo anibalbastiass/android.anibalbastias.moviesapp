@@ -18,6 +18,7 @@ object MoviesFixture {
     fun createDomainMovieDetail() = DomainMovieDetail(
         id = 0,
         posterPath = "",
+        backdropPath = "",
         originalTitle = "",
         releaseDate = "",
         overview = "",
