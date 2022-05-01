@@ -1,17 +1,22 @@
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,6 +40,9 @@ import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
 import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailBoxContainer
 import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailElementContainer
 import com.google.accompanist.flowlayout.FlowRow
+import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.ScrollStrategy
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 fun MovieDetailScreen(
@@ -72,67 +80,166 @@ fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int, movieActions: Actio
             MovieDetailsContent(movie, index)
         }
     )
+//    MovieDetailsContent(movie, index)
 }
 
 @Composable
 fun MovieDetailsContent(movie: UiMovieDetail, index: Int) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .background(color = colorResource(id = R.color.backgroundColor))
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState())
-    ) {
-        SharedDetailBoxContainer(movie.posterPath + index) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(movie.posterPath)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = movie.originalTitle,
-                modifier = Modifier
-                    .width(180.dp)
-                    .height(250.dp)
-            )
-        }
+    val state = rememberCollapsingToolbarScaffoldState()
 
-        SharedDetailElementContainer(movie.originalTitle + index) {
-            HeadlineH4(
-                text = movie.originalTitle,
-                color = colorResource(id = R.color.textColor),
-                textAlign = TextAlign.Center
-            )
-        }
-
-        if (movie.releaseDate.isNotEmpty()) {
-            SharedDetailElementContainer(movie.releaseDate + index) {
-                ReleaseDateText(movie.releaseDate)
-            }
-        } else {
-            ReleaseDateText(movie.releaseDate)
-        }
-
-        Body1(
-            text = movie.overview,
-            color = colorResource(id = R.color.textColor),
-            textAlign = TextAlign.Justify,
-            modifier = Modifier.padding(vertical = 20.dp)
-        )
-
-        FlowRow(modifier = Modifier.padding(bottom = 50.dp)) {
-            movie.genres.map { genre ->
-                Body1(
-                    text = genre,
-                    color = colorResource(id = R.color.backgroundColor),
+    Box {
+        CollapsingToolbarScaffold(
+            modifier = Modifier.fillMaxSize(),
+            state = state,
+            scrollStrategy = ScrollStrategy.EnterAlways,
+            toolbarModifier = Modifier.background(color = colorResource(id = R.color.backgroundColor)),
+            toolbar = {
+                Spacer(
                     modifier = Modifier
-                        .padding(5.dp)
-                        .background(color = colorResource(id = R.color.white))
-                        .padding(10.dp)
+                        .fillMaxWidth()
+                        .height(50.dp)
                 )
+
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(movie.backdropPath)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = movie.originalTitle,
+                    modifier = Modifier
+                        .parallax(0.5f)
+                        .height(280.dp)
+                        .graphicsLayer {
+                            // change alpha of Image as the toolbar expands
+                            alpha = state.toolbarState.progress
+                        },
+                    contentScale = ContentScale.Crop
+                )
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 100.dp)
+                ) {
+                    SharedDetailBoxContainer(movie.posterPath + index) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(movie.posterPath)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = movie.originalTitle,
+                            modifier = Modifier
+                                .height(200.dp)
+                        )
+                    }
+                }
+            }
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .background(color = colorResource(id = R.color.backgroundColor))
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                SharedDetailElementContainer(movie.originalTitle + index) {
+                    HeadlineH4(
+                        text = movie.originalTitle,
+                        color = colorResource(id = R.color.textColor),
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                if (movie.releaseDate.isNotEmpty()) {
+                    SharedDetailElementContainer(movie.releaseDate + index) {
+                        ReleaseDateText(movie.releaseDate)
+                    }
+                } else {
+                    ReleaseDateText(movie.releaseDate)
+                }
+
+                Body1(
+                    text = movie.overview,
+                    color = colorResource(id = R.color.textColor),
+                    textAlign = TextAlign.Justify,
+                    modifier = Modifier.padding(vertical = 20.dp)
+                )
+
+                FlowRow(modifier = Modifier.padding(bottom = 50.dp)) {
+                    movie.genres.map { genre ->
+                        Body1(
+                            text = genre,
+                            color = colorResource(id = R.color.backgroundColor),
+                            modifier = Modifier
+                                .padding(5.dp)
+                                .background(color = colorResource(id = R.color.white))
+                                .padding(10.dp)
+                        )
+                    }
+                }
             }
         }
     }
+
+//    Column(
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        modifier = Modifier
+//            .background(color = colorResource(id = R.color.backgroundColor))
+//            .fillMaxSize()
+//            .padding(16.dp)
+//            .verticalScroll(rememberScrollState())
+//    ) {
+//        SharedDetailBoxContainer(movie.posterPath + index) {
+//            AsyncImage(
+//                model = ImageRequest.Builder(LocalContext.current)
+//                    .data(movie.posterPath)
+//                    .crossfade(true)
+//                    .build(),
+//                contentDescription = movie.originalTitle,
+//                modifier = Modifier
+//                    .width(180.dp)
+//                    .height(250.dp)
+//            )
+//        }
+//
+//        SharedDetailElementContainer(movie.originalTitle + index) {
+//            HeadlineH4(
+//                text = movie.originalTitle,
+//                color = colorResource(id = R.color.textColor),
+//                textAlign = TextAlign.Center
+//            )
+//        }
+//
+//        if (movie.releaseDate.isNotEmpty()) {
+//            SharedDetailElementContainer(movie.releaseDate + index) {
+//                ReleaseDateText(movie.releaseDate)
+//            }
+//        } else {
+//            ReleaseDateText(movie.releaseDate)
+//        }
+//
+//        Body1(
+//            text = movie.overview,
+//            color = colorResource(id = R.color.textColor),
+//            textAlign = TextAlign.Justify,
+//            modifier = Modifier.padding(vertical = 20.dp)
+//        )
+//
+//        FlowRow(modifier = Modifier.padding(bottom = 50.dp)) {
+//            movie.genres.map { genre ->
+//                Body1(
+//                    text = genre,
+//                    color = colorResource(id = R.color.backgroundColor),
+//                    modifier = Modifier
+//                        .padding(5.dp)
+//                        .background(color = colorResource(id = R.color.white))
+//                        .padding(10.dp)
+//                )
+//            }
+//        }
+//    }
 }
 
 @Composable

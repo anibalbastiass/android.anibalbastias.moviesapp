@@ -93,6 +93,7 @@ repositories, models.
 * Swipe to add favorite
 * Search movies
 * Recent searches
+* Expandable/Collapsable Toolbar in detail screen
 ```
 openssl s_client -connect api.themoviedb.org:443 | openssl x509 -pubkey -noout | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
 ```

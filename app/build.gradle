@@ -121,6 +121,7 @@ dependencies {
     implementation deps.thirdParty.coilCompose
     implementation deps.thirdParty.lottieCompose
     implementation deps.thirdParty.sharedElementCompose
+    implementation deps.thirdParty.toolbarCompose
 
     // Dagger Hilt
     implementation deps.google.daggerHilt.android
