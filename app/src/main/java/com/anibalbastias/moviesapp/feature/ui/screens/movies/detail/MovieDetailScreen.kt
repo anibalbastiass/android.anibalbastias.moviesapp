@@ -1,11 +1,11 @@
+@file:OptIn(ExperimentalMotionApi::class)
+
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -16,11 +16,12 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ExperimentalMotionApi
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -36,9 +37,11 @@ import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.LoadingV
 import com.anibalbastias.uikitcompose.components.atom.Body1
 import com.anibalbastias.uikitcompose.components.atom.HeadlineH4
 import com.anibalbastias.uikitcompose.components.atom.HeadlineH6
+import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeExpandableScreen
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
 import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailBoxContainer
 import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailElementContainer
+import com.anibalbastias.uikitcompose.utils.findActivity
 import com.google.accompanist.flowlayout.FlowRow
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -68,7 +71,11 @@ fun DetailMoviesViewContent(state: APIState<UiMovieDetail>, index: Int, movieAct
 }
 
 @Composable
-fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int, movieActions: Actions) {
+fun MovieDetailSuccessView(
+    movie: UiMovieDetail,
+    index: Int,
+    movieActions: Actions,
+) {
     Scaffold(
         topBar = {
             AppTopBar(
@@ -80,11 +87,13 @@ fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int, movieActions: Actio
             MovieDetailsContent(movie, index)
         }
     )
-//    MovieDetailsContent(movie, index)
 }
 
 @Composable
-fun MovieDetailsContent(movie: UiMovieDetail, index: Int) {
+fun MovieDetailsContent(
+    movie: UiMovieDetail,
+    index: Int
+) {
     val state = rememberCollapsingToolbarScaffoldState()
 
     Box {
@@ -183,63 +192,16 @@ fun MovieDetailsContent(movie: UiMovieDetail, index: Int) {
         }
     }
 
-//    Column(
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        modifier = Modifier
-//            .background(color = colorResource(id = R.color.backgroundColor))
-//            .fillMaxSize()
-//            .padding(16.dp)
-//            .verticalScroll(rememberScrollState())
-//    ) {
-//        SharedDetailBoxContainer(movie.posterPath + index) {
-//            AsyncImage(
-//                model = ImageRequest.Builder(LocalContext.current)
-//                    .data(movie.posterPath)
-//                    .crossfade(true)
-//                    .build(),
-//                contentDescription = movie.originalTitle,
-//                modifier = Modifier
-//                    .width(180.dp)
-//                    .height(250.dp)
-//            )
-//        }
-//
-//        SharedDetailElementContainer(movie.originalTitle + index) {
-//            HeadlineH4(
-//                text = movie.originalTitle,
-//                color = colorResource(id = R.color.textColor),
-//                textAlign = TextAlign.Center
-//            )
-//        }
-//
-//        if (movie.releaseDate.isNotEmpty()) {
-//            SharedDetailElementContainer(movie.releaseDate + index) {
-//                ReleaseDateText(movie.releaseDate)
-//            }
-//        } else {
-//            ReleaseDateText(movie.releaseDate)
-//        }
-//
-//        Body1(
-//            text = movie.overview,
-//            color = colorResource(id = R.color.textColor),
-//            textAlign = TextAlign.Justify,
-//            modifier = Modifier.padding(vertical = 20.dp)
-//        )
-//
-//        FlowRow(modifier = Modifier.padding(bottom = 50.dp)) {
-//            movie.genres.map { genre ->
-//                Body1(
-//                    text = genre,
-//                    color = colorResource(id = R.color.backgroundColor),
-//                    modifier = Modifier
-//                        .padding(5.dp)
-//                        .background(color = colorResource(id = R.color.white))
-//                        .padding(10.dp)
-//                )
-//            }
-//        }
-//    }
+    val context = LocalContext.current
+
+    context.findActivity()?.supportFragmentManager?.let {
+        YouTubeExpandableScreen(
+            background = colorResource(id = R.color.backgroundColor),
+            textColor = colorResource(id = R.color.textColor),
+            fragmentManager = it,
+            playList = listOf("9djAMds545g")
+        )
+    }
 }
 
 @Composable
