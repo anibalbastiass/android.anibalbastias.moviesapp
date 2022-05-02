@@ -13,7 +13,7 @@ import java.util.*
 class RemoteMovieItemMapper {
 
     fun fromRemoteToEntity(
-        results: List<RemoteMovieResult>?
+        results: List<RemoteMovieResult>?,
     ): List<EntityMovieItem> {
         return results!!.map { movie ->
             EntityMovieItem(
@@ -41,6 +41,7 @@ class RemoteMovieItemMapper {
         posterPath = getUrlImage(posterPath),
         backdropPath = getUrlImage(backdropPath),
         originalTitle = originalTitle ?: "",
+        runtime = calculateTime(runtime ?: 0),
         releaseDate = getFormattedDate(releaseDate),
         overview = overview ?: "",
         genres = genres?.map { it.name ?: "" } ?: listOf()
@@ -56,5 +57,11 @@ class RemoteMovieItemMapper {
         } else {
             rawDate
         }
+    }
+
+    private fun calculateTime(time: Int): String {
+        val hours = time / 60
+        val minutes = time % 60
+        return String.format("%d h %02d m", hours, minutes)
     }
 }

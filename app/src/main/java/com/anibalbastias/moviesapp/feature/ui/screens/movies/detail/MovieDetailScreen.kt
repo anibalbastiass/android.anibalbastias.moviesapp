@@ -34,9 +34,7 @@ import com.anibalbastias.moviesapp.feature.ui.navigation.AppTopBar
 import com.anibalbastias.moviesapp.feature.ui.navigation.TopBarType
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.ErrorView
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.LoadingView
-import com.anibalbastias.uikitcompose.components.atom.Body1
-import com.anibalbastias.uikitcompose.components.atom.HeadlineH4
-import com.anibalbastias.uikitcompose.components.atom.HeadlineH6
+import com.anibalbastias.uikitcompose.components.atom.*
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeExpandableScreen
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
 import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailBoxContainer
@@ -169,6 +167,13 @@ fun MovieDetailsContent(
                     ReleaseDateText(movie.releaseDate)
                 }
 
+                Subtitle2(
+                    text = movie.runtime,
+                    color = colorResource(id = R.color.textColor),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(vertical = 20.dp)
+                )
+
                 Body1(
                     text = movie.overview,
                     color = colorResource(id = R.color.textColor),
@@ -224,6 +229,7 @@ fun MovieDetailSuccessViewPreview() {
                 backdropPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
                 originalTitle = "The Mask",
                 releaseDate = "March 30, 2022",
+                runtime = "2h 2m",
                 overview = stringResource(id = R.string.lorem),
                 genres = listOf("Action", "Drama")
             )

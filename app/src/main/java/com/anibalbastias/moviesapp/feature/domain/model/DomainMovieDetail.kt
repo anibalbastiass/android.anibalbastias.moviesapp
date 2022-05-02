@@ -6,6 +6,7 @@ data class DomainMovieDetail(
     val backdropPath: String,
     val originalTitle: String,
     val releaseDate: String,
+    val runtime: String,
     val overview: String,
     val genres: List<String>
 )

@@ -53,6 +53,7 @@ class UiMovieMapper {
         posterPath = posterPath,
         backdropPath = backdropPath,
         originalTitle = originalTitle,
+        runtime = runtime,
         releaseDate = releaseDate,
         overview = overview,
         genres = genres
