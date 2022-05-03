@@ -23,7 +23,6 @@ import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieVideoItem
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeExpandableScreen
-import com.anibalbastias.uikitcompose.utils.findActivity
 
 @Composable
 fun MovieVideoScreen(selectedVideo: MutableState<UiMovieVideoItem>, movie: UiMovieDetail) {
@@ -78,17 +77,12 @@ fun ShowYouTubeVideo(
     video: UiMovieVideoItem,
     description: String
 ) {
-    val context = LocalContext.current
-
-    context.findActivity()?.supportFragmentManager?.let {
-        YouTubeExpandableScreen(
-            background = colorResource(id = R.color.backgroundColor),
-            textColor = colorResource(id = R.color.textColor),
-            fragmentManager = it,
-            title = title,
-            subTitle = video.name,
-            key = video.key,
-            description = description
-        )
-    }
+    YouTubeExpandableScreen(
+        background = colorResource(id = R.color.backgroundColor),
+        textColor = colorResource(id = R.color.textColor),
+        title = title,
+        subTitle = video.name,
+        key = video.key,
+        description = description
+    )
 }
