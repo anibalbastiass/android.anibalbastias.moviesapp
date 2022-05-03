@@ -2,6 +2,7 @@ package com.anibalbastias.moviesapp.feature.data.remote
 
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteMovieData
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteMovieDetail
+import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteMovieVideos
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -12,22 +13,27 @@ interface RemoteMoviesService {
     @GET("movie/{movie_type}")
     suspend fun getMoviesByType(
         @Path("movie_type") movieType: String = "now_playing",
-        @Query("page") page: String = "undefined"
+        @Query("page") page: String = "undefined",
     ): Response<RemoteMovieData>
 
     @GET("movie/popular")
     suspend fun getPagedMovies(
-        @Query("page") page: Int
+        @Query("page") page: Int,
     ): RemoteMovieData
 
     @GET("movie/{movie_id}")
     suspend fun getMovieById(
-        @Path("movie_id") movieId: String = ""
+        @Path("movie_id") movieId: String = "",
     ): Response<RemoteMovieDetail>
+
+    @GET("movie/{movie_id}/videos")
+    suspend fun getMovieVideosById(
+        @Path("movie_id") movieId: String = "",
+    ): RemoteMovieVideos
 
     @GET("search/movie")
     suspend fun searchPagedMovies(
         @Query("query") query: String,
-        @Query("page") page: Int
+        @Query("page") page: Int,
     ): RemoteMovieData
 }

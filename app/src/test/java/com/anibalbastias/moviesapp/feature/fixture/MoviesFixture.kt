@@ -23,6 +23,7 @@ object MoviesFixture {
         runtime = "",
         releaseDate = "",
         overview = "",
-        genres = arrayListOf()
+        genres = arrayListOf(),
+        videos = arrayListOf()
     )
 }

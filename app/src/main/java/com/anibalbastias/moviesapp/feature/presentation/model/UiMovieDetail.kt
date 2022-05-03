@@ -9,4 +9,5 @@ data class UiMovieDetail(
     val releaseDate: String,
     val overview: String,
     val genres: List<String>,
+    val videos: List<UiMovieVideoItem>,
 )

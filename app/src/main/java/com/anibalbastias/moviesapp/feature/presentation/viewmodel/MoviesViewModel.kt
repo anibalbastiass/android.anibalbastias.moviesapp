@@ -5,11 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.domain.UiMovieDataState
 import com.anibalbastias.moviesapp.feature.domain.UiMovieDetailDataState
-import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieDetail
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieItem
 import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetMovieDetailUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetMovieVideosUseCase
 import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetNowPlayingMoviesUseCase
 import com.anibalbastias.moviesapp.feature.presentation.mapper.UiMovieMapper
+import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val listUseCase: GetNowPlayingMoviesUseCase,
     private val detailUseCase: GetMovieDetailUseCase,
+    private val detailVideosUseCase: GetMovieVideosUseCase,
     private val mapper: UiMovieMapper,
 ) : ViewModel() {
 
@@ -59,6 +61,16 @@ class MoviesViewModel @Inject constructor(
     fun getMovieDetail(movieId: String) {
         viewModelScope.launch {
             detailUseCase.execute(movieId)
+                .combine(detailVideosUseCase.execute(movieId)) { detail, videos ->
+                    when (detail) {
+                        is APIState.Success -> {
+                            with(mapper) { APIState.Success(detail.data.fromDomainToUi(videos)) }
+                        }
+                        is APIState.Empty -> APIState.Empty(detail.error)
+                        is APIState.Error -> APIState.Error(detail.error)
+                        APIState.Loading -> APIState.Loading
+                    }
+                }
                 .catch {
                     _detailMovies.value = APIState.Error("No Internet Connection")
                 }
@@ -68,11 +80,13 @@ class MoviesViewModel @Inject constructor(
         }
     }
 
-    private fun transformDetailState(dataState: APIState<DomainMovieDetail>) = when (dataState) {
+    private fun transformDetailState(
+        dataState: APIState<UiMovieDetail>,
+    ) = when (dataState) {
         is APIState.Empty -> APIState.Empty(dataState.error)
         is APIState.Error -> APIState.Error(dataState.error)
         APIState.Loading -> APIState.Loading
-        is APIState.Success -> with(mapper) { APIState.Success(dataState.data.fromDomainToUi()) }
+        is APIState.Success -> APIState.Success(dataState.data)
     }
 
     private fun transformListState(dataState: APIState<List<DomainMovieItem>>) = when (dataState) {

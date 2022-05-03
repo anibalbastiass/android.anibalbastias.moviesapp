@@ -6,10 +6,7 @@ import com.anibalbastias.moviesapp.feature.data.remote.RemoteMoviesRepositoryImp
 import com.anibalbastias.moviesapp.feature.domain.paging.MoviesPagingMediator
 import com.anibalbastias.moviesapp.feature.domain.paging.SearchMoviesPagingSource
 import com.anibalbastias.moviesapp.feature.domain.usecase.local.*
-import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetMovieDetailUseCase
-import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetNowPlayingMoviesUseCase
-import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetPagingMoviesUseCase
-import com.anibalbastias.moviesapp.feature.domain.usecase.remote.SearchPagingMoviesUseCase
+import com.anibalbastias.moviesapp.feature.domain.usecase.remote.*
 import com.anibalbastias.moviesapp.feature.presentation.mapper.UiMovieMapper
 import dagger.Module
 import dagger.Provides
@@ -107,5 +104,12 @@ object PresentationModule {
         local: LocalMoviesRepositoryImpl,
     ): RemoveSavedMovieByTitleUseCase {
         return RemoveSavedMovieByTitleUseCase(local)
+    }
+
+    @Provides
+    fun provideGetMovieVideosUseCase(
+        remote: RemoteMoviesRepositoryImpl,
+    ): GetMovieVideosUseCase {
+        return GetMovieVideosUseCase(remote)
     }
 }
