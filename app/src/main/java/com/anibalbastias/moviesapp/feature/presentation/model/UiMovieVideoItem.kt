@@ -1,7 +1,7 @@
 package com.anibalbastias.moviesapp.feature.presentation.model
 
 data class UiMovieVideoItem(
-    val id: String = "",
+    var id: String = "",
     val key: String = "",
     val name: String = "",
     val publishedAt: String = "",

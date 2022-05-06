@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +26,10 @@ import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieVideoItem
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeExpandableScreen
 
 @Composable
-fun MovieVideoScreen(selectedVideo: MutableState<UiMovieVideoItem>, movie: UiMovieDetail) {
+fun MovieVideoScreen(
+    selectedVideo: MutableState<UiMovieVideoItem>,
+    movie: UiMovieDetail
+) {
     LazyRow(content = {
         items(movie.videos) { video ->
             Card(
@@ -70,19 +74,24 @@ fun MovieVideoScreen(selectedVideo: MutableState<UiMovieVideoItem>, movie: UiMov
     })
 }
 
+@ExperimentalMaterialApi
 @ExperimentalMotionApi
 @Composable
 fun ShowYouTubeVideo(
     title: String,
     video: UiMovieVideoItem,
-    description: String
+    videos: List<Pair<String, String>>,
+    closeButtonAction: () -> Unit,
+    isShowVideo: MutableState<Boolean>,
 ) {
     YouTubeExpandableScreen(
-        background = colorResource(id = R.color.backgroundColor),
+        background = colorResource(id = R.color.backgroundSecondaryColorAlpha),
         textColor = colorResource(id = R.color.textColor),
         title = title,
         subTitle = video.name,
         key = video.key,
-        description = description
+        videos = videos,
+        isShowVideo = isShowVideo,
+        closeButtonAction = closeButtonAction
     )
 }

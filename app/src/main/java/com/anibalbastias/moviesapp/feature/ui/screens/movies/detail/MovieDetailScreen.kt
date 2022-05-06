@@ -39,6 +39,10 @@ import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailElementConta
 import com.google.accompanist.flowlayout.FlowRow
 import me.onebone.toolbar.*
 
+val selectedVideo = mutableStateOf(UiMovieVideoItem())
+val isShowVideo = mutableStateOf(false)
+
+@ExperimentalMaterialApi
 @Composable
 fun MovieDetailScreen(
     moviesViewModel: MoviesViewModel,
@@ -49,31 +53,52 @@ fun MovieDetailScreen(
     val detailState = moviesViewModel.detailMovies.collectAsState().value
     moviesViewModel.getMovieDetail(movieId = movieId.toString())
 
-    DetailMoviesViewContent(detailState, index, movieActions)
+    DetailMoviesViewContent(
+        detailState,
+        index,
+        movieActions
+    )
 }
 
+@ExperimentalMaterialApi
 @Composable
-fun DetailMoviesViewContent(state: APIState<UiMovieDetail>, index: Int, movieActions: Actions) {
+fun DetailMoviesViewContent(
+    state: APIState<UiMovieDetail>,
+    index: Int,
+    movieActions: Actions
+) {
     when (state) {
         is APIState.Empty -> ErrorView(state.error) {}
         is APIState.Error -> ErrorView(state.error) {}
         APIState.Loading -> LoadingView()
-        is APIState.Success -> MovieDetailSuccessView(state.data, index, movieActions)
+        is APIState.Success -> MovieDetailSuccessView(
+            state.data,
+            index,
+            movieActions
+        )
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun MovieDetailSuccessView(
     movie: UiMovieDetail,
     index: Int,
-    movieActions: Actions,
+    movieActions: Actions
 ) {
     Scaffold(
         topBar = {
-            AppTopBar(
-                type = TopBarType.MOVIE_DETAILS,
-                onBackClick = { movieActions.goBackAction() }
-            )
+            if (isShowVideo.value) {
+                AppTopBar(
+                    type = TopBarType.MOVIE_DETAILS_VIDEO,
+                    onChevronClick = { isShowVideo.value = !isShowVideo.value }
+                )
+            } else {
+                AppTopBar(
+                    type = TopBarType.MOVIE_DETAILS,
+                    onBackClick = { movieActions.goBackAction() }
+                )
+            }
         },
         content = {
             MovieDetailsContent(movie, index)
@@ -81,13 +106,13 @@ fun MovieDetailSuccessView(
     )
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun MovieDetailsContent(
     movie: UiMovieDetail,
-    index: Int,
+    index: Int
 ) {
     val state = rememberCollapsingToolbarScaffoldState()
-    val selectedVideo = remember { mutableStateOf(UiMovieVideoItem()) }
 
     Box {
         CollapsingToolbarScaffold(
@@ -107,7 +132,11 @@ fun MovieDetailsContent(
         ShowYouTubeVideo(
             title = movie.originalTitle,
             video = selectedVideo.value,
-            description = movie.overview
+            videos = movie.videos.map { Pair(it.name, it.key) },
+            closeButtonAction = {
+                selectedVideo.value = UiMovieVideoItem()
+            },
+            isShowVideo = isShowVideo
         )
     } else {
         null
@@ -184,7 +213,7 @@ fun ScrollableContent(
 fun CollapsingToolbarScope.ExpandableToolbar(
     movie: UiMovieDetail,
     state: CollapsingToolbarScaffoldState,
-    index: Int
+    index: Int,
 ) {
     Spacer(
         modifier = Modifier
@@ -237,6 +266,7 @@ fun ReleaseDateText(releaseDate: String) {
     )
 }
 
+@ExperimentalMaterialApi
 @Preview
 @Composable
 fun MovieDetailSuccessViewPreview() {
@@ -253,7 +283,9 @@ fun MovieDetailSuccessViewPreview() {
                 genres = listOf("Action", "Drama"),
                 videos = listOf()
             )
-            MovieDetailSuccessView(movie, 0, Actions(rememberNavController()))
+            MovieDetailSuccessView(movie,
+                0,
+                Actions(rememberNavController()))
         }
     }
 }

@@ -10,6 +10,7 @@ import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieVideoItem
 import com.anibalbastias.moviesapp.feature.presentation.model.UiSavedMovieItem
+import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeUtils.getYouTubeThumbnail
 
 class UiMovieMapper {
 
@@ -81,6 +82,4 @@ class UiMovieMapper {
         type = type,
         thumbnail = getYouTubeThumbnail(key)
     )
-
-    private fun getYouTubeThumbnail(key: String) = "https://i.ytimg.com/vi/$key/hqdefault.jpg"
 }

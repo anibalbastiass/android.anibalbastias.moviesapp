@@ -6,13 +6,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -76,17 +74,21 @@ fun SavedSearches(
                             .wrapContentSize(Alignment.Center)
                             .fillParentMaxWidth(0.63f)
                     )
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_close),
-                        tint = colorResource(id = R.color.textColor),
-                        modifier = Modifier
-                            .size(60.dp)
-                            .wrapContentSize(Alignment.Center)
-                            .clickable { onRemoveSaved(item.title) }
-                            .fillParentMaxWidth(0.1f)
-                            .padding(top = 18.dp, bottom = 10.dp, start = 0.dp, end = 10.dp),
-                        contentDescription = "Close"
-                    )
+                    IconButton(
+                        onClick = { onRemoveSaved(item.title) },
+                        enabled = true,
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_close),
+                            tint = colorResource(id = R.color.textColor),
+                            modifier = Modifier
+                                .size(60.dp)
+                                .wrapContentSize(Alignment.Center)
+                                .fillParentMaxWidth(0.1f)
+                                .padding(top = 18.dp, bottom = 10.dp, start = 0.dp, end = 10.dp),
+                            contentDescription = "Close"
+                        )
+                    }
                 }
                 HorizontalDivider()
             }

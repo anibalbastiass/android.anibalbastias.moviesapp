@@ -3,6 +3,7 @@ package com.anibalbastias.moviesapp.feature.ui.screens.favorites
 import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,6 +22,7 @@ import com.anibalbastias.moviesapp.feature.ui.navigation.Routes
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.detail.MovieDetailScreen
 import com.anibalbastias.uikitcompose.utils.SharedUtils
 
+@ExperimentalMaterialApi
 @ExperimentalPagingApi
 @ExperimentalFoundationApi
 @Composable
@@ -39,6 +41,7 @@ fun FavoritesScreen(
     )
 }
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @ExperimentalPagingApi
 @Composable
