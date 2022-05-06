@@ -11,6 +11,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -24,12 +25,16 @@ import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieVideoItem
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeExpandableScreen
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun MovieVideoScreen(
     selectedVideo: MutableState<UiMovieVideoItem>,
     movie: UiMovieDetail
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     LazyRow(content = {
         items(movie.videos) { video ->
             Card(
@@ -39,6 +44,10 @@ fun MovieVideoScreen(
                     .height(170.dp)
                     .clickable {
                         selectedVideo.value = video
+                        coroutineScope.launch {
+                            delay(150)
+                            isShowVideo.value = true
+                        }
                     }
             ) {
                 Column {

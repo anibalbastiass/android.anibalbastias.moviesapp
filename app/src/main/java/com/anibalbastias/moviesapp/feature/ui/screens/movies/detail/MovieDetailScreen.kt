@@ -50,6 +50,9 @@ fun MovieDetailScreen(
     index: Int,
     movieActions: Actions,
 ) {
+    selectedVideo.value = UiMovieVideoItem()
+    isShowVideo.value = false
+
     val detailState = moviesViewModel.detailMovies.collectAsState().value
     moviesViewModel.getMovieDetail(movieId = movieId.toString())
 
