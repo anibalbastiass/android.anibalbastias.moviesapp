@@ -69,6 +69,7 @@ fun DetailMoviesViewContent(
     }
 }
 
+@ExperimentalMotionApi
 @ExperimentalMaterialApi
 @Composable
 fun MovieDetailSuccessView(
@@ -89,7 +90,10 @@ fun MovieDetailSuccessView(
             } else {
                 AppTopBar(
                     type = TopBarType.MOVIE_DETAILS,
-                    onBackClick = { movieActions.goBackAction() }
+                    onBackClick = {
+                        youTubeViewModel.reset()
+                        movieActions.goBackAction()
+                    }
                 )
             }
         },
@@ -138,7 +142,7 @@ fun MovieDetailsContent(
             textColor = colorResource(id = R.color.textColor),
             viewModel = youTubeViewModel,
             closeButtonAction = {
-                youTubeViewModel.isShowing.value = false
+                youTubeViewModel.reset()
             }
         )
     } else {
