@@ -21,7 +21,7 @@ And lastly, create a Compose component library using Atomic Design, to maintain 
 
 ## Description
 
-<img src="art/movies_flow.gif" width="380" height="620" align="right" hspace="20">
+<img src="art/movies_flow.gif" width="340" align="right" hspace="20">
 
 * UI
    * [Compose](https://developer.android.com/jetpack/compose) declarative UI framework
