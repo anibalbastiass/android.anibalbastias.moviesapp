@@ -25,6 +25,7 @@ import com.anibalbastias.moviesapp.feature.ui.navigation.Routes
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.detail.MovieDetailScreen
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.MovieListScreen
 import com.anibalbastias.moviesapp.feature.ui.screens.search.SearchScreen
+import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
 import com.anibalbastias.uikitcompose.utils.SharedUtils
 
 @ExperimentalMaterialApi
@@ -37,6 +38,7 @@ fun MoviesScreen(
     moviesViewModel: MoviesViewModel = hiltViewModel(),
     moviesPagingViewModel: MoviesPagingViewModel = hiltViewModel(),
     favoriteViewModel: FavoriteViewModel = hiltViewModel(),
+    youTubeViewModel: YouTubeViewModel = hiltViewModel(),
 ) {
     val moviesNavController = rememberNavController()
     val movieActions = remember(moviesNavController) { Actions(moviesNavController) }
@@ -46,6 +48,7 @@ fun MoviesScreen(
         moviesViewModel = moviesViewModel,
         moviesPagingViewModel = moviesPagingViewModel,
         favoriteViewModel = favoriteViewModel,
+        youTubeViewModel = youTubeViewModel,
         movieActions = movieActions
     )
 }
@@ -62,6 +65,7 @@ fun MoviesNavHost(
     moviesViewModel: MoviesViewModel,
     moviesPagingViewModel: MoviesPagingViewModel,
     favoriteViewModel: FavoriteViewModel,
+    youTubeViewModel: YouTubeViewModel,
 ) {
     SharedUtils.SharedListRootContainer(movieActions.goBackAction) { tweenSpec, selectedItem ->
         NavHost(
@@ -97,6 +101,7 @@ fun MoviesNavHost(
                     MovieDetailScreen(
                         movieId = backStackEntry.arguments?.getInt(MOVIE_ID_KEY),
                         moviesViewModel = moviesViewModel,
+                        youTubeViewModel = youTubeViewModel,
                         index = item,
                         movieActions = movieActions
                     )

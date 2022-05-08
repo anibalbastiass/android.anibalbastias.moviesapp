@@ -4,62 +4,47 @@ package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ExperimentalMotionApi
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
-import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieVideoItem
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
 import com.anibalbastias.moviesapp.feature.ui.navigation.AppTopBar
 import com.anibalbastias.moviesapp.feature.ui.navigation.TopBarType
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.ErrorView
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.LoadingView
-import com.anibalbastias.uikitcompose.components.atom.*
+import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeExpandableScreen
+import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
+import com.anibalbastias.uikitcompose.components.molecules.youtube.model.YouTubeVideoItem
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
-import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailBoxContainer
-import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailElementContainer
-import com.google.accompanist.flowlayout.FlowRow
 import me.onebone.toolbar.*
-
-val selectedVideo = mutableStateOf(UiMovieVideoItem())
-val isShowVideo = mutableStateOf(false)
 
 @ExperimentalMaterialApi
 @Composable
 fun MovieDetailScreen(
     moviesViewModel: MoviesViewModel,
+    youTubeViewModel: YouTubeViewModel,
     movieId: Int?,
     index: Int,
     movieActions: Actions,
 ) {
-    selectedVideo.value = UiMovieVideoItem()
-    isShowVideo.value = false
-
     val detailState = moviesViewModel.detailMovies.collectAsState().value
     moviesViewModel.getMovieDetail(movieId = movieId.toString())
 
     DetailMoviesViewContent(
         detailState,
         index,
-        movieActions
+        movieActions,
+        youTubeViewModel
     )
 }
 
@@ -68,16 +53,18 @@ fun MovieDetailScreen(
 fun DetailMoviesViewContent(
     state: APIState<UiMovieDetail>,
     index: Int,
-    movieActions: Actions
+    movieActions: Actions,
+    youTubeViewModel: YouTubeViewModel,
 ) {
     when (state) {
+        APIState.Loading -> LoadingView()
         is APIState.Empty -> ErrorView(state.error) {}
         is APIState.Error -> ErrorView(state.error) {}
-        APIState.Loading -> LoadingView()
         is APIState.Success -> MovieDetailSuccessView(
             state.data,
             index,
-            movieActions
+            movieActions,
+            youTubeViewModel
         )
     }
 }
@@ -87,14 +74,17 @@ fun DetailMoviesViewContent(
 fun MovieDetailSuccessView(
     movie: UiMovieDetail,
     index: Int,
-    movieActions: Actions
+    movieActions: Actions,
+    youTubeViewModel: YouTubeViewModel,
 ) {
     Scaffold(
         topBar = {
-            if (isShowVideo.value) {
+            if (youTubeViewModel.isExpanded.value) {
                 AppTopBar(
                     type = TopBarType.MOVIE_DETAILS_VIDEO,
-                    onChevronClick = { isShowVideo.value = !isShowVideo.value }
+                    onChevronClick = {
+                        youTubeViewModel.isExpanded.value = !youTubeViewModel.isExpanded.value
+                    }
                 )
             } else {
                 AppTopBar(
@@ -104,16 +94,18 @@ fun MovieDetailSuccessView(
             }
         },
         content = {
-            MovieDetailsContent(movie, index)
+            MovieDetailsContent(movie, index, youTubeViewModel)
         }
     )
 }
 
+@ExperimentalMotionApi
 @ExperimentalMaterialApi
 @Composable
 fun MovieDetailsContent(
     movie: UiMovieDetail,
-    index: Int
+    index: Int,
+    youTubeViewModel: YouTubeViewModel,
 ) {
     val state = rememberCollapsingToolbarScaffoldState()
 
@@ -124,149 +116,34 @@ fun MovieDetailsContent(
             scrollStrategy = ScrollStrategy.EnterAlways,
             toolbarModifier = Modifier.background(color = colorResource(id = R.color.backgroundColor)),
             toolbar = {
-                ExpandableToolbar(movie, state, index)
+                MovieDetailToolBarScreen(movie, state, index)
             }
         ) {
-            ScrollableContent(movie, index, selectedVideo)
+            MovieDetailContentScreen(movie, index, youTubeViewModel)
         }
     }
 
-    if (selectedVideo.value.id.isNotEmpty()) {
-        ShowYouTubeVideo(
-            title = movie.originalTitle,
-            video = selectedVideo.value,
-            videos = movie.videos.map { Pair(it.name, it.key) },
+    // Initialize videos
+    youTubeViewModel.videos.value = movie.videos.map { video ->
+        YouTubeVideoItem(
+            key = video.key,
+            name = video.name,
+            main = movie.originalTitle
+        )
+    }
+
+    if (youTubeViewModel.isShowing.value) {
+        YouTubeExpandableScreen(
+            background = colorResource(id = R.color.backgroundSecondaryColorAlpha),
+            textColor = colorResource(id = R.color.textColor),
+            viewModel = youTubeViewModel,
             closeButtonAction = {
-                selectedVideo.value = UiMovieVideoItem()
-            },
-            isShowVideo = isShowVideo
+                youTubeViewModel.isShowing.value = false
+            }
         )
     } else {
         null
     }
-}
-
-@Composable
-fun ScrollableContent(
-    movie: UiMovieDetail,
-    index: Int,
-    selectedVideo: MutableState<UiMovieVideoItem>
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .background(color = colorResource(id = R.color.backgroundColor))
-            .fillMaxSize()
-            .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 150.dp)
-            .verticalScroll(rememberScrollState())
-    ) {
-        SharedDetailElementContainer(movie.originalTitle + index) {
-            HeadlineH4(
-                text = movie.originalTitle,
-                color = colorResource(id = R.color.textColor),
-                textAlign = TextAlign.Center
-            )
-        }
-
-        if (movie.releaseDate.isNotEmpty()) {
-            SharedDetailElementContainer(movie.releaseDate + index) {
-                ReleaseDateText(movie.releaseDate)
-            }
-        } else {
-            ReleaseDateText(movie.releaseDate)
-        }
-
-        Subtitle2(
-            text = movie.runtime,
-            color = colorResource(id = R.color.textColor),
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(vertical = 20.dp)
-        )
-
-        Body1(
-            text = movie.overview,
-            color = colorResource(id = R.color.textColor),
-            textAlign = TextAlign.Justify,
-            modifier = Modifier.padding(vertical = 20.dp)
-        )
-
-        FlowRow(modifier = Modifier.padding(bottom = 50.dp)) {
-            movie.genres.map { genre ->
-                Body1(
-                    text = genre,
-                    color = colorResource(id = R.color.backgroundColor),
-                    modifier = Modifier
-                        .padding(5.dp)
-                        .background(color = colorResource(id = R.color.white))
-                        .padding(10.dp)
-                )
-            }
-        }
-
-        HeadlineH6(
-            text = stringResource(id = R.string.videos),
-            color = colorResource(id = R.color.textColor)
-        )
-
-        MovieVideoScreen(selectedVideo, movie)
-    }
-}
-
-@Composable
-fun CollapsingToolbarScope.ExpandableToolbar(
-    movie: UiMovieDetail,
-    state: CollapsingToolbarScaffoldState,
-    index: Int,
-) {
-    Spacer(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-    )
-
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(movie.backdropPath)
-            .crossfade(true)
-            .build(),
-        contentDescription = movie.originalTitle,
-        modifier = Modifier
-            .parallax(0.5f)
-            .height(280.dp)
-            .graphicsLayer {
-                // change alpha of Image as the toolbar expands
-                alpha = state.toolbarState.progress
-            },
-        contentScale = ContentScale.Crop
-    )
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 100.dp)
-    ) {
-        SharedDetailBoxContainer(movie.posterPath + index) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(movie.posterPath)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = movie.originalTitle,
-                modifier = Modifier
-                    .height(200.dp)
-            )
-        }
-    }
-}
-
-@Composable
-fun ReleaseDateText(releaseDate: String) {
-    HeadlineH6(
-        text = releaseDate,
-        color = colorResource(id = R.color.textColor),
-        textAlign = TextAlign.Center
-    )
 }
 
 @ExperimentalMaterialApi
@@ -288,7 +165,9 @@ fun MovieDetailSuccessViewPreview() {
             )
             MovieDetailSuccessView(movie,
                 0,
-                Actions(rememberNavController()))
+                Actions(rememberNavController()),
+                viewModel()
+            )
         }
     }
 }
