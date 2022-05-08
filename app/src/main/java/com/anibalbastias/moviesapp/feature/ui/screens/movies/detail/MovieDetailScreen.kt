@@ -1,29 +1,18 @@
+@file:OptIn(ExperimentalMotionApi::class)
+
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ExperimentalMotionApi
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
@@ -33,20 +22,17 @@ import com.anibalbastias.moviesapp.feature.ui.navigation.AppTopBar
 import com.anibalbastias.moviesapp.feature.ui.navigation.TopBarType
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.ErrorView
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.LoadingView
-import com.anibalbastias.uikitcompose.components.atom.Body1
-import com.anibalbastias.uikitcompose.components.atom.HeadlineH4
-import com.anibalbastias.uikitcompose.components.atom.HeadlineH6
+import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeExpandableScreen
+import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
+import com.anibalbastias.uikitcompose.components.molecules.youtube.model.YouTubeVideoItem
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
-import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailBoxContainer
-import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedDetailElementContainer
-import com.google.accompanist.flowlayout.FlowRow
-import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import me.onebone.toolbar.*
 
+@ExperimentalMaterialApi
 @Composable
 fun MovieDetailScreen(
     moviesViewModel: MoviesViewModel,
+    youTubeViewModel: YouTubeViewModel,
     movieId: Int?,
     index: Int,
     movieActions: Actions,
@@ -54,37 +40,77 @@ fun MovieDetailScreen(
     val detailState = moviesViewModel.detailMovies.collectAsState().value
     moviesViewModel.getMovieDetail(movieId = movieId.toString())
 
-    DetailMoviesViewContent(detailState, index, movieActions)
+    DetailMoviesViewContent(
+        detailState,
+        index,
+        movieActions,
+        youTubeViewModel
+    )
 }
 
+@ExperimentalMaterialApi
 @Composable
-fun DetailMoviesViewContent(state: APIState<UiMovieDetail>, index: Int, movieActions: Actions) {
+fun DetailMoviesViewContent(
+    state: APIState<UiMovieDetail>,
+    index: Int,
+    movieActions: Actions,
+    youTubeViewModel: YouTubeViewModel,
+) {
     when (state) {
+        APIState.Loading -> LoadingView()
         is APIState.Empty -> ErrorView(state.error) {}
         is APIState.Error -> ErrorView(state.error) {}
-        APIState.Loading -> LoadingView()
-        is APIState.Success -> MovieDetailSuccessView(state.data, index, movieActions)
+        is APIState.Success -> MovieDetailSuccessView(
+            state.data,
+            index,
+            movieActions,
+            youTubeViewModel
+        )
     }
 }
 
+@ExperimentalMotionApi
+@ExperimentalMaterialApi
 @Composable
-fun MovieDetailSuccessView(movie: UiMovieDetail, index: Int, movieActions: Actions) {
+fun MovieDetailSuccessView(
+    movie: UiMovieDetail,
+    index: Int,
+    movieActions: Actions,
+    youTubeViewModel: YouTubeViewModel,
+) {
     Scaffold(
         topBar = {
-            AppTopBar(
-                type = TopBarType.MOVIE_DETAILS,
-                onBackClick = { movieActions.goBackAction() }
-            )
+            if (youTubeViewModel.isExpanded.value) {
+                AppTopBar(
+                    type = TopBarType.MOVIE_DETAILS_VIDEO,
+                    onChevronClick = {
+                        youTubeViewModel.isExpanded.value = !youTubeViewModel.isExpanded.value
+                    }
+                )
+            } else {
+                AppTopBar(
+                    type = TopBarType.MOVIE_DETAILS,
+                    onBackClick = {
+                        youTubeViewModel.reset()
+                        movieActions.goBackAction()
+                    }
+                )
+            }
         },
         content = {
-            MovieDetailsContent(movie, index)
+            MovieDetailsContent(movie, index, youTubeViewModel)
         }
     )
-//    MovieDetailsContent(movie, index)
 }
 
+@ExperimentalMotionApi
+@ExperimentalMaterialApi
 @Composable
-fun MovieDetailsContent(movie: UiMovieDetail, index: Int) {
+fun MovieDetailsContent(
+    movie: UiMovieDetail,
+    index: Int,
+    youTubeViewModel: YouTubeViewModel,
+) {
     val state = rememberCollapsingToolbarScaffoldState()
 
     Box {
@@ -94,163 +120,37 @@ fun MovieDetailsContent(movie: UiMovieDetail, index: Int) {
             scrollStrategy = ScrollStrategy.EnterAlways,
             toolbarModifier = Modifier.background(color = colorResource(id = R.color.backgroundColor)),
             toolbar = {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                )
-
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(movie.backdropPath)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = movie.originalTitle,
-                    modifier = Modifier
-                        .parallax(0.5f)
-                        .height(280.dp)
-                        .graphicsLayer {
-                            // change alpha of Image as the toolbar expands
-                            alpha = state.toolbarState.progress
-                        },
-                    contentScale = ContentScale.Crop
-                )
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 100.dp)
-                ) {
-                    SharedDetailBoxContainer(movie.posterPath + index) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(movie.posterPath)
-                                .crossfade(true)
-                                .build(),
-                            contentDescription = movie.originalTitle,
-                            modifier = Modifier
-                                .height(200.dp)
-                        )
-                    }
-                }
+                MovieDetailToolBarScreen(movie, state, index)
             }
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .background(color = colorResource(id = R.color.backgroundColor))
-                    .fillMaxSize()
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                SharedDetailElementContainer(movie.originalTitle + index) {
-                    HeadlineH4(
-                        text = movie.originalTitle,
-                        color = colorResource(id = R.color.textColor),
-                        textAlign = TextAlign.Center
-                    )
-                }
-
-                if (movie.releaseDate.isNotEmpty()) {
-                    SharedDetailElementContainer(movie.releaseDate + index) {
-                        ReleaseDateText(movie.releaseDate)
-                    }
-                } else {
-                    ReleaseDateText(movie.releaseDate)
-                }
-
-                Body1(
-                    text = movie.overview,
-                    color = colorResource(id = R.color.textColor),
-                    textAlign = TextAlign.Justify,
-                    modifier = Modifier.padding(vertical = 20.dp)
-                )
-
-                FlowRow(modifier = Modifier.padding(bottom = 50.dp)) {
-                    movie.genres.map { genre ->
-                        Body1(
-                            text = genre,
-                            color = colorResource(id = R.color.backgroundColor),
-                            modifier = Modifier
-                                .padding(5.dp)
-                                .background(color = colorResource(id = R.color.white))
-                                .padding(10.dp)
-                        )
-                    }
-                }
-            }
+            MovieDetailContentScreen(movie, index, youTubeViewModel)
         }
     }
 
-//    Column(
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        modifier = Modifier
-//            .background(color = colorResource(id = R.color.backgroundColor))
-//            .fillMaxSize()
-//            .padding(16.dp)
-//            .verticalScroll(rememberScrollState())
-//    ) {
-//        SharedDetailBoxContainer(movie.posterPath + index) {
-//            AsyncImage(
-//                model = ImageRequest.Builder(LocalContext.current)
-//                    .data(movie.posterPath)
-//                    .crossfade(true)
-//                    .build(),
-//                contentDescription = movie.originalTitle,
-//                modifier = Modifier
-//                    .width(180.dp)
-//                    .height(250.dp)
-//            )
-//        }
-//
-//        SharedDetailElementContainer(movie.originalTitle + index) {
-//            HeadlineH4(
-//                text = movie.originalTitle,
-//                color = colorResource(id = R.color.textColor),
-//                textAlign = TextAlign.Center
-//            )
-//        }
-//
-//        if (movie.releaseDate.isNotEmpty()) {
-//            SharedDetailElementContainer(movie.releaseDate + index) {
-//                ReleaseDateText(movie.releaseDate)
-//            }
-//        } else {
-//            ReleaseDateText(movie.releaseDate)
-//        }
-//
-//        Body1(
-//            text = movie.overview,
-//            color = colorResource(id = R.color.textColor),
-//            textAlign = TextAlign.Justify,
-//            modifier = Modifier.padding(vertical = 20.dp)
-//        )
-//
-//        FlowRow(modifier = Modifier.padding(bottom = 50.dp)) {
-//            movie.genres.map { genre ->
-//                Body1(
-//                    text = genre,
-//                    color = colorResource(id = R.color.backgroundColor),
-//                    modifier = Modifier
-//                        .padding(5.dp)
-//                        .background(color = colorResource(id = R.color.white))
-//                        .padding(10.dp)
-//                )
-//            }
-//        }
-//    }
+    // Initialize videos
+    youTubeViewModel.videos.value = movie.videos.map { video ->
+        YouTubeVideoItem(
+            key = video.key,
+            name = video.name,
+            main = movie.originalTitle
+        )
+    }
+
+    if (youTubeViewModel.isShowing.value) {
+        YouTubeExpandableScreen(
+            background = colorResource(id = R.color.backgroundSecondaryColorAlpha),
+            textColor = colorResource(id = R.color.textColor),
+            viewModel = youTubeViewModel,
+            closeButtonAction = {
+                youTubeViewModel.reset()
+            }
+        )
+    } else {
+        null
+    }
 }
 
-@Composable
-fun ReleaseDateText(releaseDate: String) {
-    HeadlineH6(
-        text = releaseDate,
-        color = colorResource(id = R.color.textColor),
-        textAlign = TextAlign.Center
-    )
-}
-
+@ExperimentalMaterialApi
 @Preview
 @Composable
 fun MovieDetailSuccessViewPreview() {
@@ -262,10 +162,16 @@ fun MovieDetailSuccessViewPreview() {
                 backdropPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
                 originalTitle = "The Mask",
                 releaseDate = "March 30, 2022",
+                runtime = "2h 2m",
                 overview = stringResource(id = R.string.lorem),
-                genres = listOf("Action", "Drama")
+                genres = listOf("Action", "Drama"),
+                videos = listOf()
             )
-            MovieDetailSuccessView(movie, 0, Actions(rememberNavController()))
+            MovieDetailSuccessView(movie,
+                0,
+                Actions(rememberNavController()),
+                viewModel()
+            )
         }
     }
 }

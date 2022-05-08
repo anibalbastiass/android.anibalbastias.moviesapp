@@ -5,9 +5,12 @@ import com.anibalbastias.moviesapp.feature.data.local.model.EntityMovieItem
 import com.anibalbastias.moviesapp.feature.data.local.model.EntitySavedMovieItem
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieDetail
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieItem
+import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieVideoItem
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
+import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieVideoItem
 import com.anibalbastias.moviesapp.feature.presentation.model.UiSavedMovieItem
+import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeUtils.getYouTubeThumbnail
 
 class UiMovieMapper {
 
@@ -48,14 +51,16 @@ class UiMovieMapper {
         releaseDate = releaseDate,
     )
 
-    fun DomainMovieDetail.fromDomainToUi() = UiMovieDetail(
+    fun DomainMovieDetail.fromDomainToUi(videos: List<DomainMovieVideoItem>) = UiMovieDetail(
         id = id,
         posterPath = posterPath,
         backdropPath = backdropPath,
         originalTitle = originalTitle,
+        runtime = runtime,
         releaseDate = releaseDate,
         overview = overview,
-        genres = genres
+        genres = genres,
+        videos = videos.map { it.fromDomainToUi() }
     )
 
     fun EntitySavedMovieItem.fromEntityToUi() = UiSavedMovieItem(
@@ -66,5 +71,15 @@ class UiMovieMapper {
     fun UiSavedMovieItem.fromUiToEntity() = EntitySavedMovieItem(
         title = title,
         createdAt = createdAt
+    )
+
+    private fun DomainMovieVideoItem.fromDomainToUi() = UiMovieVideoItem(
+        id = id,
+        key = key,
+        name = name,
+        publishedAt = publishedAt,
+        site = site,
+        type = type,
+        thumbnail = getYouTubeThumbnail(key)
     )
 }

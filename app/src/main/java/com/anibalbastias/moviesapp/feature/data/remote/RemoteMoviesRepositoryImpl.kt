@@ -4,6 +4,7 @@ import com.anibalbastias.moviesapp.feature.data.remote.mapper.RemoteMovieItemMap
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.domain.DomainMovieDataState
 import com.anibalbastias.moviesapp.feature.domain.DomainMovieDetailDataState
+import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieVideoItem
 import com.anibalbastias.moviesapp.feature.domain.repository.RemoteMoviesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -51,6 +52,17 @@ class RemoteMoviesRepositoryImpl @Inject constructor(
                 } ?: emit(APIState.Empty(response.message()))
             } else {
                 emit(APIState.Error(response.message()))
+            }
+        }
+
+    override suspend fun getMovieVideosById(movieId: String): Flow<List<DomainMovieVideoItem>> =
+        flow {
+            val response = service.getMovieVideosById(movieId)
+
+            with(mapper) {
+                emit(
+                    response.results!!.map { it.fromRemoteToDomain() }
+                )
             }
         }
 }

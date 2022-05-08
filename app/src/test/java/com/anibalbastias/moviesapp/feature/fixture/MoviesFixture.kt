@@ -20,8 +20,10 @@ object MoviesFixture {
         posterPath = "",
         backdropPath = "",
         originalTitle = "",
+        runtime = "",
         releaseDate = "",
         overview = "",
-        genres = arrayListOf()
+        genres = arrayListOf(),
+        videos = arrayListOf()
     )
 }

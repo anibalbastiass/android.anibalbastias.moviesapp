@@ -16,13 +16,14 @@ import androidx.compose.ui.unit.dp
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.uikitcompose.components.molecules.CenterTopAppBar
 
-enum class TopBarType { MOVIE_LIST, MOVIE_DETAILS, FAVORITES }
+enum class TopBarType { MOVIE_LIST, MOVIE_DETAILS, MOVIE_DETAILS_VIDEO, FAVORITES }
 
 @Composable
 fun AppTopBar(
     type: TopBarType,
     onBackClick: (() -> Unit)? = null,
     onSearchBarClick: (() -> Unit)? = null,
+    onChevronClick: (() -> Unit)? = null,
 ) {
     CenterTopAppBar(
         backgroundColor = colorResource(id = R.color.backgroundColor),
@@ -42,6 +43,18 @@ fun AppTopBar(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.back),
+                            tint = colorResource(id = R.color.white)
+                        )
+                    }
+                }
+                TopBarType.MOVIE_DETAILS_VIDEO -> {
+                    IconButton(
+                        onClick = { onChevronClick!!() },
+                        enabled = true,
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_chevron),
                             contentDescription = stringResource(id = R.string.back),
                             tint = colorResource(id = R.color.white)
                         )

@@ -3,6 +3,7 @@ package com.anibalbastias.moviesapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -19,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @ExperimentalFoundationApi
 @ExperimentalPagingApi
 @AndroidEntryPoint
-class MoviesActivity : ComponentActivity() {
+class MoviesActivity : AppCompatActivity() {
 
     companion object {
         const val splashFadeDurationMillis = 300

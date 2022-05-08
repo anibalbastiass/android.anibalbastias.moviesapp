@@ -5,15 +5,17 @@ import com.anibalbastias.moviesapp.BuildConfig
 import com.anibalbastias.moviesapp.feature.data.local.model.EntityMovieItem
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteMovieDetail
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteMovieResult
+import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteMovieVideoItem
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieDetail
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieItem
+import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieVideoItem
 import java.text.SimpleDateFormat
 import java.util.*
 
 class RemoteMovieItemMapper {
 
     fun fromRemoteToEntity(
-        results: List<RemoteMovieResult>?
+        results: List<RemoteMovieResult>?,
     ): List<EntityMovieItem> {
         return results!!.map { movie ->
             EntityMovieItem(
@@ -41,9 +43,19 @@ class RemoteMovieItemMapper {
         posterPath = getUrlImage(posterPath),
         backdropPath = getUrlImage(backdropPath),
         originalTitle = originalTitle ?: "",
+        runtime = calculateTime(runtime ?: 0),
         releaseDate = getFormattedDate(releaseDate),
         overview = overview ?: "",
         genres = genres?.map { it.name ?: "" } ?: listOf()
+    )
+
+    fun RemoteMovieVideoItem.fromRemoteToDomain() = DomainMovieVideoItem(
+        id = id ?: "",
+        key = key ?: "",
+        name = name ?: "",
+        publishedAt = publishedAt ?: "",
+        site = site ?: "",
+        type = type ?: "",
     )
 
     private fun getUrlImage(suffix: String?) = BuildConfig.IMAGE_URL + suffix
@@ -56,5 +68,11 @@ class RemoteMovieItemMapper {
         } else {
             rawDate
         }
+    }
+
+    private fun calculateTime(time: Int): String {
+        val hours = time / 60
+        val minutes = time % 60
+        return String.format("%d h %02d m", hours, minutes)
     }
 }
