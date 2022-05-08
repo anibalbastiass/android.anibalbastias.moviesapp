@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.anibalbastias.moviesapp.R
+import com.anibalbastias.uikitcompose.components.molecules.youtube.ScrollToSelectedVideo
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeUtils.getYouTubeThumbnail
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
 import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState
@@ -34,6 +35,7 @@ fun MovieVideoScreen(
     val borderColor = colorResource(id = R.color.white)
 
     LazyRow(
+        modifier = Modifier.padding(bottom = 150.dp),
         state = lazyListState,
         content = {
             items(youTubeViewModel.videos.value) { video ->
@@ -50,6 +52,8 @@ fun MovieVideoScreen(
                         .height(170.dp)
                         .clickable {
                             coroutineScope.launch {
+                                youTubeViewModel.previousMovie.value = video.main
+
                                 youTubeViewModel.selectedVideo.value = video
                                 youTubeViewModel.isShowing.value = true
 
@@ -91,4 +95,6 @@ fun MovieVideoScreen(
             }
         }
     )
+
+    ScrollToSelectedVideo(youTubeViewModel, lazyListState)
 }

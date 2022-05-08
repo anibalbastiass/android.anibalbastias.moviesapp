@@ -136,7 +136,9 @@ fun MovieDetailsContent(
         )
     }
 
-    if (youTubeViewModel.isShowing.value) {
+    if (youTubeViewModel.isShowing.value &&
+        youTubeViewModel.previousMovie.value == movie.originalTitle
+    ) {
         YouTubeExpandableScreen(
             background = colorResource(id = R.color.backgroundSecondaryColorAlpha),
             textColor = colorResource(id = R.color.textColor),
@@ -146,6 +148,7 @@ fun MovieDetailsContent(
             }
         )
     } else {
+        youTubeViewModel.reset()
         null
     }
 }
