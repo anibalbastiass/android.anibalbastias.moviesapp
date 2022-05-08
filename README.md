@@ -56,7 +56,7 @@ And lastly, create a Compose component library using Atomic Design, to maintain 
 
 ## Movie List
 
-![movie_list](art/fragment_list.png?raw=true)
+<img src="art/fragment_list.png" width="336">
 
 ## Movie Detail
 
