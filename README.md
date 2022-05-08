@@ -54,6 +54,7 @@ And lastly, create a Compose component library using Atomic Design, to maintain 
 
 # Screenshots
 
+<p float="left">
 <img src="art/fragment_list.png" width="250">
 <img src="art/fragment_details.png" width="250">
 <img src="art/fragment_favorites.png" width="250">
@@ -62,6 +63,7 @@ And lastly, create a Compose component library using Atomic Design, to maintain 
 <img src="art/youtube_video_list.png" width="250">
 <img src="art/youtube_video_list_selected.png" width="250">
 <img src="art/youtube_video_list_selected_playing.png" width="250">
+</p>
 
 # Testing
 
