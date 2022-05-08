@@ -6,8 +6,6 @@
 [![AGP](https://img.shields.io/badge/AndroidStudio-2021.1.1-blue?style=flat)](https://developer.android.com/studio/releases/gradle-plugin)
 [![Gradle](https://img.shields.io/badge/Gradle-7.0.2-blue?style=flat)](https://gradle.org)
 
-<img src="art/movies_flow.gif" width="336" align="right" hspace="20">
-
 The goal of this application is get Movie data from TheMovie DB API for show the "Now Playing" in a
 horizontal list and "Popular" endless vertical list. Also, pressing any item, you can see the
 details of the movie.
@@ -20,6 +18,31 @@ In my previous job I supported, coached and guided many junior consultants to ca
 Also, I took advantage of applying some knowledge (from previous jobs) of good practices, design patterns, clean architectures, testing, modularization and git submodules.
 
 And lastly, create a Compose component library using Atomic Design, to maintain a structural and elegant design pattern.
+
+## Description
+
+<img src="art/movies_flow.gif" width="380" height="620" align="right" hspace="20">
+
+* UI
+   * [Compose](https://developer.android.com/jetpack/compose) declarative UI framework
+   * [Material design](https://material.io/design)
+
+* Tech/Tools
+    * [Kotlin](https://kotlinlang.org/) 100% coverage
+    * [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) and [Flow](https://developer.android.com/kotlin/flow) for async operations
+    * [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) for dependency injection
+    * [Jetpack](https://developer.android.com/jetpack)
+        * [Compose](https://developer.android.com/jetpack/compose)
+        * [Navigation](https://developer.android.com/topic/libraries/architecture/navigation/) for navigation between composables
+        * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) that stores, exposes and manages UI state
+    * [Retrofit](https://square.github.io/retrofit/) for networking
+    * [Coil](https://github.com/coil-kt/coil) for image loading
+
+* Modern Architecture
+    * Single activity architecture (with [Navigation component](https://developer.android.com/guide/navigation/navigation-getting-started)) that defines navigation graphs
+    * MVVM for presentation layer
+    * [Android Architecture components](https://developer.android.com/topic/libraries/architecture) ([ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel), [Navigation](https://developer.android.com/jetpack/androidx/releases/navigation))
+    * [Android KTX](https://developer.android.com/kotlin/ktx) - Jetpack Kotlin extensions
 
 # Architecture
 
