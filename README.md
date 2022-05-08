@@ -54,29 +54,11 @@ And lastly, create a Compose component library using Atomic Design, to maintain 
 
 # Screenshots
 
-## Movie List
-
 <img src="art/fragment_list.png" width="336">
-
-## Movie Detail
-
 <img src="art/fragment_details.png" width="336">
-
-## Movie Favorites
-
 <img src="art/fragment_favorites.png" width="336">
-![movie_favorites](art/fragment_favorites.png?raw=true)
-
-## Search Movies
-
 <img src="art/search_list.png" width="336">
-
-## Recent Search Movies
-
 <img src="art/search_recents.png" width="336">
-
-## YouTube Video Expandable screen
-
 <img src="art/youtube_video_list.png" width="336">
 <img src="art/youtube_video_list_selected.png" width="336">
 <img src="art/youtube_video_list_selected_playing.png" width="336">
