@@ -6,6 +6,8 @@
 [![AGP](https://img.shields.io/badge/AndroidStudio-2021.1.1-blue?style=flat)](https://developer.android.com/studio/releases/gradle-plugin)
 [![Gradle](https://img.shields.io/badge/Gradle-7.0.2-blue?style=flat)](https://gradle.org)
 
+<img src="art/movies_flow.gif" width="336" align="right" hspace="20">
+
 The goal of this application is get Movie data from TheMovie DB API for show the "Now Playing" in a
 horizontal list and "Popular" endless vertical list. Also, pressing any item, you can see the
 details of the movie.
@@ -72,6 +74,13 @@ And lastly, create a Compose component library using Atomic Design, to maintain 
 
 ![search_recents](art/search_recents.png?raw=true)
 
+## YouTube Video Expandable screen
+
+![youtube_video_list](art/youtube_video_list.png?raw=true)
+![youtube_video_list](art/youtube_video_list.png?raw=true)
+![youtube_video_list_selected](art/youtube_video_list_selected.png?raw=true)
+![youtube_video_list_selected_playing](art/youtube_video_list_selected_playing.png?raw=true)
+
 # Testing
 
 This project have 3 kind of tests:
@@ -94,6 +103,7 @@ repositories, models.
 * Search movies
 * Recent searches
 * Expandable/Collapsable Toolbar in detail screen
+* YouTube expandable screen + VieModel lifecycle handling
 ```
 openssl s_client -connect api.themoviedb.org:443 | openssl x509 -pubkey -noout | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
 ```
