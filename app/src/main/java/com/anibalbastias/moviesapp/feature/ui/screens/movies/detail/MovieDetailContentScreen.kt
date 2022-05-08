@@ -34,7 +34,7 @@ fun MovieDetailContentScreen(
         modifier = Modifier
             .background(color = colorResource(id = R.color.backgroundColor))
             .fillMaxSize()
-            .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 150.dp)
+            .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
         SharedUtils.SharedDetailElementContainer(movie.originalTitle + index) {
