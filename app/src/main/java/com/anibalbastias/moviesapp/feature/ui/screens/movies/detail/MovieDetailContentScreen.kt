@@ -80,11 +80,8 @@ fun MovieDetailContentScreen(
             }
         }
 
-        HeadlineH6(
-            text = stringResource(id = R.string.videos),
-            color = colorResource(id = R.color.textColor)
-        )
-
+        MovieCreditScreen(movie.credits)
+        MovieSimilarScreen(movie.similar)
         MovieVideoScreen(youTubeViewModel)
     }
 }

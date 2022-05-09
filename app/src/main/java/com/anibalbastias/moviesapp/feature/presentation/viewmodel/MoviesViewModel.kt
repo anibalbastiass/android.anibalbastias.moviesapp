@@ -69,15 +69,15 @@ class MoviesViewModel @Inject constructor(
                 detailProvidersUseCase.execute(movieId),
                 detailSimilarUseCase.execute(movieId),
                 detailTranslationsUseCase.execute(movieId)
-            ) {
-                val detail: APIState<DomainMovieDetail> = it[0] as APIState<DomainMovieDetail>
-                val videos: List<DomainMovieVideoItem> = it[1] as List<DomainMovieVideoItem>
-                val credits: DomainMovieCredits = it[2] as DomainMovieCredits
+            ) { flowArray ->
+                val detail: APIState<DomainMovieDetail> = flowArray[0] as APIState<DomainMovieDetail>
+                val videos: List<DomainMovieVideoItem> = flowArray[1] as List<DomainMovieVideoItem>
+                val credits: DomainMovieCredits = flowArray[2] as DomainMovieCredits
                 val providers: List<DomainMovieProviderItem> =
-                    it[3] as List<DomainMovieProviderItem>
-                val similar: List<DomainMovieItem> = it[4] as List<DomainMovieItem>
+                    flowArray[3] as List<DomainMovieProviderItem>
+                val similar: List<DomainMovieItem> = flowArray[4] as List<DomainMovieItem>
                 val translations: List<DomainMovieTranslationItem> =
-                    it[5] as List<DomainMovieTranslationItem>
+                    flowArray[5] as List<DomainMovieTranslationItem>
 
                 when (detail) {
                     is APIState.Success -> {

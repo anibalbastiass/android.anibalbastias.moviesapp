@@ -15,4 +15,5 @@
     <string name="saved_movies">Recent Searches</string>
     <string name="clear_all">Clear All</string>
     <string name="videos">Videos</string>
+    <string name="cast">Cast</string>
 </resources>

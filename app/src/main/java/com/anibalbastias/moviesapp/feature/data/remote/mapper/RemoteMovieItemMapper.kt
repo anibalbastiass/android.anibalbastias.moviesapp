@@ -8,6 +8,8 @@ import com.anibalbastias.moviesapp.feature.domain.model.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+fun getUrlMovieImage(suffix: String?) = BuildConfig.IMAGE_URL + suffix
+
 class RemoteMovieItemMapper {
 
     fun fromRemoteToEntity(
@@ -36,8 +38,8 @@ class RemoteMovieItemMapper {
 
     fun RemoteMovieDetail.fromRemoteToDomain() = DomainMovieDetail(
         id = id?.toInt() ?: 0,
-        posterPath = getUrlImage(posterPath),
-        backdropPath = getUrlImage(backdropPath),
+        posterPath = getUrlMovieImage(posterPath),
+        backdropPath = getUrlMovieImage(backdropPath),
         originalTitle = originalTitle ?: "",
         runtime = calculateTime(runtime ?: 0),
         releaseDate = getFormattedDate(releaseDate),
@@ -100,8 +102,6 @@ class RemoteMovieItemMapper {
         tagline = tagline ?: "",
         title = title ?: "",
     )
-
-    private fun getUrlImage(suffix: String?) = BuildConfig.IMAGE_URL + suffix
 
     @SuppressLint("SimpleDateFormat")
     private fun getFormattedDate(rawDate: String?): String {
