@@ -36,8 +36,8 @@ fun MovieSimilarScreen(similar: List<UiMovieItem>) {
                 Card(
                     modifier = Modifier
                         .padding(10.dp)
-                        .width(150.dp)
-                        .height(250.dp)
+                        .width(120.dp)
+                        .height(170.dp)
                 ) {
                     Column {
                         AsyncImage(
@@ -50,14 +50,14 @@ fun MovieSimilarScreen(similar: List<UiMovieItem>) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(Color.Black)
-                                .height(150.dp)
+                                .height(120.dp)
                         )
                         Text(
                             text = item.originalTitle,
-                            style = MaterialTheme.typography.body1,
+                            style = MaterialTheme.typography.caption,
                             color = colorResource(id = R.color.textColor),
                             overflow = TextOverflow.Ellipsis,
-                            maxLines = 3,
+                            maxLines = 2,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .background(

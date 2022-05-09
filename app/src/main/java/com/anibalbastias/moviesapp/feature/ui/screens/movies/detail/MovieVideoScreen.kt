@@ -57,7 +57,7 @@ fun MovieVideoScreen(
                     modifier = Modifier
                         .padding(10.dp)
                         .width(150.dp)
-                        .height(170.dp)
+                        .height(160.dp)
                         .clickable {
                             coroutineScope.launch {
                                 youTubeViewModel.previousMovie.value = video.main
@@ -88,7 +88,7 @@ fun MovieVideoScreen(
                             style = MaterialTheme.typography.caption,
                             color = colorResource(id = R.color.textColor),
                             overflow = TextOverflow.Ellipsis,
-                            maxLines = 2,
+                            maxLines = 1,
                             modifier = Modifier
                                 .background(
                                     colorResource(
