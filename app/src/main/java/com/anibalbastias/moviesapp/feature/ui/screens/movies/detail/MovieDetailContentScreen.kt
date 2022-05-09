@@ -80,8 +80,8 @@ fun MovieDetailContentScreen(
             }
         }
 
-        MovieCreditScreen(movie.credits)
         MovieSimilarScreen(movie.similar)
+        MovieCreditScreen(movie.credits)
         MovieVideoScreen(youTubeViewModel)
     }
 }

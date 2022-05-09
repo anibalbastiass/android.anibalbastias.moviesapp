@@ -22,19 +22,16 @@ import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.data.remote.mapper.getUrlMovieImage
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieCredits
 import com.anibalbastias.uikitcompose.components.atom.HeadlineH6
-import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState
 
 @Composable
 fun MovieCreditScreen(credits: UiMovieCredits) {
-    val lazyListState = rememberForeverLazyListState(key = "CreditListMovies")
-
     HeadlineH6(
         text = stringResource(id = R.string.cast),
-        color = colorResource(id = R.color.textColor)
+        color = colorResource(id = R.color.textColor),
+        modifier = Modifier.padding(top = 30.dp)
     )
 
     LazyRow(
-        state = lazyListState,
         content = {
             items(credits.cast) { item ->
                 Card(
@@ -63,13 +60,13 @@ fun MovieCreditScreen(credits: UiMovieCredits) {
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 3,
                             modifier = Modifier
+                                .fillMaxWidth()
                                 .background(
                                     colorResource(
                                         id = R.color.backgroundSecondaryColor
                                     )
                                 )
                                 .padding(10.dp)
-                                .fillMaxWidth()
                         )
 
                         Text(
@@ -79,13 +76,13 @@ fun MovieCreditScreen(credits: UiMovieCredits) {
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 3,
                             modifier = Modifier
+                                .fillMaxSize()
                                 .background(
                                     colorResource(
                                         id = R.color.backgroundSecondaryColor
                                     )
                                 )
                                 .padding(10.dp)
-                                .fillMaxSize()
                         )
                     }
                 }
