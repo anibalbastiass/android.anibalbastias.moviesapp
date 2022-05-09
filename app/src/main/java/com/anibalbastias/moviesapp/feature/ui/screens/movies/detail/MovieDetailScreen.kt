@@ -15,7 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
-import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
+import com.anibalbastias.moviesapp.feature.presentation.model.*
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
 import com.anibalbastias.moviesapp.feature.ui.navigation.AppTopBar
@@ -168,7 +168,11 @@ fun MovieDetailSuccessViewPreview() {
                 runtime = "2h 2m",
                 overview = stringResource(id = R.string.lorem),
                 genres = listOf("Action", "Drama"),
-                videos = listOf()
+                videos = listOf(),
+                credits = UiMovieCredits(),
+                providers = listOf(),
+                similar = listOf(),
+                translations = listOf()
             )
             MovieDetailSuccessView(movie,
                 0,

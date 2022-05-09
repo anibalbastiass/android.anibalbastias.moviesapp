@@ -16,7 +16,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class RemoteMovieProviders(
     @Json(name = ID) val id: Int? = 0,
-    @Json(name = RESULTS) val results: HashMap<String, RemoteMovieProviderItem>? = hashMapOf(),
+    @Json(name = RESULTS) val results: Map<String, RemoteMovieProviderItem>? = mapOf(),
 )
 
 @JsonClass(generateAdapter = true)

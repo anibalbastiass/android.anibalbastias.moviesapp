@@ -3,12 +3,8 @@ package com.anibalbastias.moviesapp.feature.data.remote.mapper
 import android.annotation.SuppressLint
 import com.anibalbastias.moviesapp.BuildConfig
 import com.anibalbastias.moviesapp.feature.data.local.model.EntityMovieItem
-import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteMovieDetail
-import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteMovieResult
-import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteMovieVideoItem
-import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieDetail
-import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieItem
-import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieVideoItem
+import com.anibalbastias.moviesapp.feature.data.remote.model.*
+import com.anibalbastias.moviesapp.feature.domain.model.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -56,6 +52,53 @@ class RemoteMovieItemMapper {
         publishedAt = publishedAt ?: "",
         site = site ?: "",
         type = type ?: "",
+    )
+
+    fun RemoteMovieCredits.fromRemoteToDomain() = DomainMovieCredits(
+        cast = cast?.map { it.fromRemoteToDomain() } ?: listOf(),
+        crew = crew?.map { it.fromRemoteToDomain() } ?: listOf(),
+    )
+
+    private fun RemoteMovieCastItem.fromRemoteToDomain() = DomainMovieCastItem(
+        id = id ?: 0,
+        creditId = creditId ?: "",
+        department = department ?: "",
+        job = job ?: "",
+        knownForDepartment = knownForDepartment ?: "",
+        name = name ?: "",
+        originalName = originalName ?: "",
+        popularity = popularity ?: 0.0,
+        profilePath = profilePath ?: "",
+        castId = castId ?: 0,
+        character = character ?: "",
+    )
+
+    fun RemoteMovieProviderItem.fromRemoteToDomain(main: String) = DomainMovieProviderItem(
+        main = main,
+        buy = buy?.map { it.fromRemoteToDomain() } ?: listOf(),
+        rent = rent?.map { it.fromRemoteToDomain() } ?: listOf(),
+        flatRate = flatRate?.map { it.fromRemoteToDomain() } ?: listOf(),
+    )
+
+    private fun RemoteMovieProviderDesc.fromRemoteToDomain() = DomainMovieProviderDesc(
+        providerId = providerId ?: 0,
+        logoPath = logoPath ?: "",
+        providerName = providerName ?: "",
+    )
+
+    fun RemoteMovieTranslationItem.fromRemoteToDomain() = DomainMovieTranslationItem(
+        translationData = translationData?.fromRemoteToDomain() ?: DomainMovieTranslationData(),
+        englishName = englishName ?: "",
+        iso31661 = iso31661 ?: "",
+        iso6391 = iso6391 ?: "",
+        name = name ?: "",
+    )
+
+    private fun RemoteMovieTranslationData.fromRemoteToDomain() = DomainMovieTranslationData(
+        overview = overview ?: "",
+        runtime = runtime ?: 0,
+        tagline = tagline ?: "",
+        title = title ?: "",
     )
 
     private fun getUrlImage(suffix: String?) = BuildConfig.IMAGE_URL + suffix

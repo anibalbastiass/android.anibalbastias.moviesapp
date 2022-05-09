@@ -1,12 +1,12 @@
 package com.anibalbastias.moviesapp.feature.data.remote.model
 
-import android.provider.ContactsContract.CommonDataKinds.Organization.DEPARTMENT
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.ADULT
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.CAST
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.CAST_ID
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.CHARACTER
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.CREDIT_ID
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.CREW
+import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.DEPARTMENT
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.GENDER
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.ID
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.JOB
@@ -38,7 +38,7 @@ data class RemoteMovieCastItem(
     @Json(name = NAME) val name: String? = "",
     @Json(name = ORIGINAL_NAME) val originalName: String? = "",
     @Json(name = POPULARITY) val popularity: Double? = 0.0,
-    @Json(name = PROFILE_PATH) val profilePath: Any?,
+    @Json(name = PROFILE_PATH) val profilePath: String?,
     @Json(name = CAST_ID) val castId: Int? = 0,
     @Json(name = CHARACTER) val character: String? = "",
     @Json(name = ORDER) val order: Int? = 0,

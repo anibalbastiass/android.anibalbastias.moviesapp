@@ -70,4 +70,5 @@ object RemoteConstants {
     const val PROVIDER_NAME = "provider_name"
     const val TRANSLATIONS = "translations"
     const val DATA = "data"
+    const val DEPARTMENT = "department"
 }
