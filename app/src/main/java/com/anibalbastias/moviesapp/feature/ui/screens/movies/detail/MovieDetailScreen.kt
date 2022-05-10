@@ -156,7 +156,7 @@ fun MovieDetailsContent(
         CollapsingToolbarScaffold(
             modifier = Modifier.fillMaxSize(),
             state = state,
-            scrollStrategy = ScrollStrategy.EnterAlways,
+            scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
             toolbarModifier = Modifier.background(color = colorResource(id = R.color.backgroundColor)),
             toolbar = {
                 MovieDetailToolBarScreen(movie, state, index)
@@ -164,31 +164,31 @@ fun MovieDetailsContent(
         ) {
             MovieDetailContentScreen(movie, index, youTubeViewModel, movieActions)
         }
-    }
 
-    // Initialize videos
-    youTubeViewModel.videos.value = movie.videos.map { video ->
-        YouTubeVideoItem(
-            key = video.key,
-            name = video.name,
-            main = movie.originalTitle.value
-        )
-    }
+        // Initialize videos
+        youTubeViewModel.videos.value = movie.videos.map { video ->
+            YouTubeVideoItem(
+                key = video.key,
+                name = video.name,
+                main = movie.originalTitle.value
+            )
+        }
 
-    if (youTubeViewModel.isShowing.value &&
-        youTubeViewModel.previousMovie.value == movie.originalTitle.value
-    ) {
-        YouTubeExpandableScreen(
-            background = colorResource(id = R.color.backgroundSecondaryColorAlpha),
-            textColor = colorResource(id = R.color.textColor),
-            viewModel = youTubeViewModel,
-            closeButtonAction = {
-                youTubeViewModel.reset()
-            }
-        )
-    } else {
-        youTubeViewModel.reset()
-        null
+        if (youTubeViewModel.isShowing.value &&
+            youTubeViewModel.previousMovie.value == movie.originalTitle.value
+        ) {
+            YouTubeExpandableScreen(
+                background = colorResource(id = R.color.backgroundSecondaryColorAlpha),
+                textColor = colorResource(id = R.color.textColor),
+                viewModel = youTubeViewModel,
+                closeButtonAction = {
+                    youTubeViewModel.reset()
+                }
+            )
+        } else {
+            youTubeViewModel.reset()
+            null
+        }
     }
 }
 
