@@ -1,15 +1,14 @@
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil.compose.rememberAsyncImagePainter
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import com.anibalbastias.uikitcompose.utils.SharedUtils
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
@@ -27,11 +26,8 @@ fun CollapsingToolbarScope.MovieDetailToolBarScreen(
             .height(50.dp)
     )
 
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(movie.backdropPath)
-            .crossfade(true)
-            .build(),
+    Image(
+        painter = rememberAsyncImagePainter(movie.backdropPath),
         contentDescription = movie.originalTitle,
         modifier = Modifier
             .parallax(0.5f)
@@ -44,21 +40,27 @@ fun CollapsingToolbarScope.MovieDetailToolBarScreen(
     )
 
     Column(
+        modifier = Modifier.fillMaxSize().padding(top = 120.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 100.dp)
+        verticalArrangement = Arrangement.Bottom
     ) {
-        SharedUtils.SharedDetailBoxContainer(movie.posterPath + index) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(movie.posterPath)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = movie.originalTitle,
-                modifier = Modifier
-                    .height(200.dp)
-            )
+        if (index == -1) {
+            PosterPathImage(movie)
+        } else {
+            SharedUtils.SharedDetailBoxContainer(movie.posterPath + index) {
+                PosterPathImage(movie)
+            }
         }
     }
+}
+
+@Composable
+fun PosterPathImage(movie: UiMovieDetail) {
+    Image(
+        painter = rememberAsyncImagePainter(movie.posterPath.replace("/w300/", "/w154/")),
+        contentDescription = movie.originalTitle,
+        modifier = Modifier
+            .width(120.dp)
+            .height(180.dp)
+    )
 }

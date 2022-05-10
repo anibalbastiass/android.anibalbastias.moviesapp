@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
+import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
 import com.anibalbastias.uikitcompose.components.atom.*
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
 import com.anibalbastias.uikitcompose.utils.SharedUtils
@@ -25,6 +26,7 @@ fun MovieDetailContentScreen(
     movie: UiMovieDetail,
     index: Int,
     youTubeViewModel: YouTubeViewModel,
+    movieActions: Actions,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -34,17 +36,21 @@ fun MovieDetailContentScreen(
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        SharedUtils.SharedDetailElementContainer(movie.originalTitle + index) {
-            HeadlineH4(
-                text = movie.originalTitle,
-                color = colorResource(id = R.color.textColor),
-                textAlign = TextAlign.Center
-            )
+        if (index == -1) {
+            TitleMovie(movie)
+        } else {
+            SharedUtils.SharedDetailElementContainer(movie.originalTitle + index) {
+                TitleMovie(movie)
+            }
         }
 
         if (movie.releaseDate.isNotEmpty()) {
-            SharedUtils.SharedDetailElementContainer(movie.releaseDate + index) {
+            if (index == -1) {
                 ReleaseDateText(movie.releaseDate)
+            } else {
+                SharedUtils.SharedDetailElementContainer(movie.releaseDate + index) {
+                    ReleaseDateText(movie.releaseDate)
+                }
             }
         } else {
             ReleaseDateText(movie.releaseDate)
@@ -79,10 +85,19 @@ fun MovieDetailContentScreen(
             }
         }
 
-        MovieSimilarScreen(movie.similar)
-        MovieCreditScreen(movie.credits)
+        MovieSimilarScreen(movie.similar, movieActions)
+        MovieCreditScreen(movie.credits, movieActions, movie)
         MovieVideoScreen(youTubeViewModel)
     }
+}
+
+@Composable
+fun TitleMovie(movie: UiMovieDetail) {
+    HeadlineH4(
+        text = movie.originalTitle,
+        color = colorResource(id = R.color.textColor),
+        textAlign = TextAlign.Center
+    )
 }
 
 @Composable

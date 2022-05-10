@@ -2,6 +2,9 @@
 
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -34,7 +37,7 @@ fun MovieDetailScreen(
     moviesViewModel: MoviesViewModel,
     youTubeViewModel: YouTubeViewModel,
     movieId: Int?,
-    index: Int,
+    index: Int = -1,
     movieActions: Actions,
 ) {
     val detailState = moviesViewModel.detailMovies.collectAsState().value
@@ -98,7 +101,7 @@ fun MovieDetailSuccessView(
             }
         },
         content = {
-            MovieDetailsContent(movie, index, youTubeViewModel)
+            MovieDetailsContent(movie, index, youTubeViewModel, movieActions)
         }
     )
 }
@@ -110,6 +113,7 @@ fun MovieDetailsContent(
     movie: UiMovieDetail,
     index: Int,
     youTubeViewModel: YouTubeViewModel,
+    movieActions: Actions,
 ) {
     val state = rememberCollapsingToolbarScaffoldState()
 
@@ -123,7 +127,7 @@ fun MovieDetailsContent(
                 MovieDetailToolBarScreen(movie, state, index)
             }
         ) {
-            MovieDetailContentScreen(movie, index, youTubeViewModel)
+            MovieDetailContentScreen(movie, index, youTubeViewModel, movieActions)
         }
     }
 

@@ -16,6 +16,7 @@ import com.anibalbastias.moviesapp.feature.ui.screens.favorites.FavoritesScreen
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.MoviesScreen
 
 const val MOVIE_ID_KEY = "movieId"
+const val MOVIE_CREDIT_ID_KEY = "movieCreditId"
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi

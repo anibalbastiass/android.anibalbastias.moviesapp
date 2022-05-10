@@ -93,6 +93,19 @@ fun FavoritesNavHost(
                     )
                 }
             }
+
+            // Movie Detail by Movie
+            composable(
+                route = Routes.MoviesByMovieDetail().path,
+                arguments = listOf(navArgument(MOVIE_ID_KEY) { type = NavType.IntType })
+            ) { backStackEntry ->
+                MovieDetailScreen(
+                    movieId = backStackEntry.arguments?.getInt(MOVIE_ID_KEY),
+                    moviesViewModel = moviesViewModel,
+                    youTubeViewModel = youTubeViewModel,
+                    movieActions = movieActions
+                )
+            }
         }
     }
 }

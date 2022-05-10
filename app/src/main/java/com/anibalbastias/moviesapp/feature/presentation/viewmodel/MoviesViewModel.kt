@@ -95,7 +95,8 @@ class MoviesViewModel @Inject constructor(
                 .catch {
                     _detailMovies.value = APIState.Error("No Internet Connection")
                 }
-                .collect { dataState ->
+                .collectLatest { dataState ->
+                    delay(150)
                     _detailMovies.value = transformDetailState(dataState)
                 }
         }

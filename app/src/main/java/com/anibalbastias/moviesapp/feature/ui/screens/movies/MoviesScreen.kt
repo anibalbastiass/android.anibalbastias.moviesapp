@@ -20,8 +20,10 @@ import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewMo
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesPagingViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
+import com.anibalbastias.moviesapp.feature.ui.navigation.MOVIE_CREDIT_ID_KEY
 import com.anibalbastias.moviesapp.feature.ui.navigation.MOVIE_ID_KEY
 import com.anibalbastias.moviesapp.feature.ui.navigation.Routes
+import com.anibalbastias.moviesapp.feature.ui.screens.movies.detail.MovieDetailCastScreen
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.detail.MovieDetailScreen
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.MovieListScreen
 import com.anibalbastias.moviesapp.feature.ui.screens.search.SearchScreen
@@ -108,9 +110,41 @@ fun MoviesNavHost(
                 }
             }
 
+            // Movie Detail by movie
+            composable(
+                route = Routes.MoviesByMovieDetail().path,
+                arguments = listOf(navArgument(MOVIE_ID_KEY) { type = NavType.IntType })
+            ) { backStackEntry ->
+                MovieDetailScreen(
+                    movieId = backStackEntry.arguments?.getInt(MOVIE_ID_KEY),
+                    moviesViewModel = moviesViewModel,
+                    youTubeViewModel = youTubeViewModel,
+                    movieActions = movieActions
+                )
+            }
+
             // Search
             composable(Routes.MoviesSearch.route) {
                 SearchScreen(movieActions)
+            }
+
+            // Movie Detail Cast
+            composable(
+                route = Routes.MoviesDetailCast().path,
+                arguments = listOf(
+                    navArgument(MOVIE_ID_KEY) { type = NavType.IntType },
+                    navArgument(MOVIE_CREDIT_ID_KEY) { type = NavType.StringType },
+                )
+            ) { backStackEntry ->
+                Crossfade(
+                    targetState = selectedItem,
+                    animationSpec = tweenSpec
+                ) { item ->
+                    Log.d("Index", item.toString())
+                    MovieDetailCastScreen(
+                        creditId = backStackEntry.arguments?.getString(MOVIE_CREDIT_ID_KEY) ?: "",
+                    )
+                }
             }
         }
     }

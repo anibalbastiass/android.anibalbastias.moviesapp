@@ -1,6 +1,8 @@
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -17,14 +19,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.data.remote.mapper.getUrlMovieImage
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieCredits
+import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
+import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
+import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
 import com.anibalbastias.uikitcompose.components.atom.HeadlineH6
 
 @Composable
-fun MovieCreditScreen(credits: UiMovieCredits) {
+fun MovieCreditScreen(credits: UiMovieCredits, movieActions: Actions, movie: UiMovieDetail) {
     HeadlineH6(
         text = stringResource(id = R.string.cast),
         color = colorResource(id = R.color.textColor),
@@ -39,13 +45,16 @@ fun MovieCreditScreen(credits: UiMovieCredits) {
                         .padding(10.dp)
                         .width(120.dp)
                         .height(210.dp)
+                        .clickable {
+                            movieActions.movieCastAction(
+                                UiMovieItem(id = movie.id.toLong()),
+                                item
+                            )
+                        }
                 ) {
                     Column {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(getUrlMovieImage(item.profilePath))
-                                .crossfade(true)
-                                .build(),
+                        Image(
+                            painter = rememberAsyncImagePainter(getUrlMovieImage(item.profilePath)),
                             contentDescription = item.originalName,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier

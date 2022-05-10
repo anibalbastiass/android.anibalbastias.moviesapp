@@ -4,6 +4,7 @@ package com.anibalbastias.moviesapp.feature.ui.screens.movies.list
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -30,6 +31,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.domain.UiMovieDataState
@@ -170,11 +172,9 @@ fun MovieListItemView(
                 val (image, favorite) = createRefs()
 
                 SharedListBoxContainer(movie.posterPath + index) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(movie.posterPath)
-                            .crossfade(true)
-                            .build(),
+                    Image(
+                        painter = rememberAsyncImagePainter(movie.posterPath.replace("/w300/",
+                            "/w154/")),
                         modifier = Modifier
                             .width(60.dp)
                             .height(100.dp)

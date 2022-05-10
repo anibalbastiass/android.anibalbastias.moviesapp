@@ -1,6 +1,7 @@
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.uikitcompose.components.atom.HeadlineH6
@@ -72,11 +74,8 @@ fun MovieVideoScreen(
                         }
                 ) {
                     Column {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(getYouTubeThumbnail(video.key))
-                                .crossfade(true)
-                                .build(),
+                        Image(
+                            painter = rememberAsyncImagePainter(getYouTubeThumbnail(video.key)),
                             contentDescription = video.name,
                             modifier = Modifier
                                 .background(Color.Black)
