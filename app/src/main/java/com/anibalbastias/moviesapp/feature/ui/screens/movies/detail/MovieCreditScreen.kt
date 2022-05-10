@@ -45,12 +45,13 @@ fun MovieCreditScreen(credits: UiMovieCredits, movieActions: Actions, movie: UiM
                         .padding(10.dp)
                         .width(120.dp)
                         .height(210.dp)
-                        .clickable {
+                        // TODO: Go to Cast
+                        /*.clickable {
                             movieActions.movieCastAction(
                                 UiMovieItem(id = movie.id.toLong()),
                                 item
                             )
-                        }
+                        }*/
                 ) {
                     Column {
                         Image(

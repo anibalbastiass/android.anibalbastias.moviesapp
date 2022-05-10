@@ -28,7 +28,7 @@ fun CollapsingToolbarScope.MovieDetailToolBarScreen(
 
     Image(
         painter = rememberAsyncImagePainter(movie.backdropPath),
-        contentDescription = movie.originalTitle,
+        contentDescription = movie.originalTitle.value,
         modifier = Modifier
             .parallax(0.5f)
             .height(280.dp)
@@ -58,7 +58,7 @@ fun CollapsingToolbarScope.MovieDetailToolBarScreen(
 fun PosterPathImage(movie: UiMovieDetail) {
     Image(
         painter = rememberAsyncImagePainter(movie.posterPath.replace("/w300/", "/w154/")),
-        contentDescription = movie.originalTitle,
+        contentDescription = movie.originalTitle.value,
         modifier = Modifier
             .width(120.dp)
             .height(180.dp)

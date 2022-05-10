@@ -39,7 +39,7 @@ fun MovieDetailContentScreen(
         if (index == -1) {
             TitleMovie(movie)
         } else {
-            SharedUtils.SharedDetailElementContainer(movie.originalTitle + index) {
+            SharedUtils.SharedDetailElementContainer(movie.originalTitle.value + index) {
                 TitleMovie(movie)
             }
         }
@@ -64,7 +64,7 @@ fun MovieDetailContentScreen(
         )
 
         Body1(
-            text = movie.overview,
+            text = movie.overview.value,
             color = colorResource(id = R.color.textColor),
             textAlign = TextAlign.Justify,
             modifier = Modifier.padding(vertical = 20.dp)
@@ -94,7 +94,7 @@ fun MovieDetailContentScreen(
 @Composable
 fun TitleMovie(movie: UiMovieDetail) {
     HeadlineH4(
-        text = movie.originalTitle,
+        text = movie.originalTitle.value,
         color = colorResource(id = R.color.textColor),
         textAlign = TextAlign.Center
     )

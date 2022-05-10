@@ -1,5 +1,7 @@
 package com.anibalbastias.moviesapp.feature.presentation.model
 
+import androidx.compose.runtime.mutableStateOf
+
 data class UiMovieTranslationItem(
     val translationData: UiMovieTranslationData,
     val englishName: String,

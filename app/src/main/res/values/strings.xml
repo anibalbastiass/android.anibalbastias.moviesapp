@@ -17,4 +17,6 @@
     <string name="videos">Videos</string>
     <string name="cast">Cast</string>
     <string name="similar_movies">Similar Movies</string>
+    <string name="change_language">Change language</string>
+    <string name="translations">Translations</string>
 </resources>

@@ -2,9 +2,7 @@
 
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -13,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
@@ -29,8 +28,10 @@ import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeExpand
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
 import com.anibalbastias.uikitcompose.components.molecules.youtube.model.YouTubeVideoItem
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
+import kotlinx.coroutines.launch
 import me.onebone.toolbar.*
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun MovieDetailScreen(
@@ -51,6 +52,7 @@ fun MovieDetailScreen(
     )
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun DetailMoviesViewContent(
@@ -72,6 +74,7 @@ fun DetailMoviesViewContent(
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMotionApi
 @ExperimentalMaterialApi
 @Composable
@@ -81,7 +84,13 @@ fun MovieDetailSuccessView(
     movieActions: Actions,
     youTubeViewModel: YouTubeViewModel,
 ) {
-    Scaffold(
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    BottomSheetScaffold(
+        scaffoldState = bottomSheetScaffoldState,
         topBar = {
             if (youTubeViewModel.isExpanded.value) {
                 AppTopBar(
@@ -96,12 +105,38 @@ fun MovieDetailSuccessView(
                     onBackClick = {
                         youTubeViewModel.reset()
                         movieActions.goBackAction()
+                    },
+                    onChangeLanguage = {
+                        coroutineScope.launch {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        }
                     }
                 )
             }
         },
         content = {
             MovieDetailsContent(movie, index, youTubeViewModel, movieActions)
+        },
+        sheetPeekHeight = 0.dp,
+        sheetContent = {
+            Box(
+                Modifier
+                    .background(colorResource(id = R.color.backgroundSecondaryColor))
+                    .fillMaxWidth()
+                    .height(400.dp)
+            ) {
+                MovieDetailTranslations(
+                    translations = movie.translations,
+                    coroutineScope = coroutineScope,
+                    bottomSheetScaffoldState = bottomSheetScaffoldState,
+                    onUpdateLanguage = { translation ->
+                        movie.originalTitle.value =
+                            translation.translationData.title.ifEmpty { movie._originalTitle }
+                        movie.overview.value =
+                            translation.translationData.overview.ifEmpty { movie._overview }
+                    }
+                )
+            }
         }
     )
 }
@@ -136,12 +171,12 @@ fun MovieDetailsContent(
         YouTubeVideoItem(
             key = video.key,
             name = video.name,
-            main = movie.originalTitle
+            main = movie.originalTitle.value
         )
     }
 
     if (youTubeViewModel.isShowing.value &&
-        youTubeViewModel.previousMovie.value == movie.originalTitle
+        youTubeViewModel.previousMovie.value == movie.originalTitle.value
     ) {
         YouTubeExpandableScreen(
             background = colorResource(id = R.color.backgroundSecondaryColorAlpha),
@@ -157,6 +192,7 @@ fun MovieDetailsContent(
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Preview
 @Composable
@@ -167,10 +203,10 @@ fun MovieDetailSuccessViewPreview() {
                 id = 1,
                 posterPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
                 backdropPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
-                originalTitle = "The Mask",
+                _originalTitle = "The Mask",
                 releaseDate = "March 30, 2022",
                 runtime = "2h 2m",
-                overview = stringResource(id = R.string.lorem),
+                _overview = stringResource(id = R.string.lorem),
                 genres = listOf("Action", "Drama"),
                 videos = listOf(),
                 credits = UiMovieCredits(),
