@@ -3,7 +3,6 @@ package com.anibalbastias.moviesapp.feature.data.remote.model
 object RemoteConstants {
     const val FIRST_PAGE = 1
     const val PAGE_SIZE = 20
-    const val POPULAR = "popular"
 
     const val ADULT = "adult"
     const val BACKDROP_PATH = "backdrop_path"
@@ -51,4 +50,25 @@ object RemoteConstants {
     const val MAXIMUM = "maximum"
     const val MINIMUM = "minimum"
     const val GENRE_IDS = "genre_ids"
+    const val CAST = "cast"
+    const val CREW = "crew"
+    const val CREDIT_ID = "credit_id"
+    const val GENDER = "gender"
+    const val JOB = "job"
+    const val KNOWN_FOR_DEPARTMENT = "known_for_department"
+    const val ORIGINAL_NAME = "original_name"
+    const val PROFILE_PATH = "profile_path"
+    const val CAST_ID = "cast_id"
+    const val CHARACTER = "character"
+    const val ORDER = "order"
+    const val BUY = "buy"
+    const val LINK = "link"
+    const val RENT = "rent"
+    const val FLAT_RATE = "flatrate"
+    const val DISPLAY_PRIORITY = "display_priority"
+    const val PROVIDER_ID = "provider_id"
+    const val PROVIDER_NAME = "provider_name"
+    const val TRANSLATIONS = "translations"
+    const val DATA = "data"
+    const val DEPARTMENT = "department"
 }

@@ -24,6 +24,7 @@ fun AppTopBar(
     onBackClick: (() -> Unit)? = null,
     onSearchBarClick: (() -> Unit)? = null,
     onChevronClick: (() -> Unit)? = null,
+    onChangeLanguage: (() -> Unit)? = null,
 ) {
     CenterTopAppBar(
         backgroundColor = colorResource(id = R.color.backgroundColor),
@@ -77,7 +78,19 @@ fun AppTopBar(
                         )
                     }
                 }
-                TopBarType.MOVIE_DETAILS, TopBarType.FAVORITES -> null
+                TopBarType.MOVIE_DETAILS -> {
+                    IconButton(
+                        onClick = { onChangeLanguage!!() },
+                        enabled = true,
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_language),
+                            contentDescription = stringResource(id = R.string.change_language),
+                            tint = colorResource(id = R.color.white)
+                        )
+                    }
+                }
+                TopBarType.FAVORITES -> null
             }
         }
     )

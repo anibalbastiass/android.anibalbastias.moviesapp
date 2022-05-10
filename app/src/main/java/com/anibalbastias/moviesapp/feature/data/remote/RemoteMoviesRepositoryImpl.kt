@@ -4,7 +4,7 @@ import com.anibalbastias.moviesapp.feature.data.remote.mapper.RemoteMovieItemMap
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.domain.DomainMovieDataState
 import com.anibalbastias.moviesapp.feature.domain.DomainMovieDetailDataState
-import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieVideoItem
+import com.anibalbastias.moviesapp.feature.domain.model.*
 import com.anibalbastias.moviesapp.feature.domain.repository.RemoteMoviesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -62,6 +62,46 @@ class RemoteMoviesRepositoryImpl @Inject constructor(
             with(mapper) {
                 emit(
                     response.results!!.map { it.fromRemoteToDomain() }
+                )
+            }
+        }
+
+    override suspend fun getMovieCreditsById(movieId: String): Flow<DomainMovieCredits> =
+        flow {
+            val response = service.getMovieCreditsById(movieId)
+            with(mapper) { emit(response.fromRemoteToDomain()) }
+        }
+
+    override suspend fun getMovieProvidersById(movieId: String): Flow<List<DomainMovieProviderItem>> =
+        flow {
+            val response = service.getMovieProvidersById(movieId)
+            with(mapper) {
+                emit(
+                    response.results?.map {
+                        it.value.fromRemoteToDomain(it.key)
+                    } ?: listOf()
+                )
+            }
+        }
+
+    override suspend fun getMovieSimilarById(movieId: String): Flow<List<DomainMovieItem>> =
+        flow {
+            val response = service.getMovieSimilarById(movieId)
+            emit(
+                response.results?.map {
+                    with(mapper) { it.fromRemoteToDomain() }
+                } ?: listOf()
+            )
+        }
+
+    override suspend fun getMovieTranslationsById(movieId: String): Flow<List<DomainMovieTranslationItem>> =
+        flow {
+            val response = service.getMovieTranslationsById(movieId)
+            with(mapper) {
+                emit(
+                    response.translations?.map {
+                        it.fromRemoteToDomain()
+                    } ?: listOf()
                 )
             }
         }

@@ -2,6 +2,7 @@
 
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -10,12 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
-import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
+import com.anibalbastias.moviesapp.feature.presentation.model.*
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
 import com.anibalbastias.moviesapp.feature.ui.navigation.AppTopBar
@@ -26,15 +28,17 @@ import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeExpand
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
 import com.anibalbastias.uikitcompose.components.molecules.youtube.model.YouTubeVideoItem
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
+import kotlinx.coroutines.launch
 import me.onebone.toolbar.*
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun MovieDetailScreen(
     moviesViewModel: MoviesViewModel,
     youTubeViewModel: YouTubeViewModel,
     movieId: Int?,
-    index: Int,
+    index: Int = -1,
     movieActions: Actions,
 ) {
     val detailState = moviesViewModel.detailMovies.collectAsState().value
@@ -48,6 +52,7 @@ fun MovieDetailScreen(
     )
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun DetailMoviesViewContent(
@@ -69,6 +74,7 @@ fun DetailMoviesViewContent(
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMotionApi
 @ExperimentalMaterialApi
 @Composable
@@ -78,7 +84,13 @@ fun MovieDetailSuccessView(
     movieActions: Actions,
     youTubeViewModel: YouTubeViewModel,
 ) {
-    Scaffold(
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    BottomSheetScaffold(
+        scaffoldState = bottomSheetScaffoldState,
         topBar = {
             if (youTubeViewModel.isExpanded.value) {
                 AppTopBar(
@@ -93,12 +105,38 @@ fun MovieDetailSuccessView(
                     onBackClick = {
                         youTubeViewModel.reset()
                         movieActions.goBackAction()
+                    },
+                    onChangeLanguage = {
+                        coroutineScope.launch {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        }
                     }
                 )
             }
         },
         content = {
-            MovieDetailsContent(movie, index, youTubeViewModel)
+            MovieDetailsContent(movie, index, youTubeViewModel, movieActions)
+        },
+        sheetPeekHeight = 0.dp,
+        sheetContent = {
+            Box(
+                Modifier
+                    .background(colorResource(id = R.color.backgroundSecondaryColor))
+                    .fillMaxWidth()
+                    .height(400.dp)
+            ) {
+                MovieDetailTranslations(
+                    translations = movie.translations,
+                    coroutineScope = coroutineScope,
+                    bottomSheetScaffoldState = bottomSheetScaffoldState,
+                    onUpdateLanguage = { translation ->
+                        movie.originalTitle.value =
+                            translation.translationData.title.ifEmpty { movie._originalTitle }
+                        movie.overview.value =
+                            translation.translationData.overview.ifEmpty { movie._overview }
+                    }
+                )
+            }
         }
     )
 }
@@ -110,6 +148,7 @@ fun MovieDetailsContent(
     movie: UiMovieDetail,
     index: Int,
     youTubeViewModel: YouTubeViewModel,
+    movieActions: Actions,
 ) {
     val state = rememberCollapsingToolbarScaffoldState()
 
@@ -123,7 +162,7 @@ fun MovieDetailsContent(
                 MovieDetailToolBarScreen(movie, state, index)
             }
         ) {
-            MovieDetailContentScreen(movie, index, youTubeViewModel)
+            MovieDetailContentScreen(movie, index, youTubeViewModel, movieActions)
         }
     }
 
@@ -132,12 +171,12 @@ fun MovieDetailsContent(
         YouTubeVideoItem(
             key = video.key,
             name = video.name,
-            main = movie.originalTitle
+            main = movie.originalTitle.value
         )
     }
 
     if (youTubeViewModel.isShowing.value &&
-        youTubeViewModel.previousMovie.value == movie.originalTitle
+        youTubeViewModel.previousMovie.value == movie.originalTitle.value
     ) {
         YouTubeExpandableScreen(
             background = colorResource(id = R.color.backgroundSecondaryColorAlpha),
@@ -153,6 +192,7 @@ fun MovieDetailsContent(
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Preview
 @Composable
@@ -163,12 +203,16 @@ fun MovieDetailSuccessViewPreview() {
                 id = 1,
                 posterPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
                 backdropPath = "/7gFo1PEbe1CoSgNTnjCGdZbw0zP.jpg",
-                originalTitle = "The Mask",
+                _originalTitle = "The Mask",
                 releaseDate = "March 30, 2022",
                 runtime = "2h 2m",
-                overview = stringResource(id = R.string.lorem),
+                _overview = stringResource(id = R.string.lorem),
                 genres = listOf("Action", "Drama"),
-                videos = listOf()
+                videos = listOf(),
+                credits = UiMovieCredits(),
+                providers = listOf(),
+                similar = listOf(),
+                translations = listOf()
             )
             MovieDetailSuccessView(movie,
                 0,

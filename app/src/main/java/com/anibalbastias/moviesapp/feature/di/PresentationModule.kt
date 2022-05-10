@@ -112,4 +112,32 @@ object PresentationModule {
     ): GetMovieVideosUseCase {
         return GetMovieVideosUseCase(remote)
     }
+
+    @Provides
+    fun provideGetMovieCreditsById(
+        remote: RemoteMoviesRepositoryImpl,
+    ): GetMovieCreditsById {
+        return GetMovieCreditsById(remote)
+    }
+
+    @Provides
+    fun provideGetMovieProvidersById(
+        remote: RemoteMoviesRepositoryImpl,
+    ): GetMovieProvidersById {
+        return GetMovieProvidersById(remote)
+    }
+
+    @Provides
+    fun provideGetMovieSimilarById(
+        remote: RemoteMoviesRepositoryImpl,
+    ): GetMovieSimilarById {
+        return GetMovieSimilarById(remote)
+    }
+
+    @Provides
+    fun provideGetMovieTranslationsById(
+        remote: RemoteMoviesRepositoryImpl,
+    ): GetMovieTranslationsById {
+        return GetMovieTranslationsById(remote)
+    }
 }

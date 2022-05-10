@@ -84,6 +84,7 @@ And lastly, create a Compose component library using Atomic Design, to maintain 
 <img src="art/search_list.png" width="250">
 <img src="art/search_recents.png" width="250">
 <img src="art/youtube_video_list.png" width="250">
+<img src="art/movies_translations.png" width="250">
 <img src="art/youtube_video_list_selected.png" width="250">
 <img src="art/youtube_video_list_selected_playing.png" width="250">
 </p>
@@ -111,6 +112,7 @@ repositories, models.
 * Recent searches
 * Expandable/Collapsable Toolbar in detail screen
 * YouTube expandable screen + VieModel lifecycle handling
+* Translations in realtime
 ```
 openssl s_client -connect api.themoviedb.org:443 | openssl x509 -pubkey -noout | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
 ```
