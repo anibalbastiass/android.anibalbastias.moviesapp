@@ -8,7 +8,9 @@ data class UiMovieTranslationItem(
     val iso31661: String,
     val iso6391: String,
     val name: String,
-)
+) {
+    val isSelected = mutableStateOf(false)
+}
 
 data class UiMovieTranslationData(
     val overview: String = "",
