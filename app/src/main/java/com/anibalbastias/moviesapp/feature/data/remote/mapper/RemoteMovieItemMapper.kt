@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 fun getUrlMovieImage(suffix: String?) = BuildConfig.IMAGE_URL + suffix
-
 class RemoteMovieItemMapper {
 
     fun fromRemoteToEntity(
@@ -114,13 +113,37 @@ class RemoteMovieItemMapper {
         title = title ?: "",
     )
 
+    fun RemoteMoviePerson.fromRemoteToDomain(credits: RemoteMovieCreditPerson) =
+        DomainMoviePerson(
+            id = id ?: 0,
+            name = name ?: "",
+            gender = if (gender == 1) "Woman" else "Man",
+            biography = biography ?: "",
+            profilePath = getUrlMovieImage(profilePath),
+            birthday = getFormattedDate(birthday),
+            deathDay = getFormattedDate(deathDay),
+            knownForDepartment = knownForDepartment ?: "",
+            placeOfBirth = placeOfBirth ?: "",
+            knownFor = (credits.cast?.take(4)?.plus(credits.crew!!.take(4)))
+                ?.map { it.fromRemoteToDomain() } ?: listOf(),
+            acting = credits.cast?.map { it.fromRemoteToDomain() } ?: listOf(),
+            writing = credits.cast?.map { it.fromRemoteToDomain() } ?: listOf(),
+            directing = credits.crew?.filterByTarget("Director") ?: listOf(),
+            production = credits.crew?.filterByTarget("Production") ?: listOf(),
+            creator = credits.crew?.filterByTarget("Executive Producer") ?: listOf(),
+        )
+
+    private fun List<RemoteMovieResult>.filterByTarget(target: String) =
+        filter { it.job == target }.sortedByDescending { it.releaseDate }
+            .map { it.fromRemoteToDomain() }
+
     @SuppressLint("SimpleDateFormat")
     private fun getFormattedDate(rawDate: String?): String {
-        return if (rawDate?.isNotEmpty()!!) {
+        return if (rawDate?.isNotEmpty() == true) {
             val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(rawDate)
             SimpleDateFormat("MMMM dd, yyyy").format(date)
         } else {
-            rawDate
+            rawDate ?: ""
         }
     }
 
@@ -130,3 +153,4 @@ class RemoteMovieItemMapper {
         return String.format("%d h %02d m", hours, minutes)
     }
 }
+

@@ -59,4 +59,19 @@ class RemoteMoviesRepositoryImpl @Inject constructor(
                 }
             APIState.Success(detail)
         }
+
+    override suspend fun getMoviePersonById(personId: String): Flow<APIState<DomainMoviePerson>> =
+        combine(
+            flowOf(service.getMoviePersonById(personId)),
+            flowOf(service.getMovieCreditsPersonById(personId))
+        ) { flowArray ->
+            val person = (flowArray[0] as RemoteMoviePerson)
+            val credits = (flowArray[1] as RemoteMovieCreditPerson)
+
+            APIState.Success(
+                with(mapper) {
+                    person.fromRemoteToDomain(credits)
+                }
+            )
+        }
 }

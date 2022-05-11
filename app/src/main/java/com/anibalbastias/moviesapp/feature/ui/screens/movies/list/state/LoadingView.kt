@@ -8,11 +8,12 @@ import androidx.compose.ui.Modifier
 import androidx.constraintlayout.compose.ConstraintLayout
 
 @Composable
-fun LoadingView() {
+fun LoadingView(modifier: Modifier = Modifier) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
+            .then(modifier)
     ) {
         val (progress) = createRefs()
 

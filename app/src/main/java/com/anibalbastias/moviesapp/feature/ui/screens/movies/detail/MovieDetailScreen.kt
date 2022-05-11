@@ -4,10 +4,12 @@ package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,7 +64,7 @@ fun DetailMoviesViewContent(
     youTubeViewModel: YouTubeViewModel,
 ) {
     when (state) {
-        APIState.Loading -> LoadingView()
+        APIState.Loading -> LoadingView(Modifier.background(colorResource(id = R.color.backgroundColor)))
         is APIState.Empty -> ErrorView(state.error) {}
         is APIState.Error -> ErrorView(state.error) {}
         is APIState.Success -> MovieDetailSuccessView(
@@ -91,6 +93,17 @@ fun MovieDetailSuccessView(
 
     BottomSheetScaffold(
         scaffoldState = bottomSheetScaffoldState,
+        modifier = Modifier.pointerInput(Unit) {
+            detectTapGestures(onTap = {
+                coroutineScope.launch {
+                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                        bottomSheetScaffoldState.bottomSheetState.expand()
+                    } else {
+                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                    }
+                }
+            })
+        },
         topBar = {
             if (youTubeViewModel.isExpanded.value) {
                 AppTopBar(

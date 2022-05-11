@@ -1,6 +1,5 @@
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,14 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.data.remote.mapper.getUrlMovieImage
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieCredits
@@ -28,6 +23,7 @@ import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
 import com.anibalbastias.uikitcompose.components.atom.HeadlineH6
+import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun MovieCreditScreen(credits: UiMovieCredits, movieActions: Actions, movie: UiMovieDetail) {
@@ -45,18 +41,16 @@ fun MovieCreditScreen(credits: UiMovieCredits, movieActions: Actions, movie: UiM
                         .padding(10.dp)
                         .width(120.dp)
                         .height(210.dp)
-                        // TODO: Go to Cast
-                        /*.clickable {
+                        .clickable {
                             movieActions.movieCastAction(
                                 UiMovieItem(id = movie.id.toLong()),
                                 item
                             )
-                        }*/
+                        }
                 ) {
                     Column {
-                        Image(
-                            painter = rememberAsyncImagePainter(getUrlMovieImage(item.profilePath)),
-                            contentDescription = item.originalName,
+                        GlideImage(
+                            imageModel = getUrlMovieImage(item.profilePath),
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .background(Color.Black)

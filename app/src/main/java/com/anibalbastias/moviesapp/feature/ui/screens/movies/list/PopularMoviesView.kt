@@ -20,7 +20,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,9 +30,6 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemsIndexed
-import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.domain.UiMovieDataState
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
@@ -46,6 +43,7 @@ import com.anibalbastias.uikitcompose.utils.SharedUtils.SharedListElementContain
 import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState
 import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 import com.mxalbert.sharedelements.SharedElementsRootScope
+import com.skydoves.landscapist.glide.GlideImage
 
 @ExperimentalFoundationApi
 @Composable
@@ -172,9 +170,9 @@ fun MovieListItemView(
                 val (image, favorite) = createRefs()
 
                 SharedListBoxContainer(movie.posterPath + index) {
-                    Image(
-                        painter = rememberAsyncImagePainter(movie.posterPath.replace("/w300/",
-                            "/w154/")),
+                    GlideImage(
+                        imageModel = movie.posterPath.replace("/w300/",
+                            "/w154/"),
                         modifier = Modifier
                             .width(60.dp)
                             .height(100.dp)
@@ -183,8 +181,7 @@ fun MovieListItemView(
                                 bottom.linkTo(parent.bottom)
                                 start.linkTo(parent.start)
                                 end.linkTo(parent.end)
-                            },
-                        contentDescription = movie.originalTitle
+                            }
                     )
                 }
 

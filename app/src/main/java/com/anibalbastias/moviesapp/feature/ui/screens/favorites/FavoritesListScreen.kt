@@ -69,6 +69,7 @@ fun FavoriteListContent(
         else -> {
             LazyColumn(
                 modifier = Modifier
+                    .padding(bottom = 55.dp)
                     .fillMaxSize()
                     .background(colorResource(id = R.color.backgroundColor)),
                 state = lazyListState

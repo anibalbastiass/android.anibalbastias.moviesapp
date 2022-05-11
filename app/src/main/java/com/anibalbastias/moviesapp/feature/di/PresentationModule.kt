@@ -105,4 +105,11 @@ object PresentationModule {
     ): RemoveSavedMovieByTitleUseCase {
         return RemoveSavedMovieByTitleUseCase(local)
     }
+
+    @Provides
+    fun provideGetMoviePersonUseCase(
+        remote: RemoteMoviesRepositoryImpl,
+    ): GetMoviePersonUseCase {
+        return GetMoviePersonUseCase(remote)
+    }
 }

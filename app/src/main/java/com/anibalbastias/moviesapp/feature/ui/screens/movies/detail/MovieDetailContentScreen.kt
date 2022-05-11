@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
@@ -28,66 +29,74 @@ fun MovieDetailContentScreen(
     youTubeViewModel: YouTubeViewModel,
     movieActions: Actions,
 ) {
-    Column(
+    LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .background(color = colorResource(id = R.color.backgroundColor))
-            .fillMaxSize()
             .padding(16.dp)
-            .verticalScroll(rememberScrollState())
     ) {
-        if (index == -1) {
-            TitleMovie(movie)
-        } else {
-            SharedUtils.SharedDetailElementContainer(movie.originalTitle.value + index) {
-                TitleMovie(movie)
-            }
-        }
-
-        if (movie.releaseDate.isNotEmpty()) {
+        item {
             if (index == -1) {
-                ReleaseDateText(movie.releaseDate)
+                TitleMovie(movie)
             } else {
-                SharedUtils.SharedDetailElementContainer(movie.releaseDate + index) {
+                SharedUtils.SharedDetailElementContainer(movie.originalTitle.value + index) {
+                    TitleMovie(movie)
+                }
+            }
+        }
+
+        item {
+            if (movie.releaseDate.isNotEmpty()) {
+                if (index == -1) {
                     ReleaseDateText(movie.releaseDate)
+                } else {
+                    SharedUtils.SharedDetailElementContainer(movie.releaseDate + index) {
+                        ReleaseDateText(movie.releaseDate)
+                    }
                 }
+            } else {
+                ReleaseDateText(movie.releaseDate)
             }
-        } else {
-            ReleaseDateText(movie.releaseDate)
         }
 
-        Subtitle2(
-            text = movie.runtime,
-            color = colorResource(id = R.color.textColor),
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(vertical = 20.dp)
-        )
+        item {
+            Subtitle2(
+                text = movie.runtime,
+                color = colorResource(id = R.color.textColor),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(vertical = 20.dp)
+            )
+        }
 
-        Body1(
-            text = movie.overview.value,
-            color = colorResource(id = R.color.textColor),
-            textAlign = TextAlign.Justify,
-            modifier = Modifier.padding(vertical = 20.dp)
-        )
+        item {
+            Body1(
+                text = movie.overview.value,
+                color = colorResource(id = R.color.textColor),
+                textAlign = TextAlign.Justify,
+                modifier = Modifier.padding(vertical = 20.dp)
+            )
+        }
 
-        FlowRow(modifier = Modifier.padding(bottom = 50.dp)) {
-            movie.genres.map { genre ->
-                Card(
-                    modifier = Modifier.padding(5.dp),
-                    backgroundColor = colorResource(id = R.color.white)
-                ) {
-                    Body2(
-                        text = genre,
+        item {
+            FlowRow(modifier = Modifier.padding(bottom = 50.dp)) {
+                movie.genres.map { genre ->
+                    Card(
                         modifier = Modifier.padding(5.dp),
-                        color = colorResource(id = R.color.backgroundColor)
-                    )
+                        backgroundColor = colorResource(id = R.color.white)
+                    ) {
+                        Body2(
+                            text = genre,
+                            modifier = Modifier.padding(5.dp),
+                            color = colorResource(id = R.color.backgroundColor)
+                        )
+                    }
                 }
             }
         }
 
-        MovieSimilarScreen(movie.similar, movieActions)
-        MovieCreditScreen(movie.credits, movieActions, movie)
-        MovieVideoScreen(youTubeViewModel)
+        item { MovieSimilarScreen(movie.similar, movieActions) }
+        item { MovieCreditScreen(movie.credits, movieActions, movie) }
+        item { MovieVideoScreen(youTubeViewModel) }
     }
 }
 

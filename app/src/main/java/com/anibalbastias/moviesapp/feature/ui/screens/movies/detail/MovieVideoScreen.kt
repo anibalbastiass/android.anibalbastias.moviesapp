@@ -13,20 +13,18 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.uikitcompose.components.atom.HeadlineH6
 import com.anibalbastias.uikitcompose.components.molecules.youtube.ScrollToSelectedVideo
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeUtils.getYouTubeThumbnail
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
 import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState
+import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -74,9 +72,9 @@ fun MovieVideoScreen(
                         }
                 ) {
                     Column {
-                        Image(
-                            painter = rememberAsyncImagePainter(getYouTubeThumbnail(video.key)),
-                            contentDescription = video.name,
+                        GlideImage(
+                            imageModel = getYouTubeThumbnail(video.key),
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .background(Color.Black)
                                 .fillMaxWidth()

@@ -36,7 +36,7 @@ And lastly, create a Compose component library using Atomic Design, to maintain 
         * [Navigation](https://developer.android.com/topic/libraries/architecture/navigation/) for navigation between composables
         * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) that stores, exposes and manages UI state
     * [Retrofit](https://square.github.io/retrofit/) for networking
-    * [Coil](https://github.com/coil-kt/coil) for image loading
+    * [Landscapist Glide](https://github.com/skydoves/landscapist) for image loading
 
 * Modern Architecture
     * Single activity architecture (with [Navigation component](https://developer.android.com/guide/navigation/navigation-getting-started)) that defines navigation graphs
@@ -65,7 +65,7 @@ And lastly, create a Compose component library using Atomic Design, to maintain 
     * presentation: This contains the Ui Models (Only needed for the UI) using mappers, and the
       ViewModels
 
-    * ui: Using Coil library for load images smoothly.
+    * ui: Using Landscapist Glide library for load images smoothly.
         * list: Contains 2 view components: Now Playing and Popular. Each one have own list for
           that.
         * detail: Simple fragment showing the detail data.

@@ -118,7 +118,7 @@ dependencies {
     kapt deps.square.moshi.codeGen
 
     // 3rd party libs
-    implementation deps.thirdParty.coilCompose
+    implementation deps.thirdParty.landscapistGlide
     implementation deps.thirdParty.lottieCompose
     implementation deps.thirdParty.sharedElementCompose
     implementation deps.thirdParty.toolbarCompose

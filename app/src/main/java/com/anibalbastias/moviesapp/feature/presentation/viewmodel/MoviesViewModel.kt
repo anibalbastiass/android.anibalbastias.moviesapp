@@ -10,6 +10,7 @@ import com.anibalbastias.moviesapp.feature.domain.model.*
 import com.anibalbastias.moviesapp.feature.domain.usecase.remote.*
 import com.anibalbastias.moviesapp.feature.presentation.mapper.UiMovieMapper
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
+import com.anibalbastias.moviesapp.feature.presentation.model.UiMoviePerson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val listUseCase: GetNowPlayingMoviesUseCase,
     private val detailUseCase: GetMovieDetailUseCase,
+    private val personUseCase: GetMoviePersonUseCase,
     private val mapper: UiMovieMapper,
 ) : ViewModel() {
 
@@ -30,6 +32,10 @@ class MoviesViewModel @Inject constructor(
     private val _detailMovies = MutableStateFlow<UiMovieDetailDataState>(APIState.Loading)
     val detailMovies: StateFlow<UiMovieDetailDataState>
         get() = _detailMovies
+
+    private val _personMovies = MutableStateFlow<APIState<UiMoviePerson>>(APIState.Loading)
+    val personMovies: StateFlow<APIState<UiMoviePerson>>
+        get() = _personMovies
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean>
@@ -68,6 +74,29 @@ class MoviesViewModel @Inject constructor(
                 }
         }
     }
+
+    fun getMoviePerson(personId: String) {
+        viewModelScope.launch {
+            personUseCase.execute(personId)
+                .catch {
+                    _personMovies.value = APIState.Error("No Internet Connection")
+                }
+                .collectLatest { dataState ->
+                    delay(150)
+                    _personMovies.value = transformPersonState(dataState)
+                }
+        }
+    }
+
+    private fun transformPersonState(dataState: APIState<DomainMoviePerson>) =
+        when (dataState) {
+            is APIState.Empty -> APIState.Empty(dataState.error)
+            is APIState.Error -> APIState.Error(dataState.error)
+            APIState.Loading -> APIState.Loading
+            is APIState.Success -> with(mapper) {
+                APIState.Success(dataState.data.fromDomainToUi())
+            }
+        }
 
     private fun transformDetailState(
         dataState: DomainMovieDetailDataState,

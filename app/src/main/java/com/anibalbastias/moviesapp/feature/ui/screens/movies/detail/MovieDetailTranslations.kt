@@ -9,14 +9,15 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieTranslationItem
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.StickyHeaderMovie
 import com.anibalbastias.uikitcompose.components.atom.Body1
+import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -41,7 +42,7 @@ fun MovieDetailTranslations(
                         .border(
                             BorderStroke(
                                 if (item.isSelected.value) 2.dp else 0.dp,
-                                Color.White)
+                                if (item.isSelected.value) Color.White else Color.Transparent)
                         )
                         .clickable {
                             onUpdateLanguage(item)
@@ -56,11 +57,9 @@ fun MovieDetailTranslations(
                         .padding(10.dp)
                         .fillMaxWidth()
                 ) {
-                    Image(
-                        painter = rememberAsyncImagePainter(
-                            "https://flagcdn.com/32x24/${item.iso31661.toLowerCase()}.png"
-                        ),
-                        contentDescription = item.name,
+                    GlideImage(
+                        imageModel = "https://flagcdn.com/32x24/${item.iso31661.toLowerCase()}.png",
+                        contentScale = ContentScale.FillWidth,
                         modifier = Modifier
                             .size(50.dp)
                             .padding(start = 10.dp, end = 10.dp)

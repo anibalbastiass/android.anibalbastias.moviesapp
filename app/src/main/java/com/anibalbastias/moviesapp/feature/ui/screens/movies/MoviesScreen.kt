@@ -142,7 +142,7 @@ fun MoviesNavHost(
                 ) { item ->
                     Log.d("Index", item.toString())
                     MovieDetailCastScreen(
-                        creditId = backStackEntry.arguments?.getString(MOVIE_CREDIT_ID_KEY) ?: "",
+                        personId = backStackEntry.arguments?.getString(MOVIE_CREDIT_ID_KEY) ?: "",
                     )
                 }
             }
