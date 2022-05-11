@@ -11,13 +11,4 @@ interface RemoteMoviesRepository {
 
     suspend fun getMovieById(movieId: String): Flow<DomainMovieDetailDataState>
 
-    suspend fun getMovieVideosById(movieId: String): Flow<List<DomainMovieVideoItem>>
-
-    suspend fun getMovieCreditsById(movieId: String): Flow<DomainMovieCredits>
-
-    suspend fun getMovieProvidersById(movieId: String): Flow<List<DomainMovieProviderItem>>
-
-    suspend fun getMovieSimilarById(movieId: String): Flow<List<DomainMovieItem>>
-
-    suspend fun getMovieTranslationsById(movieId: String): Flow<List<DomainMovieTranslationItem>>
 }

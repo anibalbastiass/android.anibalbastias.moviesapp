@@ -46,13 +46,7 @@ class UiMovieMapper {
         releaseDate = releaseDate,
     )
 
-    fun DomainMovieDetail.fromDomainToUi(
-        videos: List<DomainMovieVideoItem>,
-        credits: DomainMovieCredits,
-        providers: List<DomainMovieProviderItem>,
-        similar: List<DomainMovieItem>,
-        translations: List<DomainMovieTranslationItem>,
-    ) = UiMovieDetail(
+    fun DomainMovieDetail.fromDomainToUi() = UiMovieDetail(
         id = id,
         posterPath = posterPath,
         backdropPath = backdropPath,

@@ -8,5 +8,10 @@ data class DomainMovieDetail(
     val releaseDate: String,
     val runtime: String,
     val overview: String,
-    val genres: List<String>
+    val genres: List<String>,
+    val videos: List<DomainMovieVideoItem>,
+    val credits: DomainMovieCredits,
+    val providers: List<DomainMovieProviderItem>,
+    val similar: List<DomainMovieItem>,
+    val translations: List<DomainMovieTranslationItem>,
 )

@@ -3,6 +3,7 @@ package com.anibalbastias.moviesapp.feature.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
+import com.anibalbastias.moviesapp.feature.domain.DomainMovieDetailDataState
 import com.anibalbastias.moviesapp.feature.domain.UiMovieDataState
 import com.anibalbastias.moviesapp.feature.domain.UiMovieDetailDataState
 import com.anibalbastias.moviesapp.feature.domain.model.*
@@ -19,11 +20,6 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val listUseCase: GetNowPlayingMoviesUseCase,
     private val detailUseCase: GetMovieDetailUseCase,
-    private val detailVideosUseCase: GetMovieVideosUseCase,
-    private val detailCreditsUseCase: GetMovieCreditsById,
-    private val detailProvidersUseCase: GetMovieProvidersById,
-    private val detailSimilarUseCase: GetMovieSimilarById,
-    private val detailTranslationsUseCase: GetMovieTranslationsById,
     private val mapper: UiMovieMapper,
 ) : ViewModel() {
 
@@ -62,36 +58,7 @@ class MoviesViewModel @Inject constructor(
 
     fun getMovieDetail(movieId: String) {
         viewModelScope.launch {
-            combine(
-                detailUseCase.execute(movieId),
-                detailVideosUseCase.execute(movieId),
-                detailCreditsUseCase.execute(movieId),
-                detailProvidersUseCase.execute(movieId),
-                detailSimilarUseCase.execute(movieId),
-                detailTranslationsUseCase.execute(movieId)
-            ) { flowArray ->
-                val detail: APIState<DomainMovieDetail> = flowArray[0] as APIState<DomainMovieDetail>
-                val videos: List<DomainMovieVideoItem> = flowArray[1] as List<DomainMovieVideoItem>
-                val credits: DomainMovieCredits = flowArray[2] as DomainMovieCredits
-                val providers: List<DomainMovieProviderItem> =
-                    flowArray[3] as List<DomainMovieProviderItem>
-                val similar: List<DomainMovieItem> = flowArray[4] as List<DomainMovieItem>
-                val translations: List<DomainMovieTranslationItem> =
-                    flowArray[5] as List<DomainMovieTranslationItem>
-
-                when (detail) {
-                    is APIState.Success -> {
-                        with(mapper) {
-                            APIState.Success(detail.data.fromDomainToUi(
-                                videos, credits, providers, similar, translations
-                            ))
-                        }
-                    }
-                    is APIState.Empty -> APIState.Empty(detail.error)
-                    is APIState.Error -> APIState.Error(detail.error)
-                    APIState.Loading -> APIState.Loading
-                }
-            }
+            detailUseCase.execute(movieId)
                 .catch {
                     _detailMovies.value = APIState.Error("No Internet Connection")
                 }
@@ -103,12 +70,14 @@ class MoviesViewModel @Inject constructor(
     }
 
     private fun transformDetailState(
-        dataState: APIState<UiMovieDetail>,
+        dataState: DomainMovieDetailDataState,
     ) = when (dataState) {
         is APIState.Empty -> APIState.Empty(dataState.error)
         is APIState.Error -> APIState.Error(dataState.error)
         APIState.Loading -> APIState.Loading
-        is APIState.Success -> APIState.Success(dataState.data)
+        is APIState.Success -> with(mapper) {
+            APIState.Success(dataState.data.fromDomainToUi())
+        }
     }
 
     private fun transformListState(dataState: APIState<List<DomainMovieItem>>) = when (dataState) {

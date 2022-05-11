@@ -36,7 +36,13 @@ class RemoteMovieItemMapper {
         isFavorite = false
     )
 
-    fun RemoteMovieDetail.fromRemoteToDomain() = DomainMovieDetail(
+    fun RemoteMovieDetail.fromRemoteToDomain(
+        videos: RemoteMovieVideos,
+        credits: RemoteMovieCredits,
+        providers: RemoteMovieProviders,
+        similar: RemoteMovieData,
+        translations: RemoteMovieTranslations,
+    ) = DomainMovieDetail(
         id = id?.toInt() ?: 0,
         posterPath = getUrlMovieImage(posterPath),
         backdropPath = getUrlMovieImage(backdropPath),
@@ -44,10 +50,15 @@ class RemoteMovieItemMapper {
         runtime = calculateTime(runtime ?: 0),
         releaseDate = getFormattedDate(releaseDate),
         overview = overview ?: "",
-        genres = genres?.map { it.name ?: "" } ?: listOf()
+        genres = genres?.map { it.name ?: "" } ?: listOf(),
+        videos = videos.results?.map { it.fromRemoteToDomain() } ?: listOf(),
+        credits = credits.fromRemoteToDomain(),
+        providers = providers.results?.map { it.value.fromRemoteToDomain(it.key) } ?: listOf(),
+        similar = similar.results?.map { it.fromRemoteToDomain() } ?: listOf(),
+        translations = translations.translations?.map { it.fromRemoteToDomain() } ?: listOf()
     )
 
-    fun RemoteMovieVideoItem.fromRemoteToDomain() = DomainMovieVideoItem(
+    private fun RemoteMovieVideoItem.fromRemoteToDomain() = DomainMovieVideoItem(
         id = id ?: "",
         key = key ?: "",
         name = name ?: "",
@@ -56,7 +67,7 @@ class RemoteMovieItemMapper {
         type = type ?: "",
     )
 
-    fun RemoteMovieCredits.fromRemoteToDomain() = DomainMovieCredits(
+    private fun RemoteMovieCredits.fromRemoteToDomain() = DomainMovieCredits(
         cast = cast?.map { it.fromRemoteToDomain() } ?: listOf(),
         crew = crew?.map { it.fromRemoteToDomain() } ?: listOf(),
     )
@@ -75,7 +86,7 @@ class RemoteMovieItemMapper {
         character = character ?: "",
     )
 
-    fun RemoteMovieProviderItem.fromRemoteToDomain(main: String) = DomainMovieProviderItem(
+    private fun RemoteMovieProviderItem.fromRemoteToDomain(main: String) = DomainMovieProviderItem(
         main = main,
         buy = buy?.map { it.fromRemoteToDomain() } ?: listOf(),
         rent = rent?.map { it.fromRemoteToDomain() } ?: listOf(),
@@ -88,7 +99,7 @@ class RemoteMovieItemMapper {
         providerName = providerName ?: "",
     )
 
-    fun RemoteMovieTranslationItem.fromRemoteToDomain() = DomainMovieTranslationItem(
+    private fun RemoteMovieTranslationItem.fromRemoteToDomain() = DomainMovieTranslationItem(
         translationData = translationData?.fromRemoteToDomain() ?: DomainMovieTranslationData(),
         englishName = englishName ?: "",
         iso31661 = iso31661 ?: "",
