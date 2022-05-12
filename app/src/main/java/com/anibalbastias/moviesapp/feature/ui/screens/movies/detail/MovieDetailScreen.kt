@@ -105,11 +105,11 @@ fun MovieDetailSuccessView(
             })
         },
         topBar = {
-            if (youTubeViewModel.isExpanded.value) {
+            if (youTubeViewModel.isExpanded) {
                 AppTopBar(
                     type = TopBarType.MOVIE_DETAILS_VIDEO,
                     onChevronClick = {
-                        youTubeViewModel.isExpanded.value = !youTubeViewModel.isExpanded.value
+                        youTubeViewModel.isExpanded = !youTubeViewModel.isExpanded
                     }
                 )
             } else {
@@ -179,7 +179,7 @@ fun MovieDetailsContent(
         }
 
         // Initialize videos
-        youTubeViewModel.videos.value = movie.videos.map { video ->
+        youTubeViewModel.videos = movie.videos.map { video ->
             YouTubeVideoItem(
                 key = video.key,
                 name = video.name,
@@ -187,8 +187,8 @@ fun MovieDetailsContent(
             )
         }
 
-        if (youTubeViewModel.isShowing.value &&
-            youTubeViewModel.previousMovie.value == movie.originalTitle.value
+        if (youTubeViewModel.isShowing &&
+            youTubeViewModel.previousMovie == movie.originalTitle.value
         ) {
             YouTubeExpandableScreen(
                 background = colorResource(id = R.color.backgroundSecondaryColorAlpha),

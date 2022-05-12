@@ -52,7 +52,7 @@ data class RemoteMovieDetail(
     @Json(name = PRODUCTION_COMPANIES) val productionCompanies: List<RemoteProductionCompany>? = listOf(),
     @Json(name = PRODUCTION_COUNTRIES) val productionCountries: List<RemoteProductionCountry>? = listOf(),
     @Json(name = RELEASE_DATE) override val releaseDate: String,
-    @Json(name = REVENUE) val revenue: Int? = 0,
+    @Json(name = REVENUE) val revenue: Long? = 0,
     @Json(name = RUNTIME) val runtime: Int? = 0,
     @Json(name = SPOKEN_LANGUAGES) val spokenLanguages: List<RemoteSpokenLanguage>? = listOf(),
     @Json(name = STATUS) val status: String? = "",

@@ -1,6 +1,8 @@
 package com.anibalbastias.moviesapp.feature.presentation.model
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 
 data class UiMovieTranslationItem(
     val translationData: UiMovieTranslationData,
@@ -9,7 +11,7 @@ data class UiMovieTranslationItem(
     val iso6391: String,
     val name: String,
 ) {
-    val isSelected = mutableStateOf(false)
+    var isSelected by mutableStateOf(false)
 }
 
 data class UiMovieTranslationData(

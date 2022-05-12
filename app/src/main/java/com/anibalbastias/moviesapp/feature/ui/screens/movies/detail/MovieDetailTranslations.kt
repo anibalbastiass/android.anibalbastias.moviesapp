@@ -41,14 +41,14 @@ fun MovieDetailTranslations(
                     modifier = Modifier
                         .border(
                             BorderStroke(
-                                if (item.isSelected.value) 2.dp else 0.dp,
-                                if (item.isSelected.value) Color.White else Color.Transparent)
+                                if (item.isSelected) 2.dp else 0.dp,
+                                if (item.isSelected) Color.White else Color.Transparent)
                         )
                         .clickable {
                             onUpdateLanguage(item)
                             coroutineScope.launch {
-                                translations.map { it.isSelected.value = false }
-                                item.isSelected.value = true
+                                translations.map { it.isSelected = false }
+                                item.isSelected = true
 
                                 delay(300)
                                 bottomSheetScaffoldState.bottomSheetState.collapse()

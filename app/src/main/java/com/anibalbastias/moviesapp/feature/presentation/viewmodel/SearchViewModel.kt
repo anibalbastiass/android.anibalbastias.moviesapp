@@ -1,7 +1,10 @@
 package com.anibalbastias.moviesapp.feature.presentation.viewmodel
 
+import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
@@ -20,6 +23,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
+@SuppressLint("MutableCollectionMutableState")
 @ExperimentalPagingApi
 @HiltViewModel
 class SearchViewModel @Inject constructor(
