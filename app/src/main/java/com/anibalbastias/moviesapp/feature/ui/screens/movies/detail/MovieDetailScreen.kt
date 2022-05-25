@@ -2,6 +2,7 @@
 
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -10,6 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -204,6 +206,8 @@ fun MovieDetailsContent(
         }
     }
 }
+
+
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi

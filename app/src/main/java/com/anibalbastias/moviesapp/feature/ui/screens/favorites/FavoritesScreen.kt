@@ -17,8 +17,10 @@ import androidx.paging.ExperimentalPagingApi
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
+import com.anibalbastias.moviesapp.feature.ui.navigation.MOVIE_CREDIT_ID_KEY
 import com.anibalbastias.moviesapp.feature.ui.navigation.MOVIE_ID_KEY
 import com.anibalbastias.moviesapp.feature.ui.navigation.Routes
+import com.anibalbastias.moviesapp.feature.ui.screens.movies.detail.MovieDetailCastScreen
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.detail.MovieDetailScreen
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
 import com.anibalbastias.uikitcompose.utils.SharedUtils
@@ -105,6 +107,26 @@ fun FavoritesNavHost(
                     youTubeViewModel = youTubeViewModel,
                     movieActions = movieActions
                 )
+            }
+
+            // Movie Detail Cast
+            composable(
+                route = Routes.MoviesDetailCast().path,
+                arguments = listOf(
+                    navArgument(MOVIE_ID_KEY) { type = NavType.IntType },
+                    navArgument(MOVIE_CREDIT_ID_KEY) { type = NavType.StringType },
+                )
+            ) { backStackEntry ->
+                Crossfade(
+                    targetState = selectedItem,
+                    animationSpec = tweenSpec
+                ) { item ->
+                    Log.d("Index", item.toString())
+                    MovieDetailCastScreen(
+                        personId = backStackEntry.arguments?.getString(MOVIE_CREDIT_ID_KEY) ?: "",
+                        movieActions = movieActions
+                    )
+                }
             }
         }
     }
