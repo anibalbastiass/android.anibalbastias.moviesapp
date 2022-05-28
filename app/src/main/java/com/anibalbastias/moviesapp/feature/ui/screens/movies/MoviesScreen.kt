@@ -2,12 +2,8 @@ package com.anibalbastias.moviesapp.feature.ui.screens.movies
 
 import android.util.Log
 import androidx.compose.animation.Crossfade
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -15,7 +11,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.paging.ExperimentalPagingApi
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesPagingViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
@@ -30,11 +25,6 @@ import com.anibalbastias.moviesapp.feature.ui.screens.search.SearchScreen
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
 import com.anibalbastias.uikitcompose.utils.SharedUtils
 
-@ExperimentalMaterialApi
-@ExperimentalAnimationApi
-@ExperimentalComposeUiApi
-@ExperimentalFoundationApi
-@ExperimentalPagingApi
 @Composable
 fun MoviesScreen(
     moviesViewModel: MoviesViewModel = hiltViewModel(),
@@ -55,11 +45,6 @@ fun MoviesScreen(
     )
 }
 
-@ExperimentalMaterialApi
-@ExperimentalComposeUiApi
-@ExperimentalAnimationApi
-@ExperimentalFoundationApi
-@ExperimentalPagingApi
 @Composable
 fun MoviesNavHost(
     moviesNavController: NavHostController,

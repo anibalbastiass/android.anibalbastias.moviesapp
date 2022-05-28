@@ -1,6 +1,5 @@
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment

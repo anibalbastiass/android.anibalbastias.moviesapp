@@ -1,12 +1,15 @@
 package com.anibalbastias.moviesapp.feature.data.remote
 
 import com.anibalbastias.moviesapp.feature.data.remote.mapper.RemoteMovieItemMapper
-import com.anibalbastias.moviesapp.feature.data.remote.model.*
+import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteMovieCreditPerson
+import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteMoviePerson
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.domain.DomainMovieDataState
 import com.anibalbastias.moviesapp.feature.domain.DomainMovieDetailDataState
-import com.anibalbastias.moviesapp.feature.domain.model.*
+import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieDetail
+import com.anibalbastias.moviesapp.feature.domain.model.DomainMoviePerson
 import com.anibalbastias.moviesapp.feature.domain.repository.RemoteMoviesRepository
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -39,25 +42,27 @@ class RemoteMoviesRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getMovieById(movieId: String): Flow<DomainMovieDetailDataState> =
-        combine(
-            flowOf(service.getMovieById(movieId)),
-            flowOf(service.getMovieVideosById(movieId)),
-            flowOf(service.getMovieCreditsById(movieId)),
-            flowOf(service.getMovieProvidersById(movieId)),
-            flowOf(service.getMovieSimilarById(movieId)),
-            flowOf(service.getMovieTranslationsById(movieId)),
-        ) { flowArray ->
-            val detail: DomainMovieDetail =
-                with(mapper) {
-                    (flowArray[0] as RemoteMovieDetail).fromRemoteToDomain(
-                        videos = flowArray[1] as RemoteMovieVideos,
-                        credits = flowArray[2] as RemoteMovieCredits,
-                        providers = flowArray[3] as RemoteMovieProviders,
-                        similar = flowArray[4] as RemoteMovieData,
-                        translations = flowArray[5] as RemoteMovieTranslations,
-                    )
-                }
-            APIState.Success(detail)
+        flow {
+            coroutineScope {
+                val movie = async { service.getMovieById(movieId) }
+                val videos = async { service.getMovieVideosById(movieId) }
+                val credits = async { service.getMovieCreditsById(movieId) }
+                val providers = async { service.getMovieProvidersById(movieId) }
+                val similar = async { service.getMovieSimilarById(movieId) }
+                val translations = async { service.getMovieTranslationsById(movieId) }
+
+                val detail: DomainMovieDetail =
+                    with(mapper) {
+                        movie.await().fromRemoteToDomain(
+                            videos = videos.await(),
+                            credits = credits.await(),
+                            providers = providers.await(),
+                            similar = similar.await(),
+                            translations = translations.await(),
+                        )
+                    }
+                emit(APIState.Success(detail))
+            }
         }
 
     override suspend fun getMoviePersonById(personId: String): Flow<APIState<DomainMoviePerson>> =

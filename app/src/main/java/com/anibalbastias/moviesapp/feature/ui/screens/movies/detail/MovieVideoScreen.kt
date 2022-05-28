@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.uikitcompose.components.atom.HeadlineH6
-import com.anibalbastias.uikitcompose.components.molecules.youtube.ScrollToSelectedVideo
+import com.anibalbastias.uikitcompose.components.pages.youtube.ScrollToSelectedVideo
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeUtils.getYouTubeThumbnail
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
 import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState

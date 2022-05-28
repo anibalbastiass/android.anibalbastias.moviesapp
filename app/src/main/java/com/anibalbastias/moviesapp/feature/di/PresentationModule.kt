@@ -1,6 +1,5 @@
 package com.anibalbastias.moviesapp.feature.di
 
-import androidx.paging.ExperimentalPagingApi
 import com.anibalbastias.moviesapp.feature.data.local.LocalMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.data.remote.RemoteMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.domain.paging.MoviesPagingMediator
@@ -13,7 +12,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 
-@ExperimentalPagingApi
 @Module
 @InstallIn(ViewModelComponent::class)
 object PresentationModule {

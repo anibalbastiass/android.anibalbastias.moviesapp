@@ -24,11 +24,7 @@ import com.anibalbastias.moviesapp.feature.ui.screens.favorites.EmptyMoviesScree
 import com.anibalbastias.uikitcompose.components.molecules.SearchTopBar
 import com.anibalbastias.uikitcompose.utils.SharedUtils
 
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
-@ExperimentalPagingApi
-@ExperimentalAnimationApi
-@ExperimentalComposeUiApi
+@OptIn(ExperimentalPagingApi::class)
 @Composable
 fun SearchScreen(
     movieActions: Actions,

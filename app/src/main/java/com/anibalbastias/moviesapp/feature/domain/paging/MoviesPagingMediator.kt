@@ -1,6 +1,5 @@
 package com.anibalbastias.moviesapp.feature.domain.paging
 
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
@@ -19,7 +18,6 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-@ExperimentalPagingApi
 class MoviesPagingMediator @Inject constructor(
     private val database: MoviesDatabase,
     private val service: RemoteMoviesService,

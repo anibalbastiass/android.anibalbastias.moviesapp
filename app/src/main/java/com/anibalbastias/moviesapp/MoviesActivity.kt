@@ -1,24 +1,13 @@
 package com.anibalbastias.moviesapp
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.paging.ExperimentalPagingApi
-import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
 import com.anibalbastias.moviesapp.feature.ui.navigation.NavGraph
+import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-@ExperimentalComposeUiApi
-@ExperimentalAnimationApi
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
-@ExperimentalPagingApi
 @AndroidEntryPoint
 class MoviesActivity : AppCompatActivity() {
 

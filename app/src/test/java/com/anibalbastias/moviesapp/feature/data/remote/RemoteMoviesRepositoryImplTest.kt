@@ -5,11 +5,10 @@ import com.anibalbastias.moviesapp.TestCoroutineRule
 import com.anibalbastias.moviesapp.feature.data.remote.mapper.RemoteMovieItemMapper
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.domain.model.DomainMovieItem
-import junit.framework.Assert.assertNotNull
 import junit.framework.TestCase
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -20,7 +19,6 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.Mockito.`when` as whenever
 
-@ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner.Silent::class)
 class RemoteMoviesRepositoryImplTest {
 

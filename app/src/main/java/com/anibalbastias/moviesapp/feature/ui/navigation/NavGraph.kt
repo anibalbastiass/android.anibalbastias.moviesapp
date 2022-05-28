@@ -1,46 +1,39 @@
 package com.anibalbastias.moviesapp.feature.ui.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.paging.ExperimentalPagingApi
 import com.anibalbastias.moviesapp.feature.ui.screens.favorites.FavoritesScreen
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.MoviesScreen
+import com.anibalbastias.uikitcompose.utils.getActivity
+import com.anibalbastias.uikitcompose.utils.isExpandedScreen
 
 const val MOVIE_ID_KEY = "movieId"
 const val MOVIE_CREDIT_ID_KEY = "movieCreditId"
 
-@ExperimentalAnimationApi
-@ExperimentalComposeUiApi
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
-@ExperimentalPagingApi
 @Composable
 fun NavGraph() {
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
+    val isExpandedScreen = LocalContext.current.getActivity()!!.isExpandedScreen()
 
     Scaffold(
         scaffoldState = scaffoldState,
-        bottomBar = { BottomNavGraph(navController) }
+        bottomBar = {
+            if (!isExpandedScreen) {
+                BottomNavGraph(navController)
+            }
+        }
     ) {
         TabNavHost(navController)
     }
 }
 
-@ExperimentalMaterialApi
-@ExperimentalComposeUiApi
-@ExperimentalAnimationApi
-@ExperimentalPagingApi
-@ExperimentalFoundationApi
 @Composable
 fun TabNavHost(
     navController: NavHostController,

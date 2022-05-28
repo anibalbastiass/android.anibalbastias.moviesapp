@@ -1,6 +1,5 @@
 package com.anibalbastias.moviesapp.feature.ui.screens.favorites
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +18,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.paging.ExperimentalPagingApi
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -35,8 +33,6 @@ import com.anibalbastias.uikitcompose.components.atom.Body1
 import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState
 import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 
-@ExperimentalPagingApi
-@ExperimentalFoundationApi
 @Composable
 fun FavoritesListScreen(
     favoriteViewModel: FavoriteViewModel,
@@ -52,7 +48,6 @@ fun FavoritesListScreen(
     )
 }
 
-@ExperimentalFoundationApi
 @Composable
 fun FavoriteListContent(
     favoriteViewModel: FavoriteViewModel,

@@ -11,7 +11,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,7 +32,6 @@ import com.anibalbastias.uikitcompose.components.atom.Subtitle2
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
 
-@ExperimentalMaterialApi
 @Composable
 fun MovieDetailCastScreen(
     personId: String,

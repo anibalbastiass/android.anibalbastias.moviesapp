@@ -1,7 +1,5 @@
 package com.anibalbastias.moviesapp.feature.ui.screens.search
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -13,11 +11,9 @@ import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.LoadingItem
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.MovieListItemView
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.StickyHeaderMovie
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.loadState
-import com.anibalbastias.uikitcompose.components.molecules.FavoriteSwipeCard
 import com.anibalbastias.uikitcompose.utils.rememberForeverLazyListState
 import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 
-@ExperimentalFoundationApi
 @Composable
 fun SearchListScreen(
     moviesListItems: LazyPagingItems<UiMovieItem>,

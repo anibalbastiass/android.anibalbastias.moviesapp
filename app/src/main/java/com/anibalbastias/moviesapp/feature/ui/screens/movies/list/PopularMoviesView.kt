@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterialApi::class)
-
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.list
 
 import androidx.compose.animation.AnimatedVisibility
@@ -45,7 +43,6 @@ import com.mxalbert.sharedelements.LocalSharedElementsRootScope
 import com.mxalbert.sharedelements.SharedElementsRootScope
 import com.skydoves.landscapist.glide.GlideImage
 
-@ExperimentalFoundationApi
 @Composable
 fun PopularMoviesView(
     nowPlayingState: UiMovieDataState,

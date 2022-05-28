@@ -1,14 +1,15 @@
-@file:OptIn(ExperimentalMotionApi::class)
-
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
-import android.util.Log
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
@@ -16,27 +17,29 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
-import com.anibalbastias.moviesapp.feature.presentation.model.*
+import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieCredits
+import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieDetail
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
 import com.anibalbastias.moviesapp.feature.ui.navigation.AppTopBar
 import com.anibalbastias.moviesapp.feature.ui.navigation.TopBarType
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.ErrorView
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.LoadingView
-import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeExpandableScreen
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
-import com.anibalbastias.uikitcompose.components.molecules.youtube.model.YouTubeVideoItem
+import com.anibalbastias.uikitcompose.components.pages.youtube.YouTubeExpandableScreen
+import com.anibalbastias.uikitcompose.components.pages.youtube.model.YouTubeVideoItem
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
+import com.anibalbastias.uikitcompose.utils.getActivity
+import com.anibalbastias.uikitcompose.utils.isExpandedScreen
 import kotlinx.coroutines.launch
-import me.onebone.toolbar.*
+import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.ScrollStrategy
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
 @Composable
 fun MovieDetailScreen(
     moviesViewModel: MoviesViewModel,
@@ -56,8 +59,6 @@ fun MovieDetailScreen(
     )
 }
 
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
 @Composable
 fun DetailMoviesViewContent(
     state: APIState<UiMovieDetail>,
@@ -78,9 +79,6 @@ fun DetailMoviesViewContent(
     }
 }
 
-@ExperimentalFoundationApi
-@ExperimentalMotionApi
-@ExperimentalMaterialApi
 @Composable
 fun MovieDetailSuccessView(
     movie: UiMovieDetail,
@@ -92,6 +90,7 @@ fun MovieDetailSuccessView(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
     val coroutineScope = rememberCoroutineScope()
+    val isExpandedScreen = LocalContext.current.getActivity()!!.isExpandedScreen()
 
     BottomSheetScaffold(
         scaffoldState = bottomSheetScaffoldState,
@@ -107,26 +106,28 @@ fun MovieDetailSuccessView(
             })
         },
         topBar = {
-            if (youTubeViewModel.isExpanded) {
-                AppTopBar(
-                    type = TopBarType.MOVIE_DETAILS_VIDEO,
-                    onChevronClick = {
-                        youTubeViewModel.isExpanded = !youTubeViewModel.isExpanded
-                    }
-                )
-            } else {
-                AppTopBar(
-                    type = TopBarType.MOVIE_DETAILS,
-                    onBackClick = {
-                        youTubeViewModel.reset()
-                        movieActions.goBackAction()
-                    },
-                    onChangeLanguage = {
-                        coroutineScope.launch {
-                            bottomSheetScaffoldState.bottomSheetState.expand()
+            if (!isExpandedScreen) {
+                if (youTubeViewModel.isExpanded) {
+                    AppTopBar(
+                        type = TopBarType.MOVIE_DETAILS_VIDEO,
+                        onChevronClick = {
+                            youTubeViewModel.isExpanded = !youTubeViewModel.isExpanded
                         }
-                    }
-                )
+                    )
+                } else {
+                    AppTopBar(
+                        type = TopBarType.MOVIE_DETAILS,
+                        onBackClick = {
+                            youTubeViewModel.reset()
+                            movieActions.goBackAction()
+                        },
+                        onChangeLanguage = {
+                            coroutineScope.launch {
+                                bottomSheetScaffoldState.bottomSheetState.expand()
+                            }
+                        }
+                    )
+                }
             }
         },
         content = {
@@ -156,8 +157,6 @@ fun MovieDetailSuccessView(
     )
 }
 
-@ExperimentalMotionApi
-@ExperimentalMaterialApi
 @Composable
 fun MovieDetailsContent(
     movie: UiMovieDetail,
@@ -202,15 +201,10 @@ fun MovieDetailsContent(
             )
         } else {
             youTubeViewModel.reset()
-            null
         }
     }
 }
 
-
-
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
 @Preview
 @Composable
 fun MovieDetailSuccessViewPreview() {

@@ -7,7 +7,6 @@ import com.anibalbastias.moviesapp.feature.data.remote.state.APIState
 import com.anibalbastias.moviesapp.feature.domain.usecase.remote.GetMovieDetailUseCase
 import com.anibalbastias.moviesapp.feature.fixture.MoviesFixture
 import junit.framework.TestCase.assertNotNull
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -20,7 +19,6 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.Mockito.`when` as whenever
 
-@ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class GetMovieDetailUseCaseTest {
 
