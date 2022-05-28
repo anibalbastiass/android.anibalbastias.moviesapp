@@ -1,5 +1,8 @@
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
+import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -7,9 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
@@ -27,6 +28,7 @@ import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewMode
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
 import com.anibalbastias.moviesapp.feature.ui.navigation.AppTopBar
 import com.anibalbastias.moviesapp.feature.ui.navigation.TopBarType
+import com.anibalbastias.moviesapp.feature.ui.screens.movies.detail.state.MovieDetailScreenState
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.ErrorView
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.list.state.LoadingView
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
@@ -34,7 +36,7 @@ import com.anibalbastias.uikitcompose.components.pages.youtube.YouTubeExpandable
 import com.anibalbastias.uikitcompose.components.pages.youtube.model.YouTubeVideoItem
 import com.anibalbastias.uikitcompose.theme.UIKitComposeTheme
 import com.anibalbastias.uikitcompose.utils.getActivity
-import com.anibalbastias.uikitcompose.utils.isExpandedScreen
+import com.anibalbastias.uikitcompose.utils.isLandscapeOrientation
 import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -86,11 +88,14 @@ fun MovieDetailSuccessView(
     movieActions: Actions,
     youTubeViewModel: YouTubeViewModel,
 ) {
+    val viewState = remember { mutableStateOf(MovieDetailScreenState.DEFAULT) }
+    HandleViewState(viewState, youTubeViewModel)
+
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
     val coroutineScope = rememberCoroutineScope()
-    val isExpandedScreen = LocalContext.current.getActivity()!!.isExpandedScreen()
+    val isExpandedScreen = isLandscapeOrientation()
 
     BottomSheetScaffold(
         scaffoldState = bottomSheetScaffoldState,
@@ -112,6 +117,12 @@ fun MovieDetailSuccessView(
                         type = TopBarType.MOVIE_DETAILS_VIDEO,
                         onChevronClick = {
                             youTubeViewModel.isExpanded = !youTubeViewModel.isExpanded
+
+                            if (youTubeViewModel.isExpanded) {
+                                viewState.value = MovieDetailScreenState.SHOWING_VIDEO_EXPANDED
+                            } else {
+                                viewState.value = MovieDetailScreenState.SHOWING_VIDEO_COLLAPSED
+                            }
                         }
                     )
                 } else {
@@ -131,7 +142,7 @@ fun MovieDetailSuccessView(
             }
         },
         content = {
-            MovieDetailsContent(movie, index, youTubeViewModel, movieActions)
+            MovieDetailsContent(movie, index, youTubeViewModel, movieActions, viewState)
         },
         sheetPeekHeight = 0.dp,
         sheetContent = {
@@ -157,12 +168,49 @@ fun MovieDetailSuccessView(
     )
 }
 
+@SuppressLint("SourceLockedOrientationActivity")
+@Composable
+fun HandleViewState(
+    viewState: MutableState<MovieDetailScreenState>,
+    youTubeViewModel: YouTubeViewModel,
+) {
+    val currentActivity = LocalContext.current.getActivity()!!
+
+    when (viewState.value) {
+        MovieDetailScreenState.DEFAULT -> {
+            BackHandler(enabled = false) {}
+        }
+        MovieDetailScreenState.SHOWING_VIDEO_COLLAPSED -> {
+            BackHandler(enabled = true) {
+                youTubeViewModel.reset()
+                viewState.value = MovieDetailScreenState.DEFAULT
+            }
+        }
+        MovieDetailScreenState.SHOWING_VIDEO_EXPANDED -> {
+            BackHandler(enabled = true) {
+                youTubeViewModel.isExpanded = false
+                viewState.value = MovieDetailScreenState.SHOWING_VIDEO_COLLAPSED
+            }
+        }
+        MovieDetailScreenState.SHOWING_VIDEO_FULLSCREEN -> {
+            BackHandler(enabled = true) {
+                viewState.value = MovieDetailScreenState.SHOWING_VIDEO_EXPANDED
+
+                youTubeViewModel.isExpanded = true
+                currentActivity.requestedOrientation =
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            }
+        }
+    }
+}
+
 @Composable
 fun MovieDetailsContent(
     movie: UiMovieDetail,
     index: Int,
     youTubeViewModel: YouTubeViewModel,
     movieActions: Actions,
+    viewState: MutableState<MovieDetailScreenState>,
 ) {
     val state = rememberCollapsingToolbarScaffoldState()
 
@@ -191,15 +239,25 @@ fun MovieDetailsContent(
         if (youTubeViewModel.isShowing &&
             youTubeViewModel.previousMovie == movie.originalTitle.value
         ) {
+            viewState.value = MovieDetailScreenState.SHOWING_VIDEO_EXPANDED
+
             YouTubeExpandableScreen(
                 background = colorResource(id = R.color.backgroundSecondaryColorAlpha),
                 textColor = colorResource(id = R.color.textColor),
                 viewModel = youTubeViewModel,
                 closeButtonAction = {
                     youTubeViewModel.reset()
+                },
+                onFullScreen = { isFullScreen ->
+                    if (isFullScreen) {
+                        viewState.value = MovieDetailScreenState.SHOWING_VIDEO_FULLSCREEN
+                    } else {
+                        viewState.value = MovieDetailScreenState.SHOWING_VIDEO_EXPANDED
+                    }
                 }
             )
         } else {
+            viewState.value = MovieDetailScreenState.DEFAULT
             youTubeViewModel.reset()
         }
     }

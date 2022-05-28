@@ -3,15 +3,13 @@ package com.anibalbastias.moviesapp.feature.ui.navigation
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.anibalbastias.moviesapp.feature.ui.screens.favorites.FavoritesScreen
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.MoviesScreen
-import com.anibalbastias.uikitcompose.utils.getActivity
-import com.anibalbastias.uikitcompose.utils.isExpandedScreen
+import com.anibalbastias.uikitcompose.utils.isLandscapeOrientation
 
 const val MOVIE_ID_KEY = "movieId"
 const val MOVIE_CREDIT_ID_KEY = "movieCreditId"
@@ -20,7 +18,7 @@ const val MOVIE_CREDIT_ID_KEY = "movieCreditId"
 fun NavGraph() {
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
-    val isExpandedScreen = LocalContext.current.getActivity()!!.isExpandedScreen()
+    val isExpandedScreen = isLandscapeOrientation()
 
     Scaffold(
         scaffoldState = scaffoldState,
