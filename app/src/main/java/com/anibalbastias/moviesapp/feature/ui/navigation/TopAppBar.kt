@@ -16,7 +16,10 @@ import androidx.compose.ui.unit.dp
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.uikitcompose.components.molecules.CenterTopAppBar
 
-enum class TopBarType { MOVIE_LIST, MOVIE_DETAILS, MOVIE_DETAILS_VIDEO, FAVORITES }
+enum class TopBarType {
+    MOVIE_LIST, MOVIE_DETAILS, MOVIE_DETAILS_VIDEO,
+    MOVIE_DETAILS_PERSON, FAVORITES
+}
 
 @Composable
 fun AppTopBar(
@@ -37,7 +40,7 @@ fun AppTopBar(
         },
         navigationIconView = {
             when (type) {
-                TopBarType.MOVIE_DETAILS -> {
+                TopBarType.MOVIE_DETAILS, TopBarType.MOVIE_DETAILS_PERSON -> {
                     IconButton(
                         onClick = { onBackClick!!() },
                         enabled = true,
@@ -90,7 +93,7 @@ fun AppTopBar(
                         )
                     }
                 }
-                TopBarType.FAVORITES -> null
+                TopBarType.FAVORITES, TopBarType.MOVIE_DETAILS_VIDEO -> null
             }
         }
     )

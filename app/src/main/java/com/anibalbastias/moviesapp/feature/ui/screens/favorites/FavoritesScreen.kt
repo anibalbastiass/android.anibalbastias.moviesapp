@@ -2,8 +2,6 @@ package com.anibalbastias.moviesapp.feature.ui.screens.favorites
 
 import android.util.Log
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -13,19 +11,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.paging.ExperimentalPagingApi
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.FavoriteViewModel
 import com.anibalbastias.moviesapp.feature.presentation.viewmodel.MoviesViewModel
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
+import com.anibalbastias.moviesapp.feature.ui.navigation.MOVIE_CREDIT_ID_KEY
 import com.anibalbastias.moviesapp.feature.ui.navigation.MOVIE_ID_KEY
 import com.anibalbastias.moviesapp.feature.ui.navigation.Routes
+import com.anibalbastias.moviesapp.feature.ui.screens.movies.detail.MovieDetailCastScreen
 import com.anibalbastias.moviesapp.feature.ui.screens.movies.detail.MovieDetailScreen
 import com.anibalbastias.uikitcompose.components.molecules.youtube.YouTubeViewModel
 import com.anibalbastias.uikitcompose.utils.SharedUtils
 
-@ExperimentalMaterialApi
-@ExperimentalPagingApi
-@ExperimentalFoundationApi
 @Composable
 fun FavoritesScreen(
     moviesViewModel: MoviesViewModel = hiltViewModel(),
@@ -44,9 +40,6 @@ fun FavoritesScreen(
     )
 }
 
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
-@ExperimentalPagingApi
 @Composable
 fun FavoritesNavHost(
     movieActions: Actions,
@@ -105,6 +98,26 @@ fun FavoritesNavHost(
                     youTubeViewModel = youTubeViewModel,
                     movieActions = movieActions
                 )
+            }
+
+            // Movie Detail Cast
+            composable(
+                route = Routes.MoviesDetailCast().path,
+                arguments = listOf(
+                    navArgument(MOVIE_ID_KEY) { type = NavType.IntType },
+                    navArgument(MOVIE_CREDIT_ID_KEY) { type = NavType.StringType },
+                )
+            ) { backStackEntry ->
+                Crossfade(
+                    targetState = selectedItem,
+                    animationSpec = tweenSpec
+                ) { item ->
+                    Log.d("Index", item.toString())
+                    MovieDetailCastScreen(
+                        personId = backStackEntry.arguments?.getString(MOVIE_CREDIT_ID_KEY) ?: "",
+                        movieActions = movieActions
+                    )
+                }
             }
         }
     }

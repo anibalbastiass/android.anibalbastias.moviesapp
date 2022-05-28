@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 fun getUrlMovieImage(suffix: String?) = BuildConfig.IMAGE_URL + suffix
-
 class RemoteMovieItemMapper {
 
     fun fromRemoteToEntity(
@@ -36,7 +35,13 @@ class RemoteMovieItemMapper {
         isFavorite = false
     )
 
-    fun RemoteMovieDetail.fromRemoteToDomain() = DomainMovieDetail(
+    fun RemoteMovieDetail.fromRemoteToDomain(
+        videos: RemoteMovieVideos,
+        credits: RemoteMovieCredits,
+        providers: RemoteMovieProviders,
+        similar: RemoteMovieData,
+        translations: RemoteMovieTranslations,
+    ) = DomainMovieDetail(
         id = id?.toInt() ?: 0,
         posterPath = getUrlMovieImage(posterPath),
         backdropPath = getUrlMovieImage(backdropPath),
@@ -44,10 +49,15 @@ class RemoteMovieItemMapper {
         runtime = calculateTime(runtime ?: 0),
         releaseDate = getFormattedDate(releaseDate),
         overview = overview ?: "",
-        genres = genres?.map { it.name ?: "" } ?: listOf()
+        genres = genres?.map { it.name ?: "" } ?: listOf(),
+        videos = videos.results?.map { it.fromRemoteToDomain() } ?: listOf(),
+        credits = credits.fromRemoteToDomain(),
+        providers = providers.results?.map { it.value.fromRemoteToDomain(it.key) } ?: listOf(),
+        similar = similar.results?.map { it.fromRemoteToDomain() } ?: listOf(),
+        translations = translations.translations?.map { it.fromRemoteToDomain() } ?: listOf()
     )
 
-    fun RemoteMovieVideoItem.fromRemoteToDomain() = DomainMovieVideoItem(
+    private fun RemoteMovieVideoItem.fromRemoteToDomain() = DomainMovieVideoItem(
         id = id ?: "",
         key = key ?: "",
         name = name ?: "",
@@ -56,7 +66,7 @@ class RemoteMovieItemMapper {
         type = type ?: "",
     )
 
-    fun RemoteMovieCredits.fromRemoteToDomain() = DomainMovieCredits(
+    private fun RemoteMovieCredits.fromRemoteToDomain() = DomainMovieCredits(
         cast = cast?.map { it.fromRemoteToDomain() } ?: listOf(),
         crew = crew?.map { it.fromRemoteToDomain() } ?: listOf(),
     )
@@ -75,7 +85,7 @@ class RemoteMovieItemMapper {
         character = character ?: "",
     )
 
-    fun RemoteMovieProviderItem.fromRemoteToDomain(main: String) = DomainMovieProviderItem(
+    private fun RemoteMovieProviderItem.fromRemoteToDomain(main: String) = DomainMovieProviderItem(
         main = main,
         buy = buy?.map { it.fromRemoteToDomain() } ?: listOf(),
         rent = rent?.map { it.fromRemoteToDomain() } ?: listOf(),
@@ -88,7 +98,7 @@ class RemoteMovieItemMapper {
         providerName = providerName ?: "",
     )
 
-    fun RemoteMovieTranslationItem.fromRemoteToDomain() = DomainMovieTranslationItem(
+    private fun RemoteMovieTranslationItem.fromRemoteToDomain() = DomainMovieTranslationItem(
         translationData = translationData?.fromRemoteToDomain() ?: DomainMovieTranslationData(),
         englishName = englishName ?: "",
         iso31661 = iso31661 ?: "",
@@ -103,13 +113,37 @@ class RemoteMovieItemMapper {
         title = title ?: "",
     )
 
+    fun RemoteMoviePerson.fromRemoteToDomain(credits: RemoteMovieCreditPerson) =
+        DomainMoviePerson(
+            id = id ?: 0,
+            name = name ?: "",
+            gender = if (gender == 1) "Woman" else "Man",
+            biography = biography ?: "",
+            profilePath = getUrlMovieImage(profilePath),
+            birthday = getFormattedDate(birthday),
+            deathDay = getFormattedDate(deathDay),
+            knownForDepartment = knownForDepartment ?: "",
+            placeOfBirth = placeOfBirth ?: "",
+            knownFor = (credits.cast?.take(4)?.plus(credits.crew!!.take(4)))
+                ?.map { it.fromRemoteToDomain() } ?: listOf(),
+            acting = credits.cast?.map { it.fromRemoteToDomain() } ?: listOf(),
+            writing = credits.cast?.map { it.fromRemoteToDomain() } ?: listOf(),
+            directing = credits.crew?.filterByTarget("Director") ?: listOf(),
+            production = credits.crew?.filterByTarget("Production") ?: listOf(),
+            creator = credits.crew?.filterByTarget("Executive Producer") ?: listOf(),
+        )
+
+    private fun List<RemoteMovieResult>.filterByTarget(target: String) =
+        filter { it.job == target }.sortedByDescending { it.releaseDate }
+            .map { it.fromRemoteToDomain() }
+
     @SuppressLint("SimpleDateFormat")
     private fun getFormattedDate(rawDate: String?): String {
-        return if (rawDate?.isNotEmpty()!!) {
+        return if (rawDate?.isNotEmpty() == true) {
             val date: Date = SimpleDateFormat("yyyy-MM-dd").parse(rawDate)
             SimpleDateFormat("MMMM dd, yyyy").format(date)
         } else {
-            rawDate
+            rawDate ?: ""
         }
     }
 
@@ -119,3 +153,4 @@ class RemoteMovieItemMapper {
         return String.format("%d h %02d m", hours, minutes)
     }
 }
+

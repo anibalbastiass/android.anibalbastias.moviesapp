@@ -24,8 +24,6 @@ class FavoriteViewModel @Inject constructor(
         get() = _favoriteMovies
 
     private val _updateMovie = MutableStateFlow(false)
-    val updateMovie: StateFlow<Boolean>
-        get() = _updateMovie
 
     fun getFavoriteList() {
         viewModelScope.launch {

@@ -27,6 +27,6 @@ class Actions(navHostController: NavHostController) {
     }
 
     val movieCastAction: (movie: UiMovieItem, cast: UiMovieCastItem) -> Unit = { movie, cast ->
-        navHostController.navigate(Routes.MoviesDetailCast(movie.id.toInt(), cast.creditId).route)
+        navHostController.navigate(Routes.MoviesDetailCast(movie.id.toInt(), cast.id.toString()).route)
     }
 }

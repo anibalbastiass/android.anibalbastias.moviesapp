@@ -16,8 +16,8 @@ android {
         applicationId "com.anibalbastias.moviesapp"
         minSdkVersion versions.android.minSdk
         targetSdkVersion versions.android.targetSdk
-        versionCode 9
-        versionName "1.7.1"
+        versionCode 10
+        versionName "1.8.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -84,6 +84,10 @@ dependencies {
     implementation deps.androidx.swipeRefreshLayout
     implementation deps.androidx.core.splashScreen
 
+    // Window Manager
+    implementation deps.androidx.windowManager
+    implementation deps.androidx.compose.material3.windowSizeClass
+
     // Room
     implementation deps.androidx.room.runtime
     implementation deps.androidx.room.ktx
@@ -101,6 +105,7 @@ dependencies {
     implementation deps.androidx.compose.navigation
     implementation deps.androidx.compose.constraintLayout
     implementation deps.androidx.compose.accompanist.swipeRefresh
+    implementation deps.androidx.compose.accompanist.systemUiController
     implementation deps.androidx.compose.accompanist.navigationAnimation
     implementation deps.androidx.compose.accompanist.flowLayout
     implementation deps.androidx.compose.uiPreview
@@ -118,7 +123,7 @@ dependencies {
     kapt deps.square.moshi.codeGen
 
     // 3rd party libs
-    implementation deps.thirdParty.coilCompose
+    implementation deps.thirdParty.landscapistGlide
     implementation deps.thirdParty.lottieCompose
     implementation deps.thirdParty.sharedElementCompose
     implementation deps.thirdParty.toolbarCompose

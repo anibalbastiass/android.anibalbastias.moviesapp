@@ -46,13 +46,25 @@ class UiMovieMapper {
         releaseDate = releaseDate,
     )
 
-    fun DomainMovieDetail.fromDomainToUi(
-        videos: List<DomainMovieVideoItem>,
-        credits: DomainMovieCredits,
-        providers: List<DomainMovieProviderItem>,
-        similar: List<DomainMovieItem>,
-        translations: List<DomainMovieTranslationItem>,
-    ) = UiMovieDetail(
+    fun DomainMoviePerson.fromDomainToUi() = UiMoviePerson(
+        id = id,
+        biography = biography,
+        birthday = birthday,
+        deathDay = deathDay,
+        gender = gender,
+        knownForDepartment = knownForDepartment,
+        name = name,
+        placeOfBirth = placeOfBirth,
+        profilePath = profilePath,
+        knownFor = knownFor.map { it.fromDomainToUi() },
+        acting = acting.map { it.fromDomainToUi() },
+        writing = writing.map { it.fromDomainToUi() },
+        directing = directing.map { it.fromDomainToUi() },
+        production = production.map { it.fromDomainToUi() },
+        creator = creator.map { it.fromDomainToUi() },
+    )
+
+    fun DomainMovieDetail.fromDomainToUi() = UiMovieDetail(
         id = id,
         posterPath = posterPath,
         backdropPath = backdropPath,

@@ -2,7 +2,6 @@ package com.anibalbastias.moviesapp.feature.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -14,7 +13,6 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-@ExperimentalPagingApi
 class MoviesPagingViewModel @Inject constructor(
     useCase: GetPagingMoviesUseCase,
 ) : ViewModel() {

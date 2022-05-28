@@ -1,11 +1,9 @@
 package com.anibalbastias.moviesapp.feature.ui.screens.movies.detail
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -14,20 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.anibalbastias.moviesapp.R
 import com.anibalbastias.moviesapp.feature.data.remote.mapper.getUrlMovieImage
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 import com.anibalbastias.moviesapp.feature.ui.navigation.Actions
 import com.anibalbastias.uikitcompose.components.atom.HeadlineH6
 import com.anibalbastias.uikitcompose.utils.SharedUtils
+import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun MovieSimilarScreen(
@@ -51,9 +46,8 @@ fun MovieSimilarScreen(
                 ) {
                     Column {
                         SharedUtils.SharedDetailBoxContainer(item.posterPath + index) {
-                            Image(
-                                painter = rememberAsyncImagePainter(getUrlMovieImage(item.posterPath)),
-                                contentDescription = item.originalTitle,
+                            GlideImage(
+                                imageModel = getUrlMovieImage(item.posterPath),
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
                                     .fillMaxWidth()

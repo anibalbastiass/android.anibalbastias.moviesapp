@@ -22,7 +22,7 @@ interface RemoteMoviesService {
     @GET("movie/{movie_id}")
     suspend fun getMovieById(
         @Path("movie_id") movieId: String = "",
-    ): Response<RemoteMovieDetail>
+    ): RemoteMovieDetail
 
     @GET("search/movie")
     suspend fun searchPagedMovies(
@@ -54,4 +54,14 @@ interface RemoteMoviesService {
     suspend fun getMovieTranslationsById(
         @Path("movie_id") movieId: String = "",
     ): RemoteMovieTranslations
+
+    @GET("person/{person_id}")
+    suspend fun getMoviePersonById(
+        @Path("person_id") personId: String = "",
+    ): RemoteMoviePerson
+
+    @GET("person/{person_id}/movie_credits")
+    suspend fun getMovieCreditsPersonById(
+        @Path("person_id") personId: String = "",
+    ): RemoteMovieCreditPerson
 }

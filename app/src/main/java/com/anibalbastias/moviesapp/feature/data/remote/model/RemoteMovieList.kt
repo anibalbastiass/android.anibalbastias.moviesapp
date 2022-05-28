@@ -6,6 +6,7 @@ import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.BAC
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.DATES
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.GENRE_IDS
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.ID
+import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.JOB
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.MAXIMUM
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.MINIMUM
 import com.anibalbastias.moviesapp.feature.data.remote.model.RemoteConstants.ORIGINAL_LANGUAGE
@@ -58,6 +59,7 @@ open class RemoteMovieResult(
     @Json(name = VIDEO) open val video: Boolean? = false,
     @Json(name = VOTE_AVERAGE) open val voteAverage: Double? = 0.0,
     @Json(name = VOTE_COUNT) open val voteCount: Int? = 0,
+    @Json(name = JOB) val job: String? = "",
 ) {
     open val posterPath: String = getUrlImage(_posterPath)
     open val backdropPath: String = getUrlImage(_backdropPath)

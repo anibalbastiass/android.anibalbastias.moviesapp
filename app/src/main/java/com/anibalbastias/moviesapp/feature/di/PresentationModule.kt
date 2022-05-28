@@ -1,6 +1,5 @@
 package com.anibalbastias.moviesapp.feature.di
 
-import androidx.paging.ExperimentalPagingApi
 import com.anibalbastias.moviesapp.feature.data.local.LocalMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.data.remote.RemoteMoviesRepositoryImpl
 import com.anibalbastias.moviesapp.feature.domain.paging.MoviesPagingMediator
@@ -13,7 +12,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 
-@ExperimentalPagingApi
 @Module
 @InstallIn(ViewModelComponent::class)
 object PresentationModule {
@@ -107,37 +105,9 @@ object PresentationModule {
     }
 
     @Provides
-    fun provideGetMovieVideosUseCase(
+    fun provideGetMoviePersonUseCase(
         remote: RemoteMoviesRepositoryImpl,
-    ): GetMovieVideosUseCase {
-        return GetMovieVideosUseCase(remote)
-    }
-
-    @Provides
-    fun provideGetMovieCreditsById(
-        remote: RemoteMoviesRepositoryImpl,
-    ): GetMovieCreditsById {
-        return GetMovieCreditsById(remote)
-    }
-
-    @Provides
-    fun provideGetMovieProvidersById(
-        remote: RemoteMoviesRepositoryImpl,
-    ): GetMovieProvidersById {
-        return GetMovieProvidersById(remote)
-    }
-
-    @Provides
-    fun provideGetMovieSimilarById(
-        remote: RemoteMoviesRepositoryImpl,
-    ): GetMovieSimilarById {
-        return GetMovieSimilarById(remote)
-    }
-
-    @Provides
-    fun provideGetMovieTranslationsById(
-        remote: RemoteMoviesRepositoryImpl,
-    ): GetMovieTranslationsById {
-        return GetMovieTranslationsById(remote)
+    ): GetMoviePersonUseCase {
+        return GetMoviePersonUseCase(remote)
     }
 }

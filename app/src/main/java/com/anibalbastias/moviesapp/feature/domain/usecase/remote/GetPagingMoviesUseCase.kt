@@ -9,8 +9,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
-
-@ExperimentalPagingApi
 open class GetPagingMoviesUseCase @Inject constructor(
     private val repository: LocalMoviesRepositoryImpl,
     private val mapper: UiMovieMapper,

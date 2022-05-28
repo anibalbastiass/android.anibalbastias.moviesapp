@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.anibalbastias.moviesapp.feature.domain.usecase.local.AddSavedMovieUseCase
@@ -15,12 +14,14 @@ import com.anibalbastias.moviesapp.feature.domain.usecase.remote.SearchPagingMov
 import com.anibalbastias.moviesapp.feature.presentation.model.UiMovieItem
 import com.anibalbastias.moviesapp.feature.presentation.model.UiSavedMovieItem
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
-@ExperimentalPagingApi
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchPagingUseCase: SearchPagingMoviesUseCase,
@@ -81,7 +82,7 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             removeSavedMovieByIdUseCase.execute(title)
                 .catch { Log.d("Search Movie", "Remove Movie $title Error") }
-                .collect { list ->
+                .collect {
                     Log.d("Search Movie", "Remove Movie $title OK")
                 }
         }
